@@ -229,7 +229,7 @@ function initRoomStatus() {
         return;
     }
 
-    fetch('/room_number.txt?' + Date.now())
+    fetch('room_number.txt?' + Date.now())
         .then(function(response) {
             if (!response.ok) throw new Error('文件不存在');
             return response.text();
