@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>刺玫会 · 服务器 Wiki</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/png" href="/icon/thornrose.png" />
+    <meta name="description" content="刺玫会服务器 · 制度汇编 · 处理报告 · 工作日志" />
+    <meta name="theme-color" content="#f5f5f0" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/web-page@1.1.0/index.min.js"></script>
+    <script src="/verse.js"></script>
+</head>
+<body>
+    <!-- ===== 导航栏 ===== -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="hamburger" id="hamburgerBtn" aria-label="切换菜单">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-brand" id="navBrand">
+                    <a href="/">
+                        <img src="/icon/thornrose.png" alt="刺玫会" />
+                        <span id="brandText">刺玫会</span>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <!-- 语录显示区域 -->
+                <div id="quoteDisplay" class="quote-display"></div>
+                <!-- 登录相关元素（移动端隐藏） -->
+                <span class="hide-on-mobile" id="userDisplay" style="display:none;color:var(--text-secondary);font-size:clamp(0.7rem, 0.9vw, 0.9rem);">
+                    <i class="fas fa-user"></i> <span id="usernameDisplay"></span>
+                </span>
+                <a id="loginBtn" href="#" class="nav-btn hide-on-mobile" onclick="openLoginModal(event)">
+                    <i class="fas fa-sign-in-alt"></i> 登录
+                </a>
+                <a id="logoutBtn" href="#" style="display:none;" class="nav-btn hide-on-mobile" onclick="logout(event)">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </a>
+                <button class="nav-btn hide-on-mobile" onclick="clearCacheAndReload()" title="清除缓存并刷新">
+                    <i class="fas fa-sync-alt"></i> 刷新
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== 移动端遮罩层 ===== -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- ===== 移动端侧边栏 ===== -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-header" id="sidebarHeader">
+            <img src="/icon/thornrose.png" alt="刺玫会" />
+            <span>刺玫会</span>
+        </div>
+        <nav class="sidebar-nav">
+            <ul id="mobileMenuList">
+                <!-- 由 script.js 动态渲染 -->
+            </ul>
+        </nav>
+        <div class="sidebar-footer" id="sidebarFooter">
+            <div class="sidebar-user" id="sidebarUser" style="display:none;">
+                <i class="fas fa-user"></i>
+                <span id="sidebarUsername"></span>
+            </div>
+            <div class="sidebar-auth">
+                <a id="sidebarLoginBtn" href="#" onclick="openLoginModal(event)">登录</a>
+                <a id="sidebarLogoutBtn" href="#" style="display:none;" onclick="logout(event)">退出</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 房间号横幅 ===== -->
+    <div class="room-banner" id="roomBanner">
+        <div class="room-content">
+            <i class="fas fa-door-open"></i>
+            <span>当前房间号：</span>
+            <strong id="roomNumberDisplay">加载中...</strong>
+        </div>
+    </div>
+
+    <!-- ===== 主体 ===== -->
+    <div class="main-wrapper">
+        <aside class="desktop-sidebar" id="desktopSidebar"></aside>
+        <main class="main-content" id="mainContent">
+            <section id="home-content">
+                <h1>刺玫会 · 服务器 Wiki</h1>
+                <p class="subtitle">制度汇编 · 处理报告 · 工作日志</p>
+                <div class="card-grid" id="cardGrid"></div>
+            </section>
+            <div id="page-content" class="hidden"></div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 刺玫会服务器 · 由 <a href="https://github.com/SoServer" target="_blank">SoServer</a> 维护</p>
+    </footer>
+
+    <!-- ===== 登录模态框 ===== -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <h2>登录</h2>
+            <p class="modal-sub">输入你的游戏账号名称</p>
+            <div class="input-group">
+                <label for="loginUsername">用户名</label>
+                <input type="text" id="loginUsername" placeholder="请输入游戏账号名" maxlength="32" />
+            </div>
+            <div class="modal-error" id="loginError">请输入用户名</div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="login()">登 录</button>
+                <button class="btn-secondary" onclick="closeLoginModal()">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 加载外部文件 ===== -->
+    <script src="/data.js"></script>
+    <script src="/script.js"></script>
+
+    <!-- ===== 核心脚本 ===== -->
+    <script>
+        // ============================================================
+        // 版本控制与缓存管理
+        // ============================================================
+        var APP_VERSION = '2026.08.30.001';
+        var CACHE_MAX_AGE = 5 * 60 * 1000;
+
+        function loadVersion() {
+            fetch('/version.txt?' + Date.now())
+                .then(function(response) {
+                    if (!response.ok) throw new Error('version.txt 不存在');
+                    return response.text();
+                })
+                .then(function(text) {
+                    var match = text.match(/version:"([^"]+)"/);
+                    if (match && match[1]) {
+                        APP_VERSION = match[1].trim();
+                        console.log('[刺玫会 Wiki] 版本号已加载:', APP_VERSION);
+                    } else {
+                        console.warn('[刺玫会 Wiki] version.txt 格式错误，使用默认版本号');
+                    }
+                    checkVersionAndClearCache();
+                })
+                .catch(function() {
+                    console.warn('[刺玫会 Wiki] version.txt 未找到，使用默认版本号:', APP_VERSION);
+                    checkVersionAndClearCache();
+                });
+        }
+
+        function checkVersionAndClearCache() {
+            var storedVersion = localStorage.getItem('app_version');
+            if (storedVersion !== APP_VERSION) {
+                sessionStorage.clear();
+                localStorage.setItem('app_version', APP_VERSION);
+                console.log('[刺玫会 Wiki] 版本已更新 (', storedVersion, '->', APP_VERSION, ')，缓存已清除');
+            } else {
+                console.log('[刺玫会 Wiki] 版本一致，无需清除缓存');
+            }
+        }
+
+        // ============================================================
+        // 渲染 404 页面
+        // ============================================================
+        function render404(pageId, pageContent) {
+            var errorHtml = '<div class="doc-content">';
+            errorHtml += '<h1 style="border-left-color:#c0392b;">页面不存在</h1>';
+            errorHtml += '<p style="color:var(--text-secondary);font-size:1.1rem;">抱歉，无法加载您请求的页面。</p>';
+            errorHtml += '<div style="background:rgba(192,57,43,0.06);border-left:4px solid #c0392b;padding:1.2rem 1.5rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.2rem 0;">';
+            errorHtml += '<p style="color:var(--text-primary);font-weight:700;margin-bottom:0.4rem;">可能的原因</p>';
+            errorHtml += '<ul style="margin:0;padding-left:1.2rem;color:var(--text-secondary);">';
+            errorHtml += '<li><strong>内容不存在：</strong>页面 <code style="background:rgba(0,0,0,0.06);padding:0.1rem 0.4rem;border-radius:4px;font-family:\'Courier New\',monospace;color:#c0392b;">' + pageId + '</code> 不在 <code>pages/</code> 目录中，或 <code>data.js</code> 未正确映射。</li>';
+            errorHtml += '<li><strong>权限不足：</strong>您的访问权限未达到该页面的权限要求。</li>';
+            errorHtml += '<li><strong>服务端拒绝访问：</strong>该页面链接的服务端 API 拒绝了访问请求。</li>';
+            errorHtml += '<li><strong>网络状态异常：</strong>您的网络连接异常，导致未能正确访问该页面。</li>';
+            errorHtml += '</ul></div>';
+            errorHtml += '<div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin:1.2rem 0;">';
+            errorHtml += '<a href="/" style="padding:0.5rem 1.2rem;border-radius:40px;background:var(--accent);color:#fff;font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">返回首页</a>';
+            errorHtml += '<a href="https://github.com/SoServer/SoServer.github.io" target="_blank" style="padding:0.5rem 1.2rem;border-radius:40px;border:1px solid var(--border-color);color:var(--text-secondary);font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">反馈问题</a>';
+            errorHtml += '</div>';
+            errorHtml += '<div style="background:rgba(0,0,0,0.02);border-radius:var(--radius);padding:0.8rem 1.2rem;border:1px solid var(--border-color);">';
+            errorHtml += '<p style="color:var(--text-muted);font-size:0.85rem;">提示：检查 <code style="background:rgba(0,0,0,0.06);padding:0.1rem 0.4rem;border-radius:4px;font-family:\'Courier New\',monospace;color:#4a4a4a;">data.js</code> 中的 <code style="background:rgba(0,0,0,0.06);padding:0.1rem 0.4rem;border-radius:4px;font-family:\'Courier New\',monospace;color:#c0392b;">pagePathMap</code> 是否正确配置了 <code style="background:rgba(0,0,0,0.06);padding:0.1rem 0.4rem;border-radius:4px;font-family:\'Courier New\',monospace;color:#c0392b;">' + pageId + '</code> 的映射。</p>';
+            errorHtml += '</div>';
+            errorHtml += '<div class="footnote"><p>刺玫会 · 404 页面未找到</p></div>';
+            errorHtml += '</div>';
+
+            pageContent.innerHTML = errorHtml;
+            if (typeof updateActiveState === 'function') {
+                updateActiveState(pageId);
+            }
+            if (window.location.hash !== '#page-' + pageId) {
+                history.pushState(null, '', '#page-' + pageId);
+            }
+        }
+
+        // ============================================================
+        // 卡片渲染
+        // ============================================================
+        function getDisplayName(key) {
+            return displayNames[key] || key;
+        }
+
+        function renderCards() {
+            var grid = document.getElementById('cardGrid');
+            var html = '';
+            for (var i = 0; i < cardData.length; i++) {
+                var cat = cardData[i];
+                var itemsHtml = '';
+                for (var j = 0; j < cat.items.length; j++) {
+                    var key = cat.items[j];
+                    itemsHtml += '<li data-page="' + key + '" data-selected="false">' +
+                        '<i class="fas fa-file-alt"></i> ' + getDisplayName(key) +
+                        '</li>';
+                }
+                html += '<div class="card"><div class="card-title"><i class="fas ' + cat.icon + '"></i> ' + cat.title + '</div><ul class="card-list">' + itemsHtml + '</ul></div>';
+            }
+            grid.innerHTML = html;
+        }
+
+        // ============================================================
+        // 卡片点击事件
+        // ============================================================
+        function initCards() {
+            var grid = document.getElementById('cardGrid');
+            if (!grid) return;
+
+            grid.addEventListener('click', function(e) {
+                var target = e.target.closest('.card-list li');
+                if (!target || !target.dataset.page) return;
+
+                var isMobile = window.innerWidth < 769;
+
+                if (isMobile) {
+                    var isSelected = target.dataset.selected === 'true';
+
+                    document.querySelectorAll('.card-list li').forEach(function(li) {
+                        li.dataset.selected = 'false';
+                        li.classList.remove('selected');
+                    });
+
+                    if (isSelected) {
+                        loadPage(target.dataset.page);
+                    } else {
+                        target.dataset.selected = 'true';
+                        target.classList.add('selected');
+                    }
+                } else {
+                    loadPage(target.dataset.page);
+                }
+            });
+        }
+
+        // ============================================================
+        // 缓存检查
+        // ============================================================
+        function isCacheValid(cacheKey) {
+            var cached = sessionStorage.getItem(cacheKey);
+            var timeKey = cacheKey + '_time';
+            var cacheTime = sessionStorage.getItem(timeKey);
+            if (!cached || !cacheTime) return false;
+            var now = Date.now();
+            return (now - parseInt(cacheTime)) < CACHE_MAX_AGE;
+        }
+
+        // ============================================================
+        // 重新执行动态加载的 <script> 标签
+        // ============================================================
+        function reExecuteScripts(container) {
+            var scripts = container.querySelectorAll('script');
+            scripts.forEach(function(oldScript) {
+                var newScript = document.createElement('script');
+                for (var i = 0; i < oldScript.attributes.length; i++) {
+                    var attr = oldScript.attributes[i];
+                    newScript.setAttribute(attr.name, attr.value);
+                }
+                if (oldScript.textContent) {
+                    newScript.textContent = oldScript.textContent;
+                }
+                oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
+        }
+
+        // ============================================================
+        // 页面加载函数
+        // ============================================================
+        var isLoading = false;
+
+        function loadPage(pageId) {
+            if (isLoading) {
+                console.log('[刺玫会 Wiki] 正在加载中，请稍候...');
+                return;
+            }
+
+            var anchor = '';
+            if (pageId.includes('#')) {
+                var parts = pageId.split('#');
+                pageId = parts[0];
+                anchor = parts[1];
+            }
+            pageId = decodeURIComponent(pageId);
+
+            var home = document.getElementById('home-content');
+            var pageContent = document.getElementById('page-content');
+            var path = pagePathMap[pageId];
+
+            home.style.display = 'none';
+            pageContent.innerHTML = '';
+            pageContent.style.display = 'block';
+
+            // 权限检查：只有指定用户可访问内容页
+            var username = localStorage.getItem('username');
+            var isAuthorized = (username === 'SoServer' || username === '弘桀孤影行');
+
+            if (!path || pageId === '首页') {
+                if (!path) {
+                    render404(pageId, pageContent);
+                    return;
+                }
+            } else if (!isAuthorized) {
+                render404(pageId, pageContent);
+                return;
+            }
+
+            var cacheKey = 'page_' + pageId;
+
+            if (isCacheValid(cacheKey)) {
+                var cached = sessionStorage.getItem(cacheKey);
+                pageContent.innerHTML = cached;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (window.location.hash !== '#page-' + pageId) {
+                    history.pushState(null, '', '#page-' + pageId);
+                }
+                if (typeof updateActiveState === 'function') {
+                    updateActiveState(pageId);
+                }
+                reExecuteScripts(pageContent);
+
+                if (pageId === '论坛') {
+                    setTimeout(function() { loadGiscus(); }, 300);
+                }
+                if (anchor) {
+                    setTimeout(function() {
+                        var target = document.getElementById(anchor);
+                        if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    }, 150);
+                }
+                return;
+            }
+
+            isLoading = true;
+            sessionStorage.removeItem(cacheKey);
+            sessionStorage.removeItem(cacheKey + '_time');
+
+            pageContent.innerHTML = '<div class="doc-content" style="text-align:center;padding:3rem 0;"><img src="/icon/thornrose.png" alt="加载中" class="loading-icon" style="display:block;margin:0 auto;width:64px;height:64px;image-rendering:pixelated;animation:breathe 1.2s ease-in-out infinite;" /><p style="color:var(--text-muted);margin-top:1rem;font-size:clamp(0.9rem, 1.2vw, 1.1rem);">加载中...</p></div>';
+
+            fetch(path)
+                .then(function(response) {
+                    if (!response.ok) {
+                        if (response.status === 404) throw new Error('HTTP 404');
+                        if (response.status === 403) throw new Error('HTTP 403');
+                        throw new Error('HTTP ' + response.status);
+                    }
+                    return response.text();
+                })
+                .then(function(html) {
+                    sessionStorage.setItem(cacheKey, html);
+                    sessionStorage.setItem(cacheKey + '_time', String(Date.now()));
+                    pageContent.innerHTML = html;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if (window.location.hash !== '#page-' + pageId) {
+                        history.pushState(null, '', '#page-' + pageId);
+                    }
+                    if (typeof updateActiveState === 'function') {
+                        updateActiveState(pageId);
+                    }
+                    reExecuteScripts(pageContent);
+
+                    if (pageId === '论坛') {
+                        setTimeout(function() { loadGiscus(); }, 300);
+                    }
+                    if (anchor) {
+                        setTimeout(function() {
+                            var target = document.getElementById(anchor);
+                            if (target) target.scrollIntoView({ behavior: 'smooth' });
+                        }, 150);
+                    }
+                })
+                .catch(function(error) {
+                    var message = '加载失败，请检查网络连接后重试。';
+                    var detail = '';
+                    if (error.message === 'HTTP 404') {
+                        message = '该页面内容不存在，可能已被移除或尚未创建。';
+                        detail = '请检查链接是否正确，或联系管理员确认页面状态。';
+                    } else if (error.message === 'HTTP 403') {
+                        message = '您没有权限访问此页面。';
+                        detail = '该页面可能需要特定权限才能查看。';
+                    } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        message = '网络连接异常，无法访问该页面。';
+                        detail = '请检查您的网络连接后重试。';
+                    } else {
+                        detail = '错误详情：' + error.message;
+                    }
+
+                    pageContent.innerHTML = '<div class="doc-content">' +
+                        '<h1 style="border-left-color:#c0392b;">加载失败</h1>' +
+                        '<p style="color:var(--text-secondary);font-size:1.1rem;">' + message + '</p>' +
+                        (detail ? '<p style="color:var(--text-muted);font-size:0.9rem;">' + detail + '</p>' : '') +
+                        '<div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin:1.2rem 0;">' +
+                        '<a href="/" style="padding:0.5rem 1.2rem;border-radius:40px;background:var(--accent);color:#fff;font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">返回首页</a>' +
+                        '<a href="https://github.com/SoServer/SoServer.github.io" target="_blank" style="padding:0.5rem 1.2rem;border-radius:40px;border:1px solid var(--border-color);color:var(--text-secondary);font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">反馈问题</a>' +
+                        '</div>' +
+                        '<div class="footnote"><p>刺玫会 · ' + (error.message === 'HTTP 404' ? '404' : '加载错误') + '</p></div>' +
+                        '</div>';
+                })
+                .finally(function() {
+                    isLoading = false;
+                });
+        }
+
+        // ============================================================
+        // 加载 Giscus
+        // ============================================================
+        function loadGiscus() {
+            if (document.querySelector('.giscus iframe')) {
+                console.log('Giscus 已加载');
+                return;
+            }
+            var container = document.querySelector('.giscus');
+            if (!container) {
+                console.warn('Giscus 容器不存在');
+                return;
+            }
+            container.innerHTML = '';
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.dataset.repo = 'SoServer/SoServer.github.io';
+            script.dataset.repoId = 'R_kgDOTVXjKQ';
+            script.dataset.category = 'General';
+            script.dataset.categoryId = '51115557';
+            script.dataset.mapping = 'number';
+            script.dataset.term = '1';
+            script.dataset.strict = '0';
+            script.dataset.reactionsEnabled = '1';
+            script.dataset.emitMetadata = '0';
+            script.dataset.inputPosition = 'bottom';
+            script.dataset.theme = 'preferred_color_scheme';
+            script.dataset.lang = 'zh-CN';
+            script.crossOrigin = 'anonymous';
+            script.async = true;
+            container.parentNode.insertBefore(script, container.nextSibling);
+            console.log('Giscus 已加载');
+        }
+
+        // ============================================================
+        // 清除缓存并刷新
+        // ============================================================
+        function clearCacheAndReload() {
+            sessionStorage.clear();
+            localStorage.setItem('app_version', APP_VERSION);
+            location.reload();
+        }
+        window.clearCacheAndReload = clearCacheAndReload;
+
+        // ============================================================
+        // 返回首页
+        // ============================================================
+        function showHome() {
+            var home = document.getElementById('home-content');
+            var pageContent = document.getElementById('page-content');
+            home.style.display = 'block';
+            pageContent.style.display = 'none';
+            pageContent.innerHTML = '';
+            history.pushState(null, '', '/');
+            document.querySelectorAll('.sub-menu a, .card-list li').forEach(function(el) {
+                el.classList.remove('active');
+            });
+        }
+        window.loadPage = loadPage;
+        window.showHome = showHome;
+
+        // ============================================================
+        // 登录功能
+        // ============================================================
+        function openLoginModal(e) {
+            if (e) e.preventDefault();
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginError').classList.remove('show');
+            setTimeout(function() {
+                document.getElementById('loginUsername').focus();
+            }, 100);
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function login() {
+            var username = document.getElementById('loginUsername').value.trim();
+            var errorEl = document.getElementById('loginError');
+            if (!username) {
+                errorEl.textContent = '请输入用户名';
+                errorEl.classList.add('show');
+                return;
+            }
+            if (username.length < 2) {
+                errorEl.textContent = '用户名至少2个字符';
+                errorEl.classList.add('show');
+                return;
+            }
+            localStorage.setItem('token', 'mock-token');
+            localStorage.setItem('username', username);
+            closeLoginModal();
+            updateAuthUI();
+        }
+
+        function logout(e) {
+            if (e) e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            updateAuthUI();
+        }
+
+        function updateAuthUI() {
+            var token = localStorage.getItem('token');
+            var username = localStorage.getItem('username');
+
+            var loginBtn = document.getElementById('loginBtn');
+            var logoutBtn = document.getElementById('logoutBtn');
+            var userDisplay = document.getElementById('userDisplay');
+            var usernameDisplay = document.getElementById('usernameDisplay');
+
+            var sidebarUser = document.getElementById('sidebarUser');
+            var sidebarUsername = document.getElementById('sidebarUsername');
+            var sidebarLoginBtn = document.getElementById('sidebarLoginBtn');
+            var sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
+
+            if (token && username) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+                if (userDisplay) userDisplay.style.display = 'inline-block';
+                if (usernameDisplay) usernameDisplay.textContent = username;
+
+                if (sidebarUser) sidebarUser.style.display = 'flex';
+                if (sidebarUsername) sidebarUsername.textContent = username;
+                if (sidebarLoginBtn) sidebarLoginBtn.style.display = 'none';
+                if (sidebarLogoutBtn) sidebarLogoutBtn.style.display = 'inline';
+            } else {
+                if (loginBtn) loginBtn.style.display = 'inline-flex';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+                if (userDisplay) userDisplay.style.display = 'none';
+
+                if (sidebarUser) sidebarUser.style.display = 'none';
+                if (sidebarLoginBtn) sidebarLoginBtn.style.display = 'inline';
+                if (sidebarLogoutBtn) sidebarLogoutBtn.style.display = 'none';
+            }
+        }
+
+        // ============================================================
+        // 房间号横幅
+        // ============================================================
+        function initRoomStatus() {
+            var banner = document.getElementById('roomBanner');
+            var display = document.getElementById('roomNumberDisplay');
+
+            if (!banner || !display) return;
+
+            fetch('/room_number.txt?' + Date.now())
+                .then(function(response) {
+                    if (!response.ok) throw new Error('文件不存在');
+                    return response.text();
+                })
+                .then(function(text) {
+                    var match = text.match(/setroomnumber:"([^"]+)"/);
+                    if (match && match[1]) {
+                        display.textContent = match[1];
+                        banner.classList.add('show');
+                    } else {
+                        banner.classList.remove('show');
+                        console.log('[刺玫会 Wiki] room_number.txt 格式错误，未找到有效房间号');
+                    }
+                })
+                .catch(function() {
+                    banner.classList.remove('show');
+                    console.log('[刺玫会 Wiki] room_number.txt 未找到，房间号横幅已隐藏');
+                });
+        }
+
+        // ============================================================
+        // 重置滚动位置
+        // ============================================================
+        function resetScrollPosition() {
+            window.scrollTo(0, 0);
+        }
+
+        // ============================================================
+        // DOM 就绪初始化
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+
+            loadVersion();
+            resetScrollPosition();
+            document.body.classList.add('loaded');
+
+            renderCards();
+            initCards();
+            initRoomStatus();
+            updateAuthUI();
+
+            var sidebarHeader = document.getElementById('sidebarHeader');
+            if (sidebarHeader) {
+                sidebarHeader.addEventListener('click', function() {
+                    if (typeof window.showHome === 'function') {
+                        window.showHome();
+                    } else {
+                        window.location.href = '/';
+                    }
+                    if (typeof closeSidebarIfMobile === 'function') {
+                        closeSidebarIfMobile();
+                    }
+                });
+            }
+
+            document.getElementById('loginUsername').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') login();
+            });
+            document.getElementById('loginModal').addEventListener('click', function(e) {
+                if (e.target === this) closeLoginModal();
+            });
+
+            setTimeout(resetScrollPosition, 50);
+            setTimeout(resetScrollPosition, 200);
+        });
+
+        // ============================================================
+        // URL 哈希初始化
+        // ============================================================
+        function initHash() {
+            var hash = window.location.hash;
+            if (hash && hash.startsWith('#page-')) {
+                var pageId = decodeURIComponent(hash.replace('#page-', ''));
+                loadPage(pageId);
+            }
+        }
+        initHash();
+    </script>
+</body>
+</html>
