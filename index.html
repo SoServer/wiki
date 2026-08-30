@@ -33,9 +33,7 @@
                 </div>
             </div>
             <div class="nav-actions">
-                <!-- 语录显示区域 -->
                 <div id="quoteDisplay" class="quote-display"></div>
-                <!-- 登录相关元素（移动端隐藏） -->
                 <span class="hide-on-mobile" id="userDisplay" style="display:none;color:var(--text-secondary);font-size:clamp(0.7rem, 0.9vw, 0.9rem);">
                     <i class="fas fa-user"></i> <span id="usernameDisplay"></span>
                 </span>
@@ -62,9 +60,7 @@
             <span>刺玫会</span>
         </div>
         <nav class="sidebar-nav">
-            <ul id="mobileMenuList">
-                <!-- 由 script.js 动态渲染 -->
-            </ul>
+            <ul id="mobileMenuList"></ul>
         </nav>
         <div class="sidebar-footer" id="sidebarFooter">
             <div class="sidebar-user" id="sidebarUser" style="display:none;">
@@ -127,9 +123,6 @@
 
     <!-- ===== 核心脚本 ===== -->
     <script>
-        // ============================================================
-        // 版本控制与缓存管理
-        // ============================================================
         var APP_VERSION = '2026.08.30.001';
         var CACHE_MAX_AGE = 5 * 60 * 1000;
 
@@ -166,9 +159,6 @@
             }
         }
 
-        // ============================================================
-        // 渲染 404 页面
-        // ============================================================
         function render404(pageId, pageContent) {
             var errorHtml = '<div class="doc-content">';
             errorHtml += '<h1 style="border-left-color:#c0392b;">页面不存在</h1>';
@@ -189,7 +179,6 @@
             errorHtml += '</div>';
             errorHtml += '<div class="footnote"><p>刺玫会 · 404 页面未找到</p></div>';
             errorHtml += '</div>';
-
             pageContent.innerHTML = errorHtml;
             if (typeof updateActiveState === 'function') {
                 updateActiveState(pageId);
@@ -199,9 +188,6 @@
             }
         }
 
-        // ============================================================
-        // 卡片渲染
-        // ============================================================
         function getDisplayName(key) {
             return displayNames[key] || key;
         }
@@ -223,27 +209,19 @@
             grid.innerHTML = html;
         }
 
-        // ============================================================
-        // 卡片点击事件
-        // ============================================================
         function initCards() {
             var grid = document.getElementById('cardGrid');
             if (!grid) return;
-
             grid.addEventListener('click', function(e) {
                 var target = e.target.closest('.card-list li');
                 if (!target || !target.dataset.page) return;
-
                 var isMobile = window.innerWidth < 769;
-
                 if (isMobile) {
                     var isSelected = target.dataset.selected === 'true';
-
                     document.querySelectorAll('.card-list li').forEach(function(li) {
                         li.dataset.selected = 'false';
                         li.classList.remove('selected');
                     });
-
                     if (isSelected) {
                         loadPage(target.dataset.page);
                     } else {
@@ -256,9 +234,6 @@
             });
         }
 
-        // ============================================================
-        // 缓存检查
-        // ============================================================
         function isCacheValid(cacheKey) {
             var cached = sessionStorage.getItem(cacheKey);
             var timeKey = cacheKey + '_time';
@@ -268,9 +243,6 @@
             return (now - parseInt(cacheTime)) < CACHE_MAX_AGE;
         }
 
-        // ============================================================
-        // 重新执行动态加载的 <script> 标签
-        // ============================================================
         function reExecuteScripts(container) {
             var scripts = container.querySelectorAll('script');
             scripts.forEach(function(oldScript) {
@@ -286,9 +258,6 @@
             });
         }
 
-        // ============================================================
-        // 页面加载函数
-        // ============================================================
         var isLoading = false;
 
         function loadPage(pageId) {
@@ -296,7 +265,6 @@
                 console.log('[刺玫会 Wiki] 正在加载中，请稍候...');
                 return;
             }
-
             var anchor = '';
             if (pageId.includes('#')) {
                 var parts = pageId.split('#');
@@ -304,19 +272,14 @@
                 anchor = parts[1];
             }
             pageId = decodeURIComponent(pageId);
-
             var home = document.getElementById('home-content');
             var pageContent = document.getElementById('page-content');
             var path = pagePathMap[pageId];
-
             home.style.display = 'none';
             pageContent.innerHTML = '';
             pageContent.style.display = 'block';
 
-            // ============================================================
-            // 权限已取消：所有用户均可访问
-            // ============================================================
-
+            // 权限已取消，所有用户均可访问
             if (!path) {
                 render404(pageId, pageContent);
                 return;
@@ -324,33 +287,11 @@
 
             var cacheKey = 'page_' + pageId;
 
-            if (isCacheValid(cacheKey)) {
-                var cached = sessionStorage.getItem(cacheKey);
-                pageContent.innerHTML = cached;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                if (window.location.hash !== '#page-' + pageId) {
-                    history.pushState(null, '', '#page-' + pageId);
-                }
-                if (typeof updateActiveState === 'function') {
-                    updateActiveState(pageId);
-                }
-                reExecuteScripts(pageContent);
-
-                if (pageId === '论坛') {
-                    setTimeout(function() { loadGiscus(); }, 300);
-                }
-                if (anchor) {
-                    setTimeout(function() {
-                        var target = document.getElementById(anchor);
-                        if (target) target.scrollIntoView({ behavior: 'smooth' });
-                    }, 150);
-                }
-                return;
-            }
-
-            isLoading = true;
+            // 强制清除缓存，避免旧内容残留
             sessionStorage.removeItem(cacheKey);
             sessionStorage.removeItem(cacheKey + '_time');
+
+            isLoading = true;
 
             pageContent.innerHTML = '<div class="doc-content" style="text-align:center;padding:3rem 0;"><img src="favicon.png" alt="加载中" class="loading-icon" style="display:block;margin:0 auto;width:64px;height:64px;image-rendering:pixelated;animation:breathe 1.2s ease-in-out infinite;" /><p style="color:var(--text-muted);margin-top:1rem;font-size:clamp(0.9rem, 1.2vw, 1.1rem);">加载中...</p></div>';
 
@@ -375,7 +316,6 @@
                         updateActiveState(pageId);
                     }
                     reExecuteScripts(pageContent);
-
                     if (pageId === '论坛') {
                         setTimeout(function() { loadGiscus(); }, 300);
                     }
@@ -401,7 +341,6 @@
                     } else {
                         detail = '错误详情：' + error.message;
                     }
-
                     pageContent.innerHTML = '<div class="doc-content">' +
                         '<h1 style="border-left-color:#c0392b;">加载失败</h1>' +
                         '<p style="color:var(--text-secondary);font-size:1.1rem;">' + message + '</p>' +
@@ -418,9 +357,6 @@
                 });
         }
 
-        // ============================================================
-        // 加载 Giscus
-        // ============================================================
         function loadGiscus() {
             if (document.querySelector('.giscus iframe')) {
                 console.log('Giscus 已加载');
@@ -452,9 +388,6 @@
             console.log('Giscus 已加载');
         }
 
-        // ============================================================
-        // 清除缓存并刷新
-        // ============================================================
         function clearCacheAndReload() {
             sessionStorage.clear();
             localStorage.setItem('app_version', APP_VERSION);
@@ -462,9 +395,6 @@
         }
         window.clearCacheAndReload = clearCacheAndReload;
 
-        // ============================================================
-        // 返回首页
-        // ============================================================
         function showHome() {
             var home = document.getElementById('home-content');
             var pageContent = document.getElementById('page-content');
@@ -479,9 +409,7 @@
         window.loadPage = loadPage;
         window.showHome = showHome;
 
-        // ============================================================
-        // 登录功能
-        // ============================================================
+        // ===== 登录功能 =====
         function openLoginModal(e) {
             if (e) e.preventDefault();
             document.getElementById('loginModal').classList.add('active');
@@ -525,12 +453,10 @@
         function updateAuthUI() {
             var token = localStorage.getItem('token');
             var username = localStorage.getItem('username');
-
             var loginBtn = document.getElementById('loginBtn');
             var logoutBtn = document.getElementById('logoutBtn');
             var userDisplay = document.getElementById('userDisplay');
             var usernameDisplay = document.getElementById('usernameDisplay');
-
             var sidebarUser = document.getElementById('sidebarUser');
             var sidebarUsername = document.getElementById('sidebarUsername');
             var sidebarLoginBtn = document.getElementById('sidebarLoginBtn');
@@ -541,7 +467,6 @@
                 if (logoutBtn) logoutBtn.style.display = 'inline-flex';
                 if (userDisplay) userDisplay.style.display = 'inline-block';
                 if (usernameDisplay) usernameDisplay.textContent = username;
-
                 if (sidebarUser) sidebarUser.style.display = 'flex';
                 if (sidebarUsername) sidebarUsername.textContent = username;
                 if (sidebarLoginBtn) sidebarLoginBtn.style.display = 'none';
@@ -550,22 +475,16 @@
                 if (loginBtn) loginBtn.style.display = 'inline-flex';
                 if (logoutBtn) logoutBtn.style.display = 'none';
                 if (userDisplay) userDisplay.style.display = 'none';
-
                 if (sidebarUser) sidebarUser.style.display = 'none';
                 if (sidebarLoginBtn) sidebarLoginBtn.style.display = 'inline';
                 if (sidebarLogoutBtn) sidebarLogoutBtn.style.display = 'none';
             }
         }
 
-        // ============================================================
-        // 房间号横幅
-        // ============================================================
         function initRoomStatus() {
             var banner = document.getElementById('roomBanner');
             var display = document.getElementById('roomNumberDisplay');
-
             if (!banner || !display) return;
-
             fetch('room_number.txt?' + Date.now())
                 .then(function(response) {
                     if (!response.ok) throw new Error('文件不存在');
@@ -587,12 +506,25 @@
                 });
         }
 
-        // ============================================================
-        // 重置滚动位置
-        // ============================================================
         function resetScrollPosition() {
             window.scrollTo(0, 0);
         }
+
+        // ============================================================
+        // 修复 hashchange 跳转问题
+        // ============================================================
+        window.addEventListener('hashchange', function() {
+            var hash = window.location.hash;
+            if (hash && hash.startsWith('#page-')) {
+                var pageId = decodeURIComponent(hash.replace('#page-', ''));
+                console.log('[hashchange] 触发加载:', pageId);
+                if (typeof loadPage === 'function') {
+                    loadPage(pageId);
+                } else {
+                    console.error('[hashchange] loadPage 未定义');
+                }
+            }
+        });
 
         // ============================================================
         // DOM 就绪初始化
@@ -601,11 +533,9 @@
             if ('scrollRestoration' in history) {
                 history.scrollRestoration = 'manual';
             }
-
             loadVersion();
             resetScrollPosition();
             document.body.classList.add('loaded');
-
             renderCards();
             initCards();
             initRoomStatus();
@@ -643,7 +573,12 @@
             var hash = window.location.hash;
             if (hash && hash.startsWith('#page-')) {
                 var pageId = decodeURIComponent(hash.replace('#page-', ''));
-                loadPage(pageId);
+                // 延迟执行确保 loadPage 已定义
+                setTimeout(function() {
+                    if (typeof loadPage === 'function') {
+                        loadPage(pageId);
+                    }
+                }, 100);
             }
         }
         initHash();
