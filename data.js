@@ -70,7 +70,7 @@ var pagePathMap = {
     '弘桀孤影行': 'pages/characters/弘桀孤影行.html',
     '小草zombie': 'pages/characters/小草zombie.html',
     '赤月': 'pages/characters/赤月.html',
-    '曾面正面': 'pages/characters/曾面正面.html'
+    '曾面正面': 'pages/characters/曾面正面.html',
     '禺密封禁报告': 'pages/reports/禺密封禁报告.html',
     '方解石回应': 'pages/reports/方解石回应.html',
     '方解石观察期': 'pages/reports/方解石观察期.html',
