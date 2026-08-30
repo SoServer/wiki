@@ -59,22 +59,22 @@ var cardData = [
 // 页面路径映射表
 // ============================================================
 var pagePathMap = {
-    '游玩规定V2.0': 'pages/announcements/游玩规定V2.0.md',
-    '服务器性质通告': 'pages/announcements/服务器性质通告.md',
-    '禺密封禁报告': 'pages/reports/禺密封禁报告.md',
-    '方解石回应': 'pages/reports/方解石回应.md',
-    '方解石观察期': 'pages/reports/方解石观察期.md',
-    '三体人涂蜡周三鼠封禁报告': 'pages/reports/三体人涂蜡周三鼠封禁报告.md',
-    '方解石举报曾面正面案': 'pages/reports/方解石举报曾面正面案.md',
-    '商店运营指导建议': 'pages/rules/商店运营指导建议.md',
-    '8.25': 'pages/logs/8.25.md',
-    '8.26': 'pages/logs/8.26.md',
-    '8.27': 'pages/logs/8.27.md',
-    '8.28': 'pages/logs/8.28.md',
-    '8.29': 'pages/logs/8.29.md',
-    '8.30': 'pages/logs/8.30.md',
-    '管理组介绍': 'pages/about/管理组介绍.md',
-    '加入我们': 'pages/about/加入我们.md'
+    '游玩规定V2.0': 'pages/announcements/游玩规定V2.0.html',
+    '服务器性质通告': 'pages/announcements/服务器性质通告.html',
+    '禺密封禁报告': 'pages/reports/禺密封禁报告.html',
+    '方解石回应': 'pages/reports/方解石回应.html',
+    '方解石观察期': 'pages/reports/方解石观察期.html',
+    '三体人团伙封禁报告': 'pages/reports/三体人团伙封禁报告.html',
+    '方解石举报曾面正面案': 'pages/reports/方解石举报曾面正面案.html',
+    '商店运营指导建议': 'pages/rules/商店运营指导建议.html',
+    '8.25': 'pages/logs/8.25.html',
+    '8.26': 'pages/logs/8.26.html',
+    '8.27': 'pages/logs/8.27.html',
+    '8.28': 'pages/logs/8.28.html',
+    '8.29': 'pages/logs/8.29.html',
+    '8.30': 'pages/logs/8.30.html',
+    '管理组介绍': 'pages/about/管理组介绍.html',
+    '加入我们': 'pages/about/加入我们.html'
 };
 
 // ============================================================
