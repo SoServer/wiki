@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/png" href="icon/thornrose.png" />
+    <link rel="icon" type="image/png" href="favicon.png" />
     <meta name="description" content="刺玫会服务器 · 制度汇编 · 处理报告 · 工作日志" />
     <meta name="theme-color" content="#f5f5f0" />
     <script type="module" src="https://cdn.jsdelivr.net/npm/web-page@1.1.0/index.min.js"></script>
@@ -26,8 +26,8 @@
                     <span></span>
                 </button>
                 <div class="nav-brand" id="navBrand">
-                    <a href="/">
-                        <img src="/icon/thornrose.png" alt="刺玫会" />
+                    <a href="/wiki/">
+                        <img src="favicon.png" alt="刺玫会" />
                         <span id="brandText">刺玫会</span>
                     </a>
                 </div>
@@ -58,7 +58,7 @@
     <!-- ===== 移动端侧边栏 ===== -->
     <div class="mobile-sidebar" id="mobileSidebar">
         <div class="sidebar-header" id="sidebarHeader">
-            <img src="/icon/thornrose.png" alt="刺玫会" />
+            <img src="favicon.png" alt="刺玫会" />
             <span>刺玫会</span>
         </div>
         <nav class="sidebar-nav">
@@ -122,8 +122,8 @@
     </div>
 
     <!-- ===== 加载外部文件 ===== -->
-    <script src="/data.js"></script>
-    <script src="/script.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 
     <!-- ===== 核心脚本 ===== -->
     <script>
@@ -134,7 +134,7 @@
         var CACHE_MAX_AGE = 5 * 60 * 1000;
 
         function loadVersion() {
-            fetch('/version.txt?' + Date.now())
+            fetch('version.txt?' + Date.now())
                 .then(function(response) {
                     if (!response.ok) throw new Error('version.txt 不存在');
                     return response.text();
@@ -182,7 +182,7 @@
             errorHtml += '<li><strong>网络状态异常：</strong>您的网络连接异常，导致未能正确访问该页面。</li>';
             errorHtml += '</ul></div>';
             errorHtml += '<div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin:1.2rem 0;">';
-            errorHtml += '<a href="/" style="padding:0.5rem 1.2rem;border-radius:40px;background:var(--accent);color:#fff;font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">返回首页</a>';
+            errorHtml += '<a href="/wiki/" style="padding:0.5rem 1.2rem;border-radius:40px;background:var(--accent);color:#fff;font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">返回首页</a>';
             errorHtml += '<a href="https://github.com/SoServer/SoServer.github.io" target="_blank" style="padding:0.5rem 1.2rem;border-radius:40px;border:1px solid var(--border-color);color:var(--text-secondary);font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">反馈问题</a>';
             errorHtml += '</div>';
             errorHtml += '<div style="background:rgba(0,0,0,0.02);border-radius:var(--radius);padding:0.8rem 1.2rem;border:1px solid var(--border-color);">';
@@ -358,7 +358,7 @@
             sessionStorage.removeItem(cacheKey);
             sessionStorage.removeItem(cacheKey + '_time');
 
-            pageContent.innerHTML = '<div class="doc-content" style="text-align:center;padding:3rem 0;"><img src="/icon/thornrose.png" alt="加载中" class="loading-icon" style="display:block;margin:0 auto;width:64px;height:64px;image-rendering:pixelated;animation:breathe 1.2s ease-in-out infinite;" /><p style="color:var(--text-muted);margin-top:1rem;font-size:clamp(0.9rem, 1.2vw, 1.1rem);">加载中...</p></div>';
+            pageContent.innerHTML = '<div class="doc-content" style="text-align:center;padding:3rem 0;"><img src="favicon.png" alt="加载中" class="loading-icon" style="display:block;margin:0 auto;width:64px;height:64px;image-rendering:pixelated;animation:breathe 1.2s ease-in-out infinite;" /><p style="color:var(--text-muted);margin-top:1rem;font-size:clamp(0.9rem, 1.2vw, 1.1rem);">加载中...</p></div>';
 
             fetch(path)
                 .then(function(response) {
@@ -413,7 +413,7 @@
                         '<p style="color:var(--text-secondary);font-size:1.1rem;">' + message + '</p>' +
                         (detail ? '<p style="color:var(--text-muted);font-size:0.9rem;">' + detail + '</p>' : '') +
                         '<div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin:1.2rem 0;">' +
-                        '<a href="/" style="padding:0.5rem 1.2rem;border-radius:40px;background:var(--accent);color:#fff;font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">返回首页</a>' +
+                        '<a href="/wiki/" style="padding:0.5rem 1.2rem;border-radius:40px;background:var(--accent);color:#fff;font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">返回首页</a>' +
                         '<a href="https://github.com/SoServer/SoServer.github.io" target="_blank" style="padding:0.5rem 1.2rem;border-radius:40px;border:1px solid var(--border-color);color:var(--text-secondary);font-family:var(--font-pixel);font-size:0.9rem;transition:all var(--transition);display:inline-block;">反馈问题</a>' +
                         '</div>' +
                         '<div class="footnote"><p>刺玫会 · ' + (error.message === 'HTTP 404' ? '404' : '加载错误') + '</p></div>' +
@@ -477,7 +477,7 @@
             home.style.display = 'block';
             pageContent.style.display = 'none';
             pageContent.innerHTML = '';
-            history.pushState(null, '', '/');
+            history.pushState(null, '', '/wiki/');
             document.querySelectorAll('.sub-menu a, .card-list li').forEach(function(el) {
                 el.classList.remove('active');
             });
@@ -572,7 +572,7 @@
 
             if (!banner || !display) return;
 
-            fetch('/room_number.txt?' + Date.now())
+            fetch('room_number.txt?' + Date.now())
                 .then(function(response) {
                     if (!response.ok) throw new Error('文件不存在');
                     return response.text();
@@ -623,7 +623,7 @@
                     if (typeof window.showHome === 'function') {
                         window.showHome();
                     } else {
-                        window.location.href = '/';
+                        window.location.href = '/wiki/';
                     }
                     if (typeof closeSidebarIfMobile === 'function') {
                         closeSidebarIfMobile();
