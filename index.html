@@ -177,7 +177,6 @@
             errorHtml += '<p style="color:var(--text-primary);font-weight:700;margin-bottom:0.4rem;">可能的原因</p>';
             errorHtml += '<ul style="margin:0;padding-left:1.2rem;color:var(--text-secondary);">';
             errorHtml += '<li><strong>内容不存在：</strong>页面 <code style="background:rgba(0,0,0,0.06);padding:0.1rem 0.4rem;border-radius:4px;font-family:\'Courier New\',monospace;color:#c0392b;">' + pageId + '</code> 不在 <code>pages/</code> 目录中，或 <code>data.js</code> 未正确映射。</li>';
-            errorHtml += '<li><strong>权限不足：</strong>您的访问权限未达到该页面的权限要求。</li>';
             errorHtml += '<li><strong>服务端拒绝访问：</strong>该页面链接的服务端 API 拒绝了访问请求。</li>';
             errorHtml += '<li><strong>网络状态异常：</strong>您的网络连接异常，导致未能正确访问该页面。</li>';
             errorHtml += '</ul></div>';
@@ -314,16 +313,11 @@
             pageContent.innerHTML = '';
             pageContent.style.display = 'block';
 
-            // 权限检查：只有指定用户可访问内容页
-            var username = localStorage.getItem('username');
-            var isAuthorized = (username === 'SoServer' || username === '弘桀孤影行');
+            // ============================================================
+            // 权限已取消：所有用户均可访问
+            // ============================================================
 
-            if (!path || pageId === '首页') {
-                if (!path) {
-                    render404(pageId, pageContent);
-                    return;
-                }
-            } else if (!isAuthorized) {
+            if (!path) {
                 render404(pageId, pageContent);
                 return;
             }
