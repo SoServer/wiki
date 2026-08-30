@@ -17,7 +17,7 @@ var sidebarMenu = [
         title: '人物志',
         icon: 'fa-user',
         items: ['弘桀孤影行', '小草zombie', '赤月', '曾面正面']
-    }
+    },
     {
         title: '处理报告',
         icon: 'fa-gavel',
