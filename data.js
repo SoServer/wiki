@@ -26,7 +26,7 @@ var sidebarMenu = [
     {
         title: '处理报告',
         icon: 'fa-gavel',
-        items: ['禺密封禁报告', '对方解石回应', '方解石观察期', '三体人团伙封禁报告', '方解石举报曾面正面案']
+        items: ['禺密封禁报告', '对方解石回应', '方解石观察期', '三体人团伙封禁报告', '方解石举报曾面正面案', '12457878哈封禁报告']
     },
     {
         title: '管理规定',
@@ -61,7 +61,7 @@ var cardData = [
     { title: '公告', icon: 'fa-bullhorn', items: ['游玩规定V2.0', '服务器性质通告'] },
     { title: '人物志', icon: 'fa-user', items: ['南极洲丶刺玫', '弘桀孤影行', '小草zombie', '赤月', '曾面正面', '方解石'] },
     { title: '公会档案', icon: 'fa-flag', items: ['公会档案', '末影秩序', '刺枚教'] },
-    { title: '处理报告', icon: 'fa-gavel', items: ['禺密封禁报告', '对方解石回应', '方解石观察期', '三体人团伙封禁报告', '方解石举报曾面正面案'] },
+    { title: '处理报告', icon: 'fa-gavel', items: ['禺密封禁报告', '对方解石回应', '方解石观察期', '三体人团伙封禁报告', '方解石举报曾面正面案', '12457878哈封禁报告'] },
     { title: '管理规定', icon: 'fa-book', items: ['游玩规定V2.0', '商店运营指导建议'] },
     { title: '工作日志', icon: 'fa-clipboard-list', items: ['8.25', '8.26', '8.27', '8.28', '8.29', '8.30'] },
     { title: '关于', icon: 'fa-info-circle', items: ['教学文档', '刺玫本设', '管理组介绍', '加入我们'] }
@@ -87,6 +87,7 @@ var pagePathMap = {
     '方解石观察期': 'pages/reports/方解石观察期.html',
     '三体人团伙封禁报告': 'pages/reports/三体人团伙封禁报告.html',
     '方解石举报曾面正面案': 'pages/reports/方解石举报曾面正面案.html',
+    '12457878哈封禁报告': 'pages/reports/12457878哈封禁报告.html',
     '商店运营指导建议': 'pages/rules/商店运营指导建议.html',
     '8.25': 'pages/logs/8.25.html',
     '8.26': 'pages/logs/8.26.html',
