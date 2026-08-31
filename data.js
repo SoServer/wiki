@@ -36,7 +36,7 @@ var sidebarMenu = [
     {
         title: '关于',
         icon: 'fa-info-circle',
-        items: ['管理组介绍', '加入我们']
+        items: ['教学文档', '管理组介绍', '加入我们']
     }
 ];
 
@@ -58,7 +58,7 @@ var cardData = [
     { title: '处理报告', icon: 'fa-gavel', items: ['禺密封禁报告', '对方解石回应', '方解石观察期', '三体人团伙封禁报告', '方解石举报曾面正面案'] },
     { title: '管理规定', icon: 'fa-book', items: ['游玩规定V2.0', '商店运营指导建议'] },
     { title: '工作日志', icon: 'fa-clipboard-list', items: ['8.25', '8.26', '8.27', '8.28', '8.29', '8.30'] },
-    { title: '关于', icon: 'fa-info-circle', items: ['管理组介绍', '加入我们'] }
+    { title: '关于', icon: 'fa-info-circle', items: ['教学文档', '管理组介绍', '加入我们'] }
 ];
 
 // ============================================================
@@ -85,6 +85,7 @@ var pagePathMap = {
     '8.28': 'pages/logs/8.28.html',
     '8.29': 'pages/logs/8.29.html',
     '8.30': 'pages/logs/8.30.html',
+    '教学文档': 'pages/about/教学文档.html',
     '管理组介绍': 'pages/about/管理组介绍.html',
     '加入我们': 'pages/about/加入我们.html'
 };
