@@ -67,12 +67,20 @@
                 <i class="fas fa-user"></i>
                 <span id="sidebarUsername"></span>
             </div>
-            <div class="sidebar-auth">
-                <a href="https://qm.qq.com/q/T6o0ahPJeM" target="_blank" style="color:var(--text-secondary);font-size:0.85rem;cursor:pointer;">
-                    <i class="fas fa-qq"></i> 加群
-                </a>
-                <a id="sidebarLoginBtn" href="#" onclick="openLoginModal(event)">登录</a>
-                <a id="sidebarLogoutBtn" href="#" style="display:none;" onclick="logout(event)">退出</a>
+            <div class="sidebar-footer" id="sidebarFooter">
+              <!-- 加群按钮（移动端醒目） -->
+              <a href="https://qm.qq.com/q/T6o0ahPJeM" target="_blank" style="display:block;background:linear-gradient(135deg,#12B7F5,#1E90FF);color:#fff;text-align:center;padding:0.6rem 1rem;border-radius:10px;font-weight:700;font-size:1.1rem;margin-bottom:0.6rem;transition:all var(--transition);text-decoration:none;">
+                  <i class="fab fa-qq"></i> 加入QQ群
+              </a>
+              <!-- 原有登录/退出 -->
+              <div class="sidebar-user" id="sidebarUser" style="display:none;">
+                  <i class="fas fa-user"></i>
+                  <span id="sidebarUsername"></span>
+              </div>
+              <div class="sidebar-auth">
+                  <a id="sidebarLoginBtn" href="#" onclick="openLoginModal(event)">登录</a>
+                  <a id="sidebarLogoutBtn" href="#" style="display:none;" onclick="logout(event)">退出</a>
+              </div>
             </div>
         </div>
     </div>
