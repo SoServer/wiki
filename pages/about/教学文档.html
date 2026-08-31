@@ -1,0 +1,339 @@
+<div class="doc-content">
+    <h1>Wiki 内容编写教学文档</h1>
+    <p style="color:var(--text-secondary);">刺玫会 Wiki · 内容创作指南</p>
+
+    <div class="msgbox info">
+        <span class="msgbox-title">说明</span>
+        本文档用于指导刺玫会 Wiki 的内容编写，涵盖页面结构、常用标签、样式组件的使用方法。所有内容均符合净标计划，禁止使用 Emoji。
+    </div>
+
+
+    <h2>一、页面基本结构</h2>
+
+    <p>每个 Wiki 页面必须以以下结构开头和结尾：</p>
+
+    <div class="code-block">
+        <pre>&lt;div class="doc-content"&gt;
+    &lt;h1&gt;页面标题&lt;/h1&gt;
+    &lt;p style="color:var(--text-secondary);"&gt;副标题或页面描述&lt;/p&gt;
+    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布日期或相关信息&lt;/p&gt;
+    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布单位&lt;/p&gt;
+
+    &lt;!-- 正文内容 --&gt;
+
+    &lt;div class="footnote"&gt;
+        &lt;p&gt;发布单位&lt;/p&gt;
+        &lt;p&gt;日期&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <h3>示例：</h3>
+
+    <div class="code-block">
+        <pre>&lt;div class="doc-content"&gt;
+    &lt;h1&gt;刺玫会服务器游玩规定&lt;/h1&gt;
+    &lt;p style="color:var(--text-secondary);"&gt;修订版 · V2.0&lt;/p&gt;
+    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布日期：二〇二六年八月三十日&lt;/p&gt;
+    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布单位：刺玫会管理组&lt;/p&gt;
+
+    &lt;!-- 正文 --&gt;
+
+    &lt;div class="footnote"&gt;
+        &lt;p&gt;刺玫会管理组&lt;/p&gt;
+        &lt;p&gt;二〇二六年八月三十日&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+
+    <h2>二、标题层级</h2>
+
+    <p>Wiki 使用以下标题层级：</p>
+
+    <ul>
+        <li><strong>&lt;h1&gt;</strong>：页面主标题，每个页面只能有一个</li>
+        <li><strong>&lt;h2&gt;</strong>：一级章节标题</li>
+        <li><strong>&lt;h3&gt;</strong>：二级章节标题</li>
+        <li><strong>&lt;h4&gt;</strong>：三级章节标题（较少使用）</li>
+    </ul>
+
+    <div class="code-block">
+        <pre>&lt;h1&gt;页面主标题&lt;/h1&gt;
+&lt;h2&gt;第一章 概述&lt;/h2&gt;
+&lt;h3&gt;一、背景介绍&lt;/h3&gt;
+&lt;h4&gt;（一）详细说明&lt;/h4&gt;</pre>
+    </div>
+
+
+    <h2>三、段落与文本</h2>
+
+    <h3>段落 &lt;p&gt;</h3>
+
+    <p>使用 &lt;p&gt; 标签包裹每个段落：</p>
+
+    <div class="code-block">
+        <pre>&lt;p&gt;这是一段正文内容。用于阐述观点、描述事实或解释说明。&lt;/p&gt;
+&lt;p&gt;每个自然段用一个独立的 &amp;lt;p&amp;gt; 标签包裹。&lt;/p&gt;</pre>
+    </div>
+
+    <h3>文本强调</h3>
+
+    <ul>
+        <li><strong>&lt;strong&gt;</strong>：加粗强调，用于重要内容</li>
+        <li><strong>&lt;em&gt;</strong>：斜体强调，较少使用</li>
+        <li><strong>&lt;code&gt;</strong>：行内代码，用于指令、文件名、变量名等</li>
+    </ul>
+
+    <div class="code-block">
+        <pre>&lt;p&gt;这是&lt;strong&gt;重要内容&lt;/strong&gt;，需要使用 &lt;code&gt;/give @s diamond&lt;/code&gt; 指令。&lt;/p&gt;</pre>
+    </div>
+
+
+    <h2>四、列表</h2>
+
+    <h3>无序列表 &lt;ul&gt;</h3>
+
+    <p>用于并列关系、列举项：</p>
+
+    <div class="code-block">
+        <pre>&lt;ul&gt;
+    &lt;li&gt;第一项内容&lt;/li&gt;
+    &lt;li&gt;第二项内容&lt;/li&gt;
+    &lt;li&gt;第三项内容&lt;/li&gt;
+&lt;/ul&gt;</pre>
+    </div>
+
+    <h3>有序列表 &lt;ol&gt;</h3>
+
+    <p>用于有先后顺序的步骤、流程：</p>
+
+    <div class="code-block">
+        <pre>&lt;ol&gt;
+    &lt;li&gt;第一步操作&lt;/li&gt;
+    &lt;li&gt;第二步操作&lt;/li&gt;
+    &lt;li&gt;第三步操作&lt;/li&gt;
+&lt;/ol&gt;</pre>
+    </div>
+
+    <h3>嵌套列表</h3>
+
+    <p>列表可以互相嵌套：</p>
+
+    <div class="code-block">
+        <pre>&lt;ul&gt;
+    &lt;li&gt;一级项目
+        &lt;ul&gt;
+            &lt;li&gt;二级子项目一&lt;/li&gt;
+            &lt;li&gt;二级子项目二&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;另一个一级项目&lt;/li&gt;
+&lt;/ul&gt;</pre>
+    </div>
+
+
+    <h2>五、信息网格 &lt;div class="info-grid"&gt;</h2>
+
+    <p>用于展示键值对信息，如人物简介、服务器信息等：</p>
+
+    <div class="code-block">
+        <pre>&lt;div class="info-grid"&gt;
+    &lt;span&gt;&lt;strong&gt;身份：&lt;/strong&gt;管理员&lt;/span&gt;
+    &lt;span&gt;&lt;strong&gt;入服时间：&lt;/strong&gt;二〇二六年七月&lt;/span&gt;
+    &lt;span&gt;&lt;strong&gt;核心贡献：&lt;/strong&gt;制度建设 · 日常运营&lt;/span&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <div class="msgbox info">
+        <span class="msgbox-title">提示</span>
+        info-grid 会自动分两列显示，适合展示人物信息、服务器参数等结构化数据。
+    </div>
+
+
+    <h2>六、提示框 &lt;div class="msgbox"&gt;</h2>
+
+    <p>提示框用于突出显示特定类型的信息：</p>
+
+    <div class="code-block">
+        <pre>&lt;!-- 普通提示（蓝色） --&gt;
+&lt;div class="msgbox info"&gt;
+    &lt;span class="msgbox-title"&gt;说明&lt;/span&gt;
+    这是一条普通提示信息。
+&lt;/div&gt;
+
+&lt;!-- 警告（橙色） --&gt;
+&lt;div class="msgbox warning"&gt;
+    &lt;span class="msgbox-title"&gt;注意&lt;/span&gt;
+    这是一条警告信息。
+&lt;/div&gt;
+
+&lt;!-- 重要（红色） --&gt;
+&lt;div class="msgbox important"&gt;
+    &lt;span class="msgbox-title"&gt;重要&lt;/span&gt;
+    这是一条重要信息。
+&lt;/div&gt;
+
+&lt;!-- 成功（绿色） --&gt;
+&lt;div class="msgbox success"&gt;
+    这是一条成功信息。
+&lt;/div&gt;
+
+&lt;!-- 引用 --&gt;
+&lt;div class="msgbox quote"&gt;
+    引用的内容。
+    &lt;span class="quote-source"&gt;作者名&lt;/span&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <div class="msgbox warning">
+        <span class="msgbox-title">注意</span>
+        <strong>必须包含 &lt;span class="msgbox-title"&gt;</strong> 标签作为标题（quote 和 plain 类型除外）。标题内容是纯文字，不加 Emoji。
+    </div>
+
+
+    <h2>七、高亮框 &lt;div class="highlight-box"&gt;</h2>
+
+    <p>用于突出显示重要段落：</p>
+
+    <div class="code-block">
+        <pre>&lt;div class="highlight-box"&gt;
+    &lt;p&gt;&lt;strong&gt;要点总结&lt;/strong&gt;&lt;/p&gt;
+    &lt;p&gt;这是被高亮的重要内容。&lt;/p&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+
+    <h2>八、表格 &lt;table&gt;</h2>
+
+    <div class="code-block">
+        <pre>&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;列标题1&lt;/th&gt;
+            &lt;th&gt;列标题2&lt;/th&gt;
+            &lt;th&gt;列标题3&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;数据1&lt;/td&gt;
+            &lt;td&gt;数据2&lt;/td&gt;
+            &lt;td&gt;数据3&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+    </div>
+
+
+    <h2>九、内联标签 &lt;span class="tag"&gt;</h2>
+
+    <p>用于标记状态、类型等：</p>
+
+    <div class="code-block">
+        <pre>&lt;span class="tag info"&gt;信息&lt;/span&gt;
+&lt;span class="tag warning"&gt;警告&lt;/span&gt;
+&lt;span class="tag important"&gt;重要&lt;/span&gt;
+&lt;span class="tag success"&gt;成功&lt;/span&gt;
+&lt;span class="tag todo"&gt;待办&lt;/span&gt;
+&lt;span class="tag vanilla"&gt;普通&lt;/span&gt;</pre>
+    </div>
+
+    <p>效果示例：<span class="tag info">信息</span> <span class="tag warning">警告</span> <span class="tag important">重要</span> <span class="tag success">成功</span> <span class="tag todo">待办</span> <span class="tag vanilla">普通</span></p>
+
+
+    <h2>十、链接</h2>
+
+    <p>Wiki 内部页面链接使用 <code>#page-页面key</code> 格式：</p>
+
+    <div class="code-block">
+        <pre>&lt;a href="#page-游玩规定V2.0"&gt;游玩规定 V2.0&lt;/a&gt;
+&lt;a href="#page-服务器性质通告"&gt;服务器性质通告&lt;/a&gt;</pre>
+    </div>
+
+    <p>外部链接使用完整 URL：</p>
+
+    <div class="code-block">
+        <pre>&lt;a href="https://github.com/SoServer" target="_blank"&gt;SoServer 的 GitHub&lt;/a&gt;</pre>
+    </div>
+
+
+    <h2>十一、页脚 &lt;div class="footnote"&gt;</h2>
+
+    <p>每个页面末尾必须包含页脚：</p>
+
+    <div class="code-block">
+        <pre>&lt;div class="footnote"&gt;
+    &lt;p&gt;刺玫会管理组&lt;/p&gt;
+    &lt;p&gt;二〇二六年八月三十日&lt;/p&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+
+    <h2>十二、完整页面示例</h2>
+
+    <p>以下是一个完整的 Wiki 页面模板：</p>
+
+    <div class="code-block">
+        <pre>&lt;div class="doc-content"&gt;
+    &lt;h1&gt;页面标题&lt;/h1&gt;
+    &lt;p style="color:var(--text-secondary);"&gt;副标题&lt;/p&gt;
+    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布日期：二〇二六年八月三十日&lt;/p&gt;
+    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布单位：刺玫会管理组&lt;/p&gt;
+
+    &lt;div class="msgbox info"&gt;
+        &lt;span class="msgbox-title"&gt;说明&lt;/span&gt;
+        这是一条说明信息。
+    &lt;/div&gt;
+
+    &lt;h2&gt;第一章 概述&lt;/h2&gt;
+
+    &lt;p&gt;正文内容。&lt;/p&gt;
+
+    &lt;h3&gt;一、子章节&lt;/h3&gt;
+
+    &lt;ul&gt;
+        &lt;li&gt;项目一&lt;/li&gt;
+        &lt;li&gt;项目二&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;div class="highlight-box"&gt;
+        &lt;p&gt;&lt;strong&gt;重要提示&lt;/strong&gt;&lt;/p&gt;
+        &lt;p&gt;这是高亮内容。&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;div class="footnote"&gt;
+        &lt;p&gt;刺玫会管理组&lt;/p&gt;
+        &lt;p&gt;二〇二六年八月三十日&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+
+    <h2>十三、净标计划规范</h2>
+
+    <div class="msgbox important">
+        <span class="msgbox-title">净标计划</span>
+        所有 Wiki 页面<strong>禁止使用 Emoji</strong>，统一使用 FontAwesome 图标（如 <code>&lt;i class="fas fa-xxx"&gt;&lt;/i&gt;</code>）或纯文字替代。
+    </div>
+
+    <p>正确示例：</p>
+    <div class="code-block">
+        <pre>&lt;i class="fas fa-bullhorn"&gt;&lt;/i&gt; 公告
+&lt;i class="fas fa-gavel"&gt;&lt;/i&gt; 处理报告
+&lt;i class="fas fa-book"&gt;&lt;/i&gt; 管理规定</pre>
+    </div>
+
+    <p>错误示例（包含 Emoji）：</p>
+    <div class="code-block">
+        <pre>📢 公告
+⚖️ 处理报告
+📚 管理规定</pre>
+    </div>
+
+
+    <div class="footnote">
+        <p>刺玫会 Wiki · 内容编写教学文档</p>
+        <p>最后更新：二〇二六年八月三十一日</p>
+    </div>
+</div>
