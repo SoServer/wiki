@@ -74,7 +74,7 @@ var pagePathMap = {
     '曾面正面': 'pages/characters/曾面正面.html',
     '方解石': 'pages/characters/方解石.html',
     '禺密封禁报告': 'pages/reports/禺密封禁报告.html',
-    '方解石回应': 'pages/reports/方解石回应.html',
+    '对方解石回应': 'pages/reports/对方解石回应.html',
     '方解石观察期': 'pages/reports/方解石观察期.html',
     '三体人团伙封禁报告': 'pages/reports/三体人团伙封禁报告.html',
     '方解石举报曾面正面案': 'pages/reports/方解石举报曾面正面案.html',
