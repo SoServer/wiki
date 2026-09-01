@@ -9,30 +9,31 @@
 
 
 ## 项目结构
+
 /
-├── index.html # 网站首页（单页应用入口）
-├── style.css # 全局样式表
-├── script.js # 核心交互脚本（侧边栏、页面加载等）
-├── data.js # 内容数据（侧边栏菜单、卡片数据、页面路径映射）
-├── icons.js # 图标短代码映射表
-├── verse.js # 语录轮播数据
-├── favicon.png # 网站图标（工作台图案）
-├── room_number.txt # 服务器房间号配置（可选）
-├── version.txt # 版本号配置
+├── index.html                网站首页（单页应用入口）
+├── style.css                 全局样式表
+├── script.js                 核心交互脚本（侧边栏、页面加载等）
+├── data.js                   内容数据（侧边栏菜单、卡片数据、页面路径映射）
+├── icons.js                  图标短代码映射表
+├── verse.js                  语录轮播数据
+├── favicon.png               网站图标（工作台图案）
+├── room_number.txt           服务器房间号配置（可选）
+├── version.txt               版本号配置
 ├── assets/
-│ └── icons/ # 图标资源目录
-│ ├── Crafting_Table.png
-│ ├── Command_Block.png
-│ └── ...（其余图标文件）
+│   └── icons/                图标资源目录
+│       ├── Crafting_Table.png
+│       ├── Command_Block.png
+│       └── ...（其余图标文件）
 └── pages/
-├── announcements/ # 公告页面
-├── reports/ # 处理报告页面
-├── rules/ # 管理规定页面
-├── logs/ # 工作日志页面
-├── characters/ # 人物志页面
-├── guilds/ # 公会档案页面
-├── about/ # 关于页面
-└── wiki/ # Wiki文档页面
+    ├── announcements/        公告页面
+    ├── reports/              处理报告页面
+    ├── rules/                管理规定页面
+    ├── logs/                 工作日志页面
+    ├── characters/           人物志页面
+    ├── guilds/               公会档案页面
+    ├── about/                关于页面
+    └── wiki/                 Wiki文档页面
 
 
 ## 内容板块
@@ -69,6 +70,7 @@
         <p>日期</p>
     </div>
 </div>
+```
 
 ## 常用样式组件
 
