@@ -101,7 +101,7 @@ var pagePathMap = {
     '8.28': 'pages/logs/8.28.html',
     '8.29': 'pages/logs/8.29.html',
     '8.30': 'pages/logs/8.30.html',
-    '乱写文档': 'pages/about/乱写文档.html',
+    '乱写文档': 'pages/wiki/乱写文档.html',
     '刺玫本设': 'pages/about/刺玫本设.html',
     '管理组介绍': 'pages/about/管理组介绍.html',
     '加入我们': 'pages/about/加入我们.html',
