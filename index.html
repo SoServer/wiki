@@ -277,6 +277,7 @@
                 console.log('[刺玫会 Wiki] 正在加载中，请稍候...');
                 return;
             }
+
             var anchor = '';
             if (pageId.includes('#')) {
                 var parts = pageId.split('#');
@@ -284,9 +285,11 @@
                 anchor = parts[1];
             }
             pageId = decodeURIComponent(pageId);
+
             var home = document.getElementById('home-content');
             var pageContent = document.getElementById('page-content');
             var path = pagePathMap[pageId];
+
             home.style.display = 'none';
             pageContent.innerHTML = '';
             pageContent.style.display = 'block';
@@ -320,7 +323,12 @@
                     sessionStorage.setItem(cacheKey, html);
                     sessionStorage.setItem(cacheKey + '_time', String(Date.now()));
                     pageContent.innerHTML = html;
-                    renderIcons(pageContent);
+                    // ============================================================
+                    // 渲染图标短代码
+                    // ============================================================
+                    if (typeof renderIcons === 'function') {
+                        renderIcons(pageContent);
+                    }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     if (window.location.hash !== '#page-' + pageId) {
                         history.pushState(null, '', '#page-' + pageId);
@@ -354,6 +362,7 @@
                     } else {
                         detail = '错误详情：' + error.message;
                     }
+
                     pageContent.innerHTML = '<div class="doc-content">' +
                         '<h1 style="border-left-color:#c0392b;">加载失败</h1>' +
                         '<p style="color:var(--text-secondary);font-size:1.1rem;">' + message + '</p>' +
@@ -364,6 +373,12 @@
                         '</div>' +
                         '<div class="footnote"><p>刺玫会 · ' + (error.message === 'HTTP 404' ? '404' : '加载错误') + '</p></div>' +
                         '</div>';
+                    // ============================================================
+                    // 错误页面也渲染图标（如果内容中有的话）
+                    // ============================================================
+                    if (typeof renderIcons === 'function') {
+                        renderIcons(pageContent);
+                    }
                 })
                 .finally(function() {
                     isLoading = false;
