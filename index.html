@@ -320,6 +320,7 @@
                     sessionStorage.setItem(cacheKey, html);
                     sessionStorage.setItem(cacheKey + '_time', String(Date.now()));
                     pageContent.innerHTML = html;
+                    renderIcons(pageContent);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     if (window.location.hash !== '#page-' + pageId) {
                         history.pushState(null, '', '#page-' + pageId);
