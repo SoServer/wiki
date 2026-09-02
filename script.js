@@ -320,3 +320,132 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// ============================================================
+// 搜索功能
+// ============================================================
+
+function performSearch(query) {
+    if (!query || query.trim() === '') {
+        return [];
+    }
+    query = query.trim().toLowerCase();
+    var results = [];
+    for (var i = 0; i < searchIndex.length; i++) {
+        var item = searchIndex[i];
+        var score = 0;
+        var titleLower = item.title.toLowerCase();
+        var summaryLower = (item.summary || '').toLowerCase();
+        if (titleLower.includes(query)) {
+            score += 10;
+        }
+        if (summaryLower.includes(query)) {
+            score += 3;
+        }
+        if (item.keywords) {
+            for (var j = 0; j < item.keywords.length; j++) {
+                if (item.keywords[j].toLowerCase().includes(query)) {
+                    score += 5;
+                    break;
+                }
+            }
+        }
+        if (score > 0) {
+            results.push({
+                key: item.key,
+                title: item.title,
+                category: item.category || '',
+                summary: item.summary || '',
+                score: score
+            });
+        }
+    }
+    results.sort(function(a, b) {
+        return b.score - a.score;
+    });
+    return results;
+}
+
+function renderSearchResults(results) {
+    var container = document.getElementById('searchResults');
+    if (!container) return;
+    if (results.length === 0) {
+        container.innerHTML = '<div class="no-result">未找到相关页面</div>';
+        container.classList.add('show');
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < results.length; i++) {
+        var r = results[i];
+        html += '<div class="result-item" data-key="' + r.key + '">';
+        html += '<span class="result-title">' + r.title + '</span>';
+        if (r.category) {
+            html += '<span class="result-category">' + r.category + '</span>';
+        }
+        if (r.summary) {
+            html += '<span class="result-summary">' + r.summary + '</span>';
+        }
+        html += '</div>';
+    }
+    container.innerHTML = html;
+    container.classList.add('show');
+
+    var items = container.querySelectorAll('.result-item');
+    for (var j = 0; j < items.length; j++) {
+        items[j].addEventListener('click', function() {
+            var key = this.dataset.key;
+            if (key && typeof loadPage === 'function') {
+                loadPage(key);
+                closeSearch();
+            }
+        });
+    }
+}
+
+function closeSearch() {
+    var container = document.getElementById('searchResults');
+    if (container) {
+        container.classList.remove('show');
+    }
+    var input = document.getElementById('searchInput');
+    if (input) {
+        input.blur();
+    }
+}
+
+function initSearch() {
+    var input = document.getElementById('searchInput');
+    var btn = document.getElementById('searchBtn');
+    var container = document.getElementById('searchResults');
+    if (!input) return;
+
+    input.addEventListener('input', function() {
+        var results = performSearch(this.value);
+        renderSearchResults(results);
+    });
+
+    if (btn) {
+        btn.addEventListener('click', function() {
+            var results = performSearch(input.value);
+            renderSearchResults(results);
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        var wrapper = document.querySelector('.search-wrapper');
+        if (wrapper && !wrapper.contains(e.target) && container) {
+            container.classList.remove('show');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            input.focus();
+            input.select();
+        }
+        if (e.key === 'Escape') {
+            closeSearch();
+        }
+    });
+}
