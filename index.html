@@ -17,7 +17,6 @@
     <script src="icons.js"></script>
 </head>
 <body>
-    <!-- ===== 导航栏 ===== -->
     <header class="navbar">
         <div class="nav-container">
             <div class="nav-left">
@@ -42,7 +41,8 @@
                 </div>
                 <!-- 搜索结果下拉 -->
                 <div class="search-results" id="searchResults"></div>
-                <!-- 登录功能已注释，保留备用
+                <!-- 登录功能已注释，保留备用 -->
+                <!--
                 <span class="hide-on-mobile" id="userDisplay" style="display:none;color:var(--text-secondary);font-size:clamp(0.7rem, 0.9vw, 0.9rem);">
                     <i class="fas fa-user"></i> <span id="usernameDisplay"></span>
                 </span>
@@ -77,7 +77,8 @@
             <a href="https://qm.qq.com/q/T6o0ahPJeM" target="_blank" style="display:block;background:linear-gradient(135deg,#12B7F5,#1E90FF);color:#fff;text-align:center;padding:0.6rem 1rem;border-radius:10px;font-weight:700;font-size:1.1rem;margin-bottom:0.6rem;transition:all var(--transition);text-decoration:none;">
                 <i class="fab fa-qq"></i> 加入QQ群
             </a>
-            <!-- 原有登录/退出功能已注释，保留备用
+            <!-- 原有登录/退出功能已注释，保留备用 -->
+            <!--
             <div class="sidebar-user" id="sidebarUser" style="display:none;">
                 <i class="fas fa-user"></i>
                 <span id="sidebarUsername"></span>
@@ -573,6 +574,13 @@
             initRoomStatus();
             updateAuthUI();
 
+            // ============================================================
+            // 初始化搜索功能
+            // ============================================================
+            if (typeof initSearch === 'function') {
+                initSearch();
+            }
+
             var sidebarHeader = document.getElementById('sidebarHeader');
             if (sidebarHeader) {
                 sidebarHeader.addEventListener('click', function() {
@@ -597,7 +605,7 @@
             setTimeout(resetScrollPosition, 50);
             setTimeout(resetScrollPosition, 200);
         });
-
+        
         // ============================================================
         // URL 哈希初始化
         // ============================================================
