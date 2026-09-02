@@ -16,7 +16,7 @@ var sidebarMenu = [
     {
         title: '人物志',
         icon: 'fa-user',
-        items: ['南极洲丶刺玫', '弘桀孤影行', '小草zombie', '赤月', '曾面正面', '方解石']
+        items: ['南极洲丶刺玫', '弘桀孤影行', '小草zombie', '赤月', '曾面正面', '方解石', '野人偷吃保险']
     },
     {
         title: '公会档案',
@@ -64,7 +64,7 @@ function getMenuItems(category) {
 // ============================================================
 var cardData = [
     { title: '公告', icon: 'fa-bullhorn', items: ['游玩规定V2.0', '服务器性质通告'] },
-    { title: '人物志', icon: 'fa-user', items: ['南极洲丶刺玫', '弘桀孤影行', '小草zombie', '赤月', '曾面正面', '方解石'] },
+    { title: '人物志', icon: 'fa-user', items: ['南极洲丶刺玫', '弘桀孤影行', '小草zombie', '赤月', '曾面正面', '方解石', '野人偷吃保险'] },
     { title: '公会档案', icon: 'fa-flag', items: ['公会档案', '末影秩序', '刺枚教'] },
     { title: '处理报告', icon: 'fa-gavel', items: ['禺密封禁报告', '对方解石回应', '方解石观察期', '三体人团伙封禁报告', '方解石举报曾面正面案', '12457878哈封禁报告'] },
     { title: '管理规定', icon: 'fa-book', items: ['游玩规定V2.0', '商店运营指导建议'] },
@@ -85,6 +85,7 @@ var pagePathMap = {
     '赤月': 'pages/characters/赤月.html',
     '曾面正面': 'pages/characters/曾面正面.html',
     '方解石': 'pages/characters/方解石.html',
+    '野人偷吃保险': 'pages/characters/野人偷吃保险.html',
     '公会档案': 'pages/guilds/公会档案.html',
     '末影秩序': 'pages/guilds/末影秩序.html',
     '刺枚教': 'pages/guilds/刺枚教.html',
