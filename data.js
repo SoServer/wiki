@@ -116,3 +116,34 @@ var pagePathMap = {
 // 显示名称映射表（显示名 = 文件名，不需要映射）
 // ============================================================
 var displayNames = {};
+
+// ============================================================
+// 搜索索引
+// ============================================================
+var searchIndex = [
+    { key: '游玩规定V2.0', title: '游玩规定 V2.0', category: '公告', summary: '刺玫会服务器游玩规定修订版' },
+    { key: '服务器性质通告', title: '服务器性质通告', category: '公告', summary: '关于服务器性质与游玩规定的强调' },
+    { key: '禺密封禁报告', title: '禺密封禁报告', category: '处理报告', summary: '玩家禺密涉嫌使用作弊程序及异常财富积累' },
+    { key: '三体人团伙封禁报告', title: '三体人团伙封禁报告', category: '处理报告', summary: '三体人涂蜡周三鼠利用漏洞刷取游戏资源' },
+    { key: '12457878哈封禁报告', title: '12457878哈封禁报告', category: '处理报告', summary: '玩家12457878哈使用矿透作弊程序' },
+    { key: '商店运营指导建议', title: '商店运营指导建议', category: '管理规定', summary: '服务器商店布局、定价及交易物品指导' },
+    { key: '弘桀孤影行', title: '弘桀孤影行', category: '人物志', summary: '刺玫会管理员，负责制度建设与日常运营' },
+    { key: '南极洲丶刺玫', title: '南极洲丶刺玫', category: '人物志', summary: '刺玫会服主，服务器创建者与主城建设者' },
+    { key: '赤月', title: '赤月', category: '人物志', summary: '刺玫会管理员，服务器早期建设参与者' },
+    { key: '小草zombie', title: '小草zombie', category: '人物志', summary: '刺玫会管理员，制作宣传视频与指令系统' },
+    { key: '曾面正面', title: '曾面正面', category: '人物志', summary: '刺玫会前管理员' },
+    { key: '方解石', title: '方解石', category: '人物志', summary: '刺玫教副会长，曾参与管理员竞选' },
+    { key: '上坡上的土', title: '上坡上的土', category: '人物志', summary: '刺枚教会长' },
+    { key: '野人偷吃保险', title: '野人偷吃保险', category: '人物志', summary: '服务器争议玩家' },
+    { key: '管理组介绍', title: '管理组介绍', category: '关于', summary: '刺玫会管理团队介绍与管理原则' },
+    { key: '加入我们', title: '加入我们', category: '关于', summary: '服务器入服指南与联系方式' },
+    { key: '刺玫本设', title: '刺玫本设', category: '关于', summary: '服主南极洲丶刺玫的漫风画作设定' },
+    { key: '公会档案', title: '公会档案', category: '公会档案', summary: '服务器所有公会总览' },
+    { key: '末影秩序', title: '末影秩序', category: '公会档案', summary: '服务器首个公会，已隐退' },
+    { key: '刺枚教', title: '刺枚教', category: '公会档案', summary: '服务器大型公会，拥有庞大基地与物资' },
+    { key: '关于Wiki', title: '关于Wiki', category: 'Wiki', summary: '刺玫会Wiki项目定位、内容范围与技术信息' },
+    { key: '教学文档', title: '教学文档', category: 'Wiki', summary: 'Wiki内容编写教学与HTML组件指南' },
+    { key: '乱写文档', title: '乱写文档', category: 'Wiki', summary: 'CSS功能与渲染测试页面' },
+    { key: '净标计划', title: '净标计划', category: 'Wiki', summary: 'Wiki视觉规范化项目，禁止使用Emoji' },
+    { key: '更新日志', title: '更新日志', category: 'Wiki', summary: 'Wiki建站以来的所有版本更新记录' }
+];
