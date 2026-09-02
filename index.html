@@ -35,6 +35,14 @@
             </div>
             <div class="nav-actions">
                 <div id="quoteDisplay" class="quote-display"></div>
+                <!-- 搜索框 -->
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" placeholder="搜索 Wiki..." />
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <!-- 搜索结果下拉 -->
+                <div class="search-results" id="searchResults"></div>
+                <!-- 登录功能已注释，保留备用
                 <span class="hide-on-mobile" id="userDisplay" style="display:none;color:var(--text-secondary);font-size:clamp(0.7rem, 0.9vw, 0.9rem);">
                     <i class="fas fa-user"></i> <span id="usernameDisplay"></span>
                 </span>
@@ -44,6 +52,7 @@
                 <a id="logoutBtn" href="#" style="display:none;" class="nav-btn hide-on-mobile" onclick="logout(event)">
                     <i class="fas fa-sign-out-alt"></i> 退出
                 </a>
+                -->
                 <button class="nav-btn hide-on-mobile" onclick="clearCacheAndReload()" title="清除缓存并刷新">
                     <i class="fas fa-sync-alt"></i> 刷新
                 </button>
@@ -64,25 +73,20 @@
             <ul id="mobileMenuList"></ul>
         </nav>
         <div class="sidebar-footer" id="sidebarFooter">
+            <!-- 加群按钮（移动端醒目） -->
+            <a href="https://qm.qq.com/q/T6o0ahPJeM" target="_blank" style="display:block;background:linear-gradient(135deg,#12B7F5,#1E90FF);color:#fff;text-align:center;padding:0.6rem 1rem;border-radius:10px;font-weight:700;font-size:1.1rem;margin-bottom:0.6rem;transition:all var(--transition);text-decoration:none;">
+                <i class="fab fa-qq"></i> 加入QQ群
+            </a>
+            <!-- 原有登录/退出功能已注释，保留备用
             <div class="sidebar-user" id="sidebarUser" style="display:none;">
                 <i class="fas fa-user"></i>
                 <span id="sidebarUsername"></span>
             </div>
-            <div class="sidebar-footer" id="sidebarFooter">
-              <!-- 加群按钮（移动端醒目） -->
-              <a href="https://qm.qq.com/q/T6o0ahPJeM" target="_blank" style="display:block;background:linear-gradient(135deg,#12B7F5,#1E90FF);color:#fff;text-align:center;padding:0.6rem 1rem;border-radius:10px;font-weight:700;font-size:1.1rem;margin-bottom:0.6rem;transition:all var(--transition);text-decoration:none;">
-                  <i class="fab fa-qq"></i> 加入QQ群
-              </a>
-              <!-- 原有登录/退出 -->
-              <div class="sidebar-user" id="sidebarUser" style="display:none;">
-                  <i class="fas fa-user"></i>
-                  <span id="sidebarUsername"></span>
-              </div>
-              <div class="sidebar-auth">
-                  <a id="sidebarLoginBtn" href="#" onclick="openLoginModal(event)">登录</a>
-                  <a id="sidebarLogoutBtn" href="#" style="display:none;" onclick="logout(event)">退出</a>
-              </div>
+            <div class="sidebar-auth">
+                <a id="sidebarLoginBtn" href="#" onclick="openLoginModal(event)">登录</a>
+                <a id="sidebarLogoutBtn" href="#" style="display:none;" onclick="logout(event)">退出</a>
             </div>
+            -->
         </div>
     </div>
 
