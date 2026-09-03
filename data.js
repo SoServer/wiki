@@ -100,6 +100,7 @@ var pagePathMap = {
     '方解石举报曾面正面案': 'pages/reports/方解石举报曾面正面案.html',
     '12457878哈封禁报告': 'pages/reports/12457878哈封禁报告.html',
     '商店运营指导建议': 'pages/rules/商店运营指导建议.html',
+    '管理员学习手册': 'pages/rules/管理员学习手册.html',
     '8.25': 'pages/logs/8.25.html',
     '8.26': 'pages/logs/8.26.html',
     '8.27': 'pages/logs/8.27.html',
