@@ -109,7 +109,9 @@
                 <p class="subtitle">制度汇编 · 处理报告 · 工作日志</p>
                 <div class="card-grid" id="cardGrid"></div>
             </section>
-            <div id="page-content" class="hidden"></div>
+            <div id="page-content" class="hidden">
+                <div id="giscus-container"></div>
+            </div>
         </main>
     </div>
 
@@ -173,6 +175,59 @@
                 console.log('[刺玫会 Wiki] 版本已更新 (', storedVersion, '->', APP_VERSION, ')，缓存已清除');
             } else {
                 console.log('[刺玫会 Wiki] 版本一致，无需清除缓存');
+            }
+        }
+
+        // ============================================================
+        // Giscus 评论区加载
+        // ============================================================
+        var giscusLoaded = false;
+
+        function loadGiscus(pageId) {
+            var container = document.getElementById('giscus-container');
+            if (!container) return;
+
+            // 清空旧评论
+            container.innerHTML = '';
+
+            // 创建新的评论容器
+            var wrapper = document.createElement('div');
+            wrapper.className = 'giscus';
+            container.appendChild(wrapper);
+
+            // 如果 Giscus 脚本尚未加载，则创建并插入脚本
+            if (!giscusLoaded) {
+                var script = document.createElement('script');
+                script.src = 'https://giscus.app/client.js';
+                script.setAttribute('data-repo', 'SoServer/wiki');
+                script.setAttribute('data-repo-id', 'R_kgDOUIrQLw');
+                script.setAttribute('data-category', 'Announcements');
+                script.setAttribute('data-category-id', 'DIC_kwDOUIrQL84DE3pS');
+                script.setAttribute('data-mapping', 'pathname');
+                script.setAttribute('data-strict', '0');
+                script.setAttribute('data-reactions-enabled', '1');
+                script.setAttribute('data-emit-metadata', '0');
+                script.setAttribute('data-input-position', 'top');
+                script.setAttribute('data-theme', 'preferred_color_scheme');
+                script.setAttribute('data-lang', 'zh-CN');
+                script.setAttribute('crossorigin', 'anonymous');
+                script.async = true;
+                document.body.appendChild(script);
+                giscusLoaded = true;
+            } else {
+                // 如果脚本已加载，通过重新创建脚本标签来强制刷新评论
+                var oldScript = document.querySelector('script[src="https://giscus.app/client.js"]');
+                if (oldScript) {
+                    var newScript = document.createElement('script');
+                    newScript.src = 'https://giscus.app/client.js';
+                    // 复制原有属性
+                    for (var i = 0; i < oldScript.attributes.length; i++) {
+                        var attr = oldScript.attributes[i];
+                        newScript.setAttribute(attr.name, attr.value);
+                    }
+                    newScript.async = true;
+                    oldScript.parentNode.replaceChild(newScript, oldScript);
+                }
             }
         }
 
@@ -333,6 +388,9 @@
                     // ============================================================
                     if (typeof renderIcons === 'function') {
                         renderIcons(pageContent);
+                    }
+                    if (typeof loadGiscus === 'function') {
+                        loadGiscus(pageId || window.location.pathname);
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     if (window.location.hash !== '#page-' + pageId) {
