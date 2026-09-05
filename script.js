@@ -1,7 +1,7 @@
 // ============================================================
 // 刺玫会 Wiki · 侧边栏与交互脚本
-// 版本：V2.0
-// 日期：2026年8月30日
+// 版本：V2.1
+// 日期：2026年9月5日
 // ============================================================
 
 // ============================================================
@@ -297,31 +297,6 @@ function saveSidebarState() {
 }
 
 // ============================================================
-// 8. DOM 就绪初始化
-// ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof sidebarMenu !== 'undefined' && typeof getMenuItems === 'function') {
-        renderSidebar();
-    } else {
-        console.warn('[刺玫会 Wiki] sidebarMenu 或 getMenuItems 未定义，请确保 data.js 已加载');
-    }
-
-    initHamburger();
-    initRoomStatus();
-    updateAuthUI();
-
-    // 恢复侧边栏状态（延迟执行，等待渲染完成）
-    setTimeout(restoreSidebarState, 100);
-
-    // 在切换侧边栏时保存状态
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.category-toggle')) {
-            setTimeout(saveSidebarState, 50);
-        }
-    });
-});
-
-// ============================================================
 // 搜索功能
 // ============================================================
 
@@ -369,30 +344,34 @@ function performSearch(query) {
 function renderSearchResults(results) {
     var container = document.getElementById('searchResults');
     if (!container) return;
+
+    // 清空容器，保留手机端头部结构
+    var header = container.querySelector('.search-mobile-header');
+    container.innerHTML = '';
+    if (header) {
+        container.appendChild(header);
+    }
+
     if (results.length === 0) {
-        container.innerHTML = '<div class="no-result">未找到相关页面</div>';
+        var noResult = document.createElement('div');
+        noResult.className = 'no-result';
+        noResult.textContent = '未找到相关页面';
+        container.appendChild(noResult);
         container.classList.add('show');
         return;
     }
-    var html = '';
+
     for (var i = 0; i < results.length; i++) {
         var r = results[i];
-        html += '<div class="result-item" data-key="' + r.key + '">';
-        html += '<span class="result-title">' + r.title + '</span>';
-        if (r.category) {
-            html += '<span class="result-category">' + r.category + '</span>';
-        }
-        if (r.summary) {
-            html += '<span class="result-summary">' + r.summary + '</span>';
-        }
-        html += '</div>';
-    }
-    container.innerHTML = html;
-    container.classList.add('show');
+        var item = document.createElement('div');
+        item.className = 'result-item';
+        item.dataset.key = r.key;
+        item.innerHTML = '<span class="result-title">' + r.title + '</span>' +
+            (r.category ? '<span class="result-category">' + r.category + '</span>' : '') +
+            (r.summary ? '<span class="result-summary">' + r.summary + '</span>' : '');
+        container.appendChild(item);
 
-    var items = container.querySelectorAll('.result-item');
-    for (var j = 0; j < items.length; j++) {
-        items[j].addEventListener('click', function() {
+        item.addEventListener('click', function() {
             var key = this.dataset.key;
             if (key && typeof loadPage === 'function') {
                 loadPage(key);
@@ -400,16 +379,34 @@ function renderSearchResults(results) {
             }
         });
     }
+    container.classList.add('show');
+
+    // 手机端搜索框同步焦点
+    var mobileInput = document.getElementById('searchMobileInput');
+    if (mobileInput && window.innerWidth < 769) {
+        mobileInput.focus();
+        mobileInput.select();
+    }
 }
 
 function closeSearch() {
     var container = document.getElementById('searchResults');
     if (container) {
         container.classList.remove('show');
+        // 清空内容但保留手机端头部
+        var header = container.querySelector('.search-mobile-header');
+        container.innerHTML = '';
+        if (header) {
+            container.appendChild(header);
+        }
     }
     var input = document.getElementById('searchInput');
     if (input) {
         input.blur();
+    }
+    var mobileInput = document.getElementById('searchMobileInput');
+    if (mobileInput) {
+        mobileInput.blur();
     }
 }
 
@@ -417,13 +414,33 @@ function initSearch() {
     var input = document.getElementById('searchInput');
     var btn = document.getElementById('searchBtn');
     var container = document.getElementById('searchResults');
+    var mobileInput = document.getElementById('searchMobileInput');
+    var mobileBtn = document.getElementById('searchMobileBtn');
+    var mobileClose = document.getElementById('searchMobileClose');
+
     if (!input) return;
 
+    // 电脑端输入
     input.addEventListener('input', function() {
         var results = performSearch(this.value);
         renderSearchResults(results);
+        if (mobileInput) {
+            mobileInput.value = this.value;
+        }
     });
 
+    // 手机端输入
+    if (mobileInput) {
+        mobileInput.addEventListener('input', function() {
+            var results = performSearch(this.value);
+            renderSearchResults(results);
+            if (input) {
+                input.value = this.value;
+            }
+        });
+    }
+
+    // 电脑端搜索按钮
     if (btn) {
         btn.addEventListener('click', function() {
             var results = performSearch(input.value);
@@ -431,21 +448,86 @@ function initSearch() {
         });
     }
 
+    // 手机端搜索按钮
+    if (mobileBtn && mobileInput) {
+        mobileBtn.addEventListener('click', function() {
+            var results = performSearch(mobileInput.value);
+            renderSearchResults(results);
+        });
+    }
+
+    // 手机端关闭按钮
+    if (mobileClose) {
+        mobileClose.addEventListener('click', function() {
+            closeSearch();
+        });
+    }
+
+    // 点击外部关闭
     document.addEventListener('click', function(e) {
         var wrapper = document.querySelector('.search-wrapper');
-        if (wrapper && !wrapper.contains(e.target) && container) {
+        var mobileHeader = document.getElementById('searchMobileHeader');
+        var isClickInside = (wrapper && wrapper.contains(e.target)) ||
+                            (mobileHeader && mobileHeader.contains(e.target));
+        if (!isClickInside && container) {
             container.classList.remove('show');
+            // 清空内容但保留手机端头部
+            var header = container.querySelector('.search-mobile-header');
+            container.innerHTML = '';
+            if (header) {
+                container.appendChild(header);
+            }
         }
     });
 
+    // 键盘快捷键
     document.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
-            input.focus();
-            input.select();
+            var isMobile = window.innerWidth < 769;
+            if (isMobile && mobileInput) {
+                // 手机端：聚焦并展开搜索面板
+                mobileInput.focus();
+                mobileInput.select();
+                var results = performSearch(mobileInput.value);
+                renderSearchResults(results);
+            } else if (input) {
+                input.focus();
+                input.select();
+            }
         }
         if (e.key === 'Escape') {
             closeSearch();
         }
     });
 }
+
+// ============================================================
+// 8. DOM 就绪初始化
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof sidebarMenu !== 'undefined' && typeof getMenuItems === 'function') {
+        renderSidebar();
+    } else {
+        console.warn('[刺玫会 Wiki] sidebarMenu 或 getMenuItems 未定义，请确保 data.js 已加载');
+    }
+
+    initHamburger();
+    initRoomStatus();
+    updateAuthUI();
+
+    // 初始化搜索
+    if (typeof initSearch === 'function') {
+        initSearch();
+    }
+
+    // 恢复侧边栏状态（延迟执行，等待渲染完成）
+    setTimeout(restoreSidebarState, 100);
+
+    // 在切换侧边栏时保存状态
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.category-toggle')) {
+            setTimeout(saveSidebarState, 50);
+        }
+    });
+});
