@@ -332,6 +332,7 @@
             var home = document.getElementById('home-content');
             var pageContent = document.getElementById('page-content');
             var path = pagePathMap[pageId];
+            console.log('[loadPage] path:', path, 'isMarkdown:', path ? path.endsWith('.md') : false);
 
             home.style.display = 'none';
             pageContent.innerHTML = '';
