@@ -105,7 +105,7 @@ var pagePathMap = {
     '9.2': 'pages/logs/9.2.html',
     '9.3': 'pages/logs/9.3.html',
     // 自定义内容
-    '自定义内容': 'pages/custom/自定义内容.html',
+    '自定义内容': 'pages/custom/自定义内容.md',
     // 关于
     '管理组介绍': 'pages/about/管理组介绍.html',
     '加入我们': 'pages/about/加入我们.html',
