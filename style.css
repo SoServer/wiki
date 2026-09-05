@@ -1774,87 +1774,89 @@ a:hover {
 /* ============================================================
    搜索结果面板 - 电脑端
    ============================================================ */
-.search-results {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: 0.4rem 0;
-    max-height: 360px;
-    overflow-y: auto;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    z-index: 200;
-    min-width: 280px;
-}
+@media (min-width: 769px) {
+    .search-results {
+        display: none;
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        width: 420px;
+        max-width: 65vw;
+        max-height: 60vh;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        padding: 0.4rem 0;
+        overflow-y: auto;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        z-index: 200;
+    }
 
-.search-results.show {
-    display: block;
-}
+    .search-results.show {
+        display: block;
+    }
 
-.search-results::-webkit-scrollbar {
-    width: 4px;
-}
-.search-results::-webkit-scrollbar-track {
-    background: transparent;
-}
-.search-results::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 4px;
-}
-.search-results::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
-}
+    .search-results::-webkit-scrollbar {
+        width: 4px;
+    }
+    .search-results::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .search-results::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+    }
+    .search-results::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+    }
 
-.search-results .result-item {
-    padding: 0.5rem 0.8rem;
-    cursor: pointer;
-    transition: background 0.15s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 0.05rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-}
+    .search-results .result-item {
+        padding: 0.5rem 0.8rem;
+        cursor: pointer;
+        transition: background 0.15s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 0.05rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
 
-.search-results .result-item:last-child {
-    border-bottom: none;
-}
+    .search-results .result-item:last-child {
+        border-bottom: none;
+    }
 
-.search-results .result-item:hover {
-    background: rgba(139, 69, 19, 0.10);
-}
+    .search-results .result-item:hover {
+        background: rgba(139, 69, 19, 0.10);
+    }
 
-.search-results .result-item .result-title {
-    color: var(--text-primary);
-    font-weight: 700;
-    font-size: clamp(0.85rem, 1vw, 0.95rem);
-}
+    .search-results .result-item .result-title {
+        color: var(--text-primary);
+        font-weight: 700;
+        font-size: clamp(0.85rem, 1vw, 0.95rem);
+    }
 
-.search-results .result-item .result-category {
-    color: var(--text-muted);
-    font-size: clamp(0.55rem, 0.65vw, 0.65rem);
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.04);
-    padding: 0.05rem 0.4rem;
-    border-radius: 4px;
-    width: fit-content;
-}
+    .search-results .result-item .result-category {
+        color: var(--text-muted);
+        font-size: clamp(0.55rem, 0.65vw, 0.65rem);
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.04);
+        padding: 0.05rem 0.4rem;
+        border-radius: 4px;
+        width: fit-content;
+    }
 
-.search-results .result-item .result-summary {
-    color: var(--text-secondary);
-    font-size: clamp(0.7rem, 0.8vw, 0.8rem);
-}
+    .search-results .result-item .result-summary {
+        color: var(--text-secondary);
+        font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+    }
 
-.search-results .no-result {
-    padding: 1rem;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+    .search-results .no-result {
+        padding: 1rem;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+    }
 }
 
 /* ============================================================
