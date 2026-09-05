@@ -46,7 +46,7 @@ var sidebarMenu = [
     {
         title: 'Wiki',
         icon: 'fa-book-open',
-        items: ['关于Wiki', '教学文档', '净标计划', '更新日志']
+        items: ['关于Wiki', '方针', '教学文档', '净标计划', '更新日志']
     }
 ];
 
@@ -70,7 +70,7 @@ var cardData = [
     { title: '管理规定', icon: 'fa-book', items: ['游玩规定V2.0', '商店运营指导建议'] },
     { title: '工作日志', icon: 'fa-clipboard-list', items: ['8.25', '8.26', '8.27', '8.28', '8.29', '8.30', '8.31', '9.1', '9.2', '9.3'] },
     { title: '关于', icon: 'fa-info-circle', items: ['教学文档', '刺玫本设', '管理组介绍', '加入我们'] },
-    { title: 'Wiki', icon: 'fa-book-open', items: ['关于Wiki', '教学文档', '净标计划', '更新日志'] }
+    { title: 'Wiki', icon: 'fa-book-open', items: ['关于Wiki', '方针', '教学文档', '净标计划', '更新日志'] }
 ];
 
 // ============================================================
@@ -116,6 +116,7 @@ var pagePathMap = {
     '管理组介绍': 'pages/about/管理组介绍.html',
     '加入我们': 'pages/about/加入我们.html',
     '关于Wiki': 'pages/wiki/关于Wiki.html',
+    '方针': 'pages/wiki/方针.html',
     '教学文档': 'pages/wiki/教学文档.html',
     '净标计划': 'pages/wiki/净标计划.html',
     '更新日志': 'pages/wiki/更新日志.html',
