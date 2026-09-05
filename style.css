@@ -1792,6 +1792,7 @@ a:hover {
         overflow-y: auto;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         z-index: 200;
+        overscroll-behavior: contain;
     }
 
     .search-results.show {
@@ -1885,7 +1886,7 @@ a:hover {
         justify-content: flex-end;
         align-items: center;
         gap: 0.3rem;
-        position: relative;
+        position: static;
     }
     
     /* 搜索框在手机端固定宽度，不拉伸 */
@@ -1905,37 +1906,38 @@ a:hover {
         width: 100%;
     }
     
-    /* 手机端搜索面板：全屏覆盖 */
+    /* 手机端搜索面板：全屏覆盖，独立于导航栏 */
     .search-results {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        max-height: 100vh;
-        border-radius: 0;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        box-shadow: none;
-        min-width: unset;
-        padding: 0;
-        border: none;
-        z-index: 200;
-        overflow-y: auto;
-        margin: 0;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        box-shadow: none !important;
+        min-width: unset !important;
+        padding: 0 !important;
+        border: none !important;
+        z-index: 999 !important;
+        overflow-y: auto !important;
+        margin: 0 !important;
+        width: 100% !important;
         display: none;
     }
     
     .search-results.show {
-        display: block;
+        display: block !important;
     }
     
     /* 手机端搜索头部 */
     .search-mobile-header {
         position: sticky;
         top: 0;
-        z-index: 201;
+        z-index: 1000;
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
@@ -2050,11 +2052,6 @@ a:hover {
     
     /* 手机端隐藏语录和刷新按钮文字 */
     .hide-on-mobile {
-        display: none !important;
-    }
-    
-    /* 手机端刷新按钮只保留图标 */
-    .nav-btn.hide-on-mobile {
         display: none !important;
     }
 }
