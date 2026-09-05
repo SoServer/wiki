@@ -2173,25 +2173,3 @@ a:hover {
     background: transparent;
     padding: 0;
 }
-
-/* ============================================================
-   代码块样式（用于 Markdown 教程等页面）
-   ============================================================ */
-.code-block {
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: var(--radius);
-    padding: 0.6rem 1rem;
-    margin: 0.4rem 0 1.2rem 0;
-    border: 1px solid var(--border-color);
-    overflow-x: auto;
-}
-
-.code-block pre {
-    margin: 0;
-    font-family: 'Courier New', monospace;
-    color: var(--text-secondary);
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-size: 0.8rem;
-    line-height: 1.6;
-}
