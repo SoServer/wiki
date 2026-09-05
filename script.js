@@ -350,6 +350,55 @@ function renderSearchResults(results) {
     // 清空容器
     container.innerHTML = '';
 
+    // 手机端：添加头部搜索框
+    if (isMobile) {
+        var header = document.createElement('div');
+        header.className = 'search-mobile-header';
+        header.id = 'searchMobileHeader';
+        header.innerHTML = `
+            <div class="search-wrapper mobile-search-wrapper">
+                <input type="text" id="searchMobileInput" placeholder="搜索 Wiki..." />
+                <button id="searchMobileBtn"><i class="fas fa-search"></i></button>
+            </div>
+            <button class="search-mobile-close" id="searchMobileClose">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        container.appendChild(header);
+
+        // 重新绑定手机端事件
+        var mobileInput = document.getElementById('searchMobileInput');
+        var mobileBtn = document.getElementById('searchMobileBtn');
+        var mobileClose = document.getElementById('searchMobileClose');
+        var mainInput = document.getElementById('searchInput');
+
+        if (mobileInput) {
+            mobileInput.addEventListener('input', function() {
+                var results = performSearch(this.value);
+                renderSearchResults(results);
+                if (mainInput) {
+                    mainInput.value = this.value;
+                }
+            });
+            // 自动聚焦
+            setTimeout(function() {
+                mobileInput.focus();
+                mobileInput.select();
+            }, 50);
+        }
+        if (mobileBtn && mobileInput) {
+            mobileBtn.addEventListener('click', function() {
+                var results = performSearch(mobileInput.value);
+                renderSearchResults(results);
+            });
+        }
+        if (mobileClose) {
+            mobileClose.addEventListener('click', function() {
+                closeSearch();
+            });
+        }
+    }
+
     if (results.length === 0) {
         var noResult = document.createElement('div');
         noResult.className = 'no-result';
@@ -378,17 +427,6 @@ function renderSearchResults(results) {
         });
     }
     container.classList.add('show');
-
-    // 手机端自动聚焦到搜索输入框
-    if (isMobile) {
-        var mobileInput = document.getElementById('searchMobileInput');
-        if (mobileInput) {
-            setTimeout(function() {
-                mobileInput.focus();
-                mobileInput.select();
-            }, 50);
-        }
-    }
 }
 
 function closeSearch() {
@@ -401,19 +439,12 @@ function closeSearch() {
     if (input) {
         input.blur();
     }
-    var mobileInput = document.getElementById('searchMobileInput');
-    if (mobileInput) {
-        mobileInput.blur();
-    }
 }
 
 function initSearch() {
     var input = document.getElementById('searchInput');
     var btn = document.getElementById('searchBtn');
     var container = document.getElementById('searchResults');
-    var mobileInput = document.getElementById('searchMobileInput');
-    var mobileBtn = document.getElementById('searchMobileBtn');
-    var mobileClose = document.getElementById('searchMobileClose');
 
     if (!input) return;
 
@@ -421,10 +452,6 @@ function initSearch() {
     input.addEventListener('input', function() {
         var results = performSearch(this.value);
         renderSearchResults(results);
-        // 双向同步到手机输入框
-        if (mobileInput) {
-            mobileInput.value = this.value;
-        }
     });
 
     // 电脑端搜索按钮
@@ -435,33 +462,7 @@ function initSearch() {
         });
     }
 
-    // 手机端输入
-    if (mobileInput) {
-        mobileInput.addEventListener('input', function() {
-            var results = performSearch(this.value);
-            renderSearchResults(results);
-            if (input) {
-                input.value = this.value;
-            }
-        });
-    }
-
-    // 手机端搜索按钮
-    if (mobileBtn && mobileInput) {
-        mobileBtn.addEventListener('click', function() {
-            var results = performSearch(mobileInput.value);
-            renderSearchResults(results);
-        });
-    }
-
-    // 手机端关闭按钮
-    if (mobileClose) {
-        mobileClose.addEventListener('click', function() {
-            closeSearch();
-        });
-    }
-
-    // 点击外部关闭
+    // 点击外部关闭（但保留电脑端的点击逻辑）
     document.addEventListener('click', function(e) {
         var wrapper = document.querySelector('.search-wrapper');
         var mobileHeader = document.getElementById('searchMobileHeader');
@@ -479,11 +480,9 @@ function initSearch() {
             e.preventDefault();
             var isMobile = window.innerWidth < 769;
             if (isMobile) {
-                // 手机端：展开面板并聚焦手机输入框
-                if (mobileInput) {
-                    var results = performSearch(mobileInput.value || '');
-                    renderSearchResults(results);
-                }
+                // 手机端：展开面板
+                var results = performSearch(input ? input.value : '');
+                renderSearchResults(results);
             } else if (input) {
                 input.focus();
                 input.select();
