@@ -34,25 +34,11 @@
             </div>
             <div class="nav-actions">
                 <div id="quoteDisplay" class="quote-display"></div>
-                <!-- 搜索框 -->
                 <div class="search-wrapper">
                     <input type="text" id="searchInput" placeholder="搜索 Wiki..." />
                     <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
-                <!-- 搜索结果下拉 -->
                 <div class="search-results" id="searchResults"></div>
-                <!-- 登录功能已注释，保留备用 -->
-                <!--
-                <span class="hide-on-mobile" id="userDisplay" style="display:none;color:var(--text-secondary);font-size:clamp(0.7rem, 0.9vw, 0.9rem);">
-                    <i class="fas fa-user"></i> <span id="usernameDisplay"></span>
-                </span>
-                <a id="loginBtn" href="#" class="nav-btn hide-on-mobile" onclick="openLoginModal(event)">
-                    <i class="fas fa-sign-in-alt"></i> 登录
-                </a>
-                <a id="logoutBtn" href="#" style="display:none;" class="nav-btn hide-on-mobile" onclick="logout(event)">
-                    <i class="fas fa-sign-out-alt"></i> 退出
-                </a>
-                -->
                 <button class="nav-btn hide-on-mobile" onclick="clearCacheAndReload()" title="清除缓存并刷新">
                     <i class="fas fa-sync-alt"></i> 刷新
                 </button>
@@ -60,10 +46,8 @@
         </div>
     </header>
 
-    <!-- ===== 移动端遮罩层 ===== -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
 
-    <!-- ===== 移动端侧边栏 ===== -->
     <div class="mobile-sidebar" id="mobileSidebar">
         <div class="sidebar-header" id="sidebarHeader">
             <img src="favicon.png" alt="刺玫会" />
@@ -73,25 +57,12 @@
             <ul id="mobileMenuList"></ul>
         </nav>
         <div class="sidebar-footer" id="sidebarFooter">
-            <!-- 加群按钮（移动端醒目） -->
             <a href="https://qm.qq.com/q/T6o0ahPJeM" target="_blank" style="display:block;background:linear-gradient(135deg,#12B7F5,#1E90FF);color:#fff;text-align:center;padding:0.6rem 1rem;border-radius:10px;font-weight:700;font-size:1.1rem;margin-bottom:0.6rem;transition:all var(--transition);text-decoration:none;">
                 <i class="fab fa-qq"></i> 加入QQ群
             </a>
-            <!-- 原有登录/退出功能已注释，保留备用 -->
-            <!--
-            <div class="sidebar-user" id="sidebarUser" style="display:none;">
-                <i class="fas fa-user"></i>
-                <span id="sidebarUsername"></span>
-            </div>
-            <div class="sidebar-auth">
-                <a id="sidebarLoginBtn" href="#" onclick="openLoginModal(event)">登录</a>
-                <a id="sidebarLogoutBtn" href="#" style="display:none;" onclick="logout(event)">退出</a>
-            </div>
-            -->
         </div>
     </div>
 
-    <!-- ===== 房间号横幅 ===== -->
     <div class="room-banner" id="roomBanner">
         <div class="room-content">
             <i class="fas fa-door-open"></i>
@@ -100,7 +71,6 @@
         </div>
     </div>
 
-    <!-- ===== 主体 ===== -->
     <div class="main-wrapper">
         <aside class="desktop-sidebar" id="desktopSidebar"></aside>
         <main class="main-content" id="mainContent">
@@ -109,9 +79,8 @@
                 <p class="subtitle">制度汇编 · 处理报告 · 工作日志</p>
                 <div class="card-grid" id="cardGrid"></div>
             </section>
-            <div id="page-content" class="hidden">
-                <div id="giscus-container"></div>
-            </div>
+            <div id="page-content" class="hidden"></div>
+            <div id="giscus-container"></div>
         </main>
     </div>
 
@@ -119,7 +88,6 @@
         <p>&copy; 2026 刺玫会服务器 · 由 <a href="https://github.com/SoServer" target="_blank">SoServer</a> 维护</p>
     </footer>
 
-    <!-- ===== 登录模态框 ===== -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-box">
             <h2>登录</h2>
@@ -136,11 +104,9 @@
         </div>
     </div>
 
-    <!-- ===== 加载外部文件 ===== -->
     <script src="data.js"></script>
     <script src="script.js"></script>
 
-    <!-- ===== 核心脚本 ===== -->
     <script>
         var APP_VERSION = '2026.08.30.001';
         var CACHE_MAX_AGE = 5 * 60 * 1000;
@@ -178,31 +144,25 @@
             }
         }
 
-        // ============================================================
-        // Giscus 评论区加载
-        // ============================================================
         var giscusLoaded = false;
 
         function loadGiscus(pageId) {
             var container = document.getElementById('giscus-container');
             if (!container) return;
 
-            // 清空旧评论
             container.innerHTML = '';
 
-            // 创建新的评论容器
             var wrapper = document.createElement('div');
             wrapper.className = 'giscus';
             container.appendChild(wrapper);
 
-            // 如果 Giscus 脚本尚未加载，则创建并插入脚本
             if (!giscusLoaded) {
                 var script = document.createElement('script');
                 script.src = 'https://giscus.app/client.js';
                 script.setAttribute('data-repo', 'SoServer/wiki');
                 script.setAttribute('data-repo-id', 'R_kgDOUIrQLw');
-                script.setAttribute('data-category', 'Announcements');
-                script.setAttribute('data-category-id', 'DIC_kwDOUIrQL84DE3pS');
+                script.setAttribute('data-category', 'General');
+                script.setAttribute('data-category-id', 'DIC_kwDOUIrQL84DE3pT');
                 script.setAttribute('data-mapping', 'pathname');
                 script.setAttribute('data-strict', '0');
                 script.setAttribute('data-reactions-enabled', '1');
@@ -215,12 +175,10 @@
                 document.body.appendChild(script);
                 giscusLoaded = true;
             } else {
-                // 如果脚本已加载，通过重新创建脚本标签来强制刷新评论
                 var oldScript = document.querySelector('script[src="https://giscus.app/client.js"]');
                 if (oldScript) {
                     var newScript = document.createElement('script');
                     newScript.src = 'https://giscus.app/client.js';
-                    // 复制原有属性
                     for (var i = 0; i < oldScript.attributes.length; i++) {
                         var attr = oldScript.attributes[i];
                         newScript.setAttribute(attr.name, attr.value);
@@ -354,15 +312,12 @@
             pageContent.innerHTML = '';
             pageContent.style.display = 'block';
 
-            // 权限已取消，所有用户均可访问
             if (!path) {
                 render404(pageId, pageContent);
                 return;
             }
 
             var cacheKey = 'page_' + pageId;
-
-            // 强制清除缓存，避免旧内容残留
             sessionStorage.removeItem(cacheKey);
             sessionStorage.removeItem(cacheKey + '_time');
 
@@ -383,9 +338,6 @@
                     sessionStorage.setItem(cacheKey, html);
                     sessionStorage.setItem(cacheKey + '_time', String(Date.now()));
                     pageContent.innerHTML = html;
-                    // ============================================================
-                    // 渲染图标短代码
-                    // ============================================================
                     if (typeof renderIcons === 'function') {
                         renderIcons(pageContent);
                     }
@@ -436,9 +388,6 @@
                         '</div>' +
                         '<div class="footnote"><p>刺玫会 · ' + (error.message === 'HTTP 404' ? '404' : '加载错误') + '</p></div>' +
                         '</div>';
-                    // ============================================================
-                    // 错误页面也渲染图标（如果内容中有的话）
-                    // ============================================================
                     if (typeof renderIcons === 'function') {
                         renderIcons(pageContent);
                     }
@@ -446,37 +395,6 @@
                 .finally(function() {
                     isLoading = false;
                 });
-        }
-
-        function loadGiscus() {
-            if (document.querySelector('.giscus iframe')) {
-                console.log('Giscus 已加载');
-                return;
-            }
-            var container = document.querySelector('.giscus');
-            if (!container) {
-                console.warn('Giscus 容器不存在');
-                return;
-            }
-            container.innerHTML = '';
-            var script = document.createElement('script');
-            script.src = 'https://giscus.app/client.js';
-            script.dataset.repo = 'SoServer/SoServer.github.io';
-            script.dataset.repoId = 'R_kgDOTVXjKQ';
-            script.dataset.category = 'General';
-            script.dataset.categoryId = '51115557';
-            script.dataset.mapping = 'number';
-            script.dataset.term = '1';
-            script.dataset.strict = '0';
-            script.dataset.reactionsEnabled = '1';
-            script.dataset.emitMetadata = '0';
-            script.dataset.inputPosition = 'bottom';
-            script.dataset.theme = 'preferred_color_scheme';
-            script.dataset.lang = 'zh-CN';
-            script.crossOrigin = 'anonymous';
-            script.async = true;
-            container.parentNode.insertBefore(script, container.nextSibling);
-            console.log('Giscus 已加载');
         }
 
         function clearCacheAndReload() {
@@ -500,7 +418,6 @@
         window.loadPage = loadPage;
         window.showHome = showHome;
 
-        // ===== 登录功能 =====
         function openLoginModal(e) {
             if (e) e.preventDefault();
             document.getElementById('loginModal').classList.add('active');
@@ -601,9 +518,6 @@
             window.scrollTo(0, 0);
         }
 
-        // ============================================================
-        // 修复 hashchange 跳转问题
-        // ============================================================
         window.addEventListener('hashchange', function() {
             var hash = window.location.hash;
             if (hash && hash.startsWith('#page-')) {
@@ -617,9 +531,6 @@
             }
         });
 
-        // ============================================================
-        // DOM 就绪初始化
-        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             if ('scrollRestoration' in history) {
                 history.scrollRestoration = 'manual';
@@ -632,9 +543,6 @@
             initRoomStatus();
             updateAuthUI();
 
-            // ============================================================
-            // 初始化搜索功能
-            // ============================================================
             if (typeof initSearch === 'function') {
                 initSearch();
             }
@@ -663,15 +571,11 @@
             setTimeout(resetScrollPosition, 50);
             setTimeout(resetScrollPosition, 200);
         });
-        
-        // ============================================================
-        // URL 哈希初始化
-        // ============================================================
+
         function initHash() {
             var hash = window.location.hash;
             if (hash && hash.startsWith('#page-')) {
                 var pageId = decodeURIComponent(hash.replace('#page-', ''));
-                // 延迟执行确保 loadPage 已定义
                 setTimeout(function() {
                     if (typeof loadPage === 'function') {
                         loadPage(pageId);
