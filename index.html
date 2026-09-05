@@ -369,6 +369,7 @@
                     if (isMarkdown && typeof marked !== 'undefined') {
                         try {
                             htmlContent = marked.parse(content);
+                            htmlContent = '<div class="doc-content">' + htmlContent + '</div>';
                             // 移除 marked 可能注入的额外样式或类
                             htmlContent = htmlContent.replace(/<style>[\s\S]*?<\/style>/gi, '');
                             // 移除可能干扰全局样式的 class（如果 marked 添加了）
