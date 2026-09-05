@@ -1,6 +1,6 @@
 // ============================================================
 // 刺玫会 Wiki · 侧边栏与交互脚本
-// 版本：V2.1
+// 版本：V2.2
 // 日期：2026年9月5日
 // ============================================================
 
@@ -366,53 +366,47 @@ function renderSearchResults(results) {
         `;
         container.appendChild(header);
 
-        // 绑定手机端事件（使用一次性监听，避免重复绑定）
+        // 手机端输入框与主输入框同步
         var mobileInput = document.getElementById('searchMobileInput');
-        var mobileBtn = document.getElementById('searchMobileBtn');
-        var mobileClose = document.getElementById('searchMobileClose');
         var mainInput = document.getElementById('searchInput');
+        var mobileClose = document.getElementById('searchMobileClose');
 
-        if (mobileInput) {
-            // 移除之前绑定的监听器（通过克隆替换方式）
-            var newInput = mobileInput.cloneNode(true);
-            mobileInput.parentNode.replaceChild(newInput, mobileInput);
-            mobileInput = document.getElementById('searchMobileInput');
-            
+        if (mobileInput && mainInput) {
+            // 初始同步
+            mobileInput.value = mainInput.value;
+            // 手机端输入时同步到主输入框并触发搜索
             mobileInput.addEventListener('input', function() {
-                var results = performSearch(this.value);
-                renderSearchResults(results);
-                if (mainInput) {
-                    mainInput.value = this.value;
-                }
-            });
-            // 自动聚焦
-            setTimeout(function() {
-                mobileInput.focus();
-                mobileInput.select();
-            }, 100);
-        }
-        if (mobileBtn) {
-            var newBtn = mobileBtn.cloneNode(true);
-            mobileBtn.parentNode.replaceChild(newBtn, mobileBtn);
-            mobileBtn = document.getElementById('searchMobileBtn');
-            mobileBtn.addEventListener('click', function() {
-                var inputField = document.getElementById('searchMobileInput');
-                if (inputField) {
-                    var results = performSearch(inputField.value);
-                    renderSearchResults(results);
-                }
+                mainInput.value = this.value;
+                var event = new Event('input', { bubbles: true });
+                mainInput.dispatchEvent(event);
             });
         }
+
         if (mobileClose) {
-            var newClose = mobileClose.cloneNode(true);
-            mobileClose.parentNode.replaceChild(newClose, mobileClose);
-            mobileClose = document.getElementById('searchMobileClose');
             mobileClose.addEventListener('click', function() {
                 closeSearch();
             });
         }
+
+        // 手机端搜索按钮
+        var mobileBtn = document.getElementById('searchMobileBtn');
+        if (mobileBtn && mainInput) {
+            mobileBtn.addEventListener('click', function() {
+                var results = performSearch(mainInput.value);
+                renderSearchResults(results);
+            });
+        }
+
+        // 自动聚焦到主输入框（手机端会弹出键盘）
+        setTimeout(function() {
+            if (mainInput) {
+                mainInput.focus();
+                mainInput.select();
+            }
+        }, 100);
     }
 
+    // 渲染结果（电脑端和手机端共用）
     if (results.length === 0) {
         var noResult = document.createElement('div');
         noResult.className = 'no-result';
@@ -447,8 +441,7 @@ function closeSearch() {
     var container = document.getElementById('searchResults');
     if (container) {
         container.classList.remove('show');
-        // 不清空 innerHTML，保留当前内容以便下次快速显示
-        // 手机端重新搜索时会重建头部
+        // 不清空内容，保留当前状态
     }
     var input = document.getElementById('searchInput');
     if (input) {
@@ -471,16 +464,12 @@ function initSearch() {
     input.addEventListener('input', function() {
         var results = performSearch(this.value);
         renderSearchResults(results);
-        // 同步到手机端输入框
-        var mobileInput = document.getElementById('searchMobileInput');
-        if (mobileInput) {
-            mobileInput.value = this.value;
-        }
     });
 
-    // 电脑端搜索按钮
+    // 搜索按钮（电脑端和手机端共用）
     if (btn) {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
             var results = performSearch(input.value);
             renderSearchResults(results);
         });
@@ -494,7 +483,7 @@ function initSearch() {
                             (mobileHeader && mobileHeader.contains(e.target));
         if (!isClickInside && container) {
             container.classList.remove('show');
-            // 不清空，保留内容
+            // 不清空内容
         }
     });
 
@@ -504,9 +493,10 @@ function initSearch() {
             e.preventDefault();
             var isMobile = window.innerWidth < 769;
             if (isMobile) {
-                // 手机端：展开面板
-                var searchValue = input ? input.value : '';
-                var results = performSearch(searchValue);
+                // 手机端：聚焦顶部搜索框，展开面板
+                input.focus();
+                input.select();
+                var results = performSearch(input.value);
                 renderSearchResults(results);
             } else if (input) {
                 input.focus();
