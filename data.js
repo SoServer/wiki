@@ -119,6 +119,24 @@ var pagePathMap = {
 };
 
 // ============================================================
+// 获取菜单项（兼容字符串数组和对象数组）
+// ============================================================
+function getMenuItems(category) {
+    if (!category || !category.items) {
+        return [];
+    }
+    // 如果第一个元素是对象，说明已经是对象数组
+    if (category.items.length > 0 && typeof category.items[0] === 'object') {
+        return category.items;
+    }
+    // 否则是字符串数组，转换为对象数组
+    return category.items.map(function(name) {
+        var displayName = displayNames && displayNames[name] ? displayNames[name] : name;
+        return { name: name, indent: 0, display: displayName };
+    });
+}
+
+// ============================================================
 // 显示名称映射表（显示名 = 文件名，不需要映射）
 // ============================================================
 var displayNames = {};
