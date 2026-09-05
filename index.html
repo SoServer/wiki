@@ -15,6 +15,7 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/web-page@1.1.0/index.min.js"></script>
     <script src="verse.js"></script>
     <script src="icons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <header class="navbar">
@@ -358,16 +359,35 @@
                     }
                     return response.text();
                 })
-                .then(function(html) {
-                    sessionStorage.setItem(cacheKey, html);
-                    sessionStorage.setItem(cacheKey + '_time', String(Date.now()));
-                    pageContent.innerHTML = html;
+                .then(function(content) {
+                    // ============================================================
+                    // 判断文件类型：.md 文件用 marked 解析，.html 文件直接使用
+                    // ============================================================
+                    var isMarkdown = path.endsWith('.md');
+                    var htmlContent = content;
+
+                    if (isMarkdown && typeof marked !== 'undefined') {
+                        try {
+                            htmlContent = marked.parse(content);
+                        } catch (e) {
+                            console.warn('[刺玫会 Wiki] Markdown 解析失败，降级为纯文本:', e);
+                            htmlContent = '<pre style="white-space:pre-wrap;color:var(--text-secondary);">' + content + '</pre>';
+                        }
+                    }
+
+                    // 如果文件是 .html 或者解析失败，直接使用原内容
+                    pageContent.innerHTML = htmlContent;
+
+                    // 渲染图标短代码（如果有）
                     if (typeof renderIcons === 'function') {
                         renderIcons(pageContent);
                     }
+
+                    // 加载评论区
                     if (typeof loadGiscus === 'function') {
-                        loadGiscus(pageId || window.location.pathname);
+                        loadGiscus(pageId || window.location.hash.replace('#page-', ''));
                     }
+
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     if (window.location.hash !== '#page-' + pageId) {
                         history.pushState(null, '', '#page-' + pageId);
