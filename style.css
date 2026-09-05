@@ -1861,10 +1861,10 @@ a:hover {
 }
 
 /* ============================================================
-   手机端搜索适配（仅对手机生效）
+   手机端搜索适配
    ============================================================ */
 @media (max-width: 768px) {
-    /* 手机端导航栏布局 - 汉堡菜单不被挤压 */
+    /* 手机端导航栏布局 */
     .nav-container {
         display: flex;
         justify-content: space-between;
@@ -1872,14 +1872,14 @@ a:hover {
         gap: 0.3rem;
         width: 100%;
     }
-    
+
     .nav-left {
         flex-shrink: 0;
         display: flex;
         align-items: center;
         gap: 0.3rem;
     }
-    
+
     .nav-actions {
         flex: 0 1 auto;
         display: flex;
@@ -1888,56 +1888,58 @@ a:hover {
         gap: 0.3rem;
         position: static;
     }
-    
-    /* 搜索框在手机端固定宽度，不拉伸 */
+
+    /* 搜索框在手机端固定宽度 */
     .search-wrapper {
         flex: 0 0 auto;
         max-width: 160px;
         margin: 0;
         border-color: var(--border-color);
+        position: relative;
+        z-index: 1;
     }
-    
+
     .search-wrapper input {
         width: 100%;
         font-size: clamp(0.6rem, 1.5vw, 0.75rem);
     }
-    
+
     .search-wrapper input:focus {
         width: 100%;
     }
-    
-    /* 手机端搜索面板：全屏覆盖，独立于导航栏 */
+
+    /* 手机端搜索面板 - 全屏覆盖 */
     .search-results {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         bottom: 0 !important;
+        width: 100% !important;
+        height: 100vh !important;
         max-height: 100vh !important;
-        border-radius: 0 !important;
         background: rgba(255, 255, 255, 0.95) !important;
         backdrop-filter: blur(16px) !important;
         -webkit-backdrop-filter: blur(16px) !important;
-        box-shadow: none !important;
-        min-width: unset !important;
-        padding: 0 !important;
-        border: none !important;
-        z-index: 999 !important;
+        z-index: 9999 !important;
         overflow-y: auto !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
         margin: 0 !important;
-        width: 100% !important;
+        box-shadow: none !important;
         display: none;
     }
-    
+
     .search-results.show {
         display: block !important;
     }
-    
+
     /* 手机端搜索头部 */
     .search-mobile-header {
         position: sticky;
         top: 0;
-        z-index: 1000;
+        z-index: 10000;
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
@@ -1947,7 +1949,7 @@ a:hover {
         gap: 0.6rem;
         border-bottom: 1px solid var(--border-color);
     }
-    
+
     .search-mobile-header .mobile-search-wrapper {
         flex: 1;
         margin: 0;
@@ -1961,7 +1963,7 @@ a:hover {
         gap: 0.3rem;
         border: 2px solid var(--accent);
     }
-    
+
     .search-mobile-header .mobile-search-wrapper input {
         background: transparent;
         border: none;
@@ -1972,11 +1974,11 @@ a:hover {
         font-size: clamp(0.9rem, 2.5vw, 1rem);
         padding: 0.5rem 0;
     }
-    
+
     .search-mobile-header .mobile-search-wrapper input::placeholder {
         color: var(--text-muted);
     }
-    
+
     .search-mobile-header .mobile-search-wrapper button {
         background: none;
         border: none;
@@ -1987,11 +1989,11 @@ a:hover {
         transition: all var(--transition);
         font-size: clamp(0.7rem, 1.5vw, 0.9rem);
     }
-    
+
     .search-mobile-header .mobile-search-wrapper button:hover {
         color: var(--accent);
     }
-    
+
     .search-mobile-close {
         background: none;
         border: none;
@@ -2002,11 +2004,11 @@ a:hover {
         transition: color var(--transition);
         flex-shrink: 0;
     }
-    
+
     .search-mobile-close:hover {
         color: var(--text-primary);
     }
-    
+
     /* 手机端结果列表 */
     .search-results .result-item {
         padding: 0.7rem 1rem;
@@ -2015,17 +2017,17 @@ a:hover {
         cursor: pointer;
         transition: background 0.15s ease;
     }
-    
+
     .search-results .result-item:active {
         background: rgba(139, 69, 19, 0.12);
     }
-    
+
     .search-results .result-item .result-title {
         color: var(--text-primary);
         font-weight: 700;
         font-size: clamp(0.9rem, 2.5vw, 1rem);
     }
-    
+
     .search-results .result-item .result-category {
         color: var(--text-muted);
         font-size: clamp(0.6rem, 1.5vw, 0.7rem);
@@ -2036,21 +2038,21 @@ a:hover {
         width: fit-content;
         margin-top: 0.1rem;
     }
-    
+
     .search-results .result-item .result-summary {
         color: var(--text-secondary);
         font-size: clamp(0.75rem, 2vw, 0.85rem);
         margin-top: 0.1rem;
     }
-    
+
     .search-results .no-result {
         padding: 3rem 1rem;
         font-size: clamp(0.9rem, 2vw, 1rem);
         text-align: center;
         color: var(--text-muted);
     }
-    
-    /* 手机端隐藏语录和刷新按钮文字 */
+
+    /* 手机端隐藏语录和刷新按钮 */
     .hide-on-mobile {
         display: none !important;
     }
@@ -2061,29 +2063,29 @@ a:hover {
     .nav-container {
         gap: 0.2rem;
     }
-    
+
     .search-wrapper {
         max-width: 120px;
     }
-    
+
     .search-wrapper input {
         font-size: clamp(0.5rem, 2vw, 0.65rem);
     }
-    
+
     .search-mobile-header {
         padding: 0.6rem 0.6rem;
     }
-    
+
     .search-mobile-header .mobile-search-wrapper input {
         font-size: clamp(0.8rem, 2.5vw, 0.9rem);
         padding: 0.4rem 0;
     }
-    
+
     .search-mobile-close {
         font-size: 1.2rem;
         padding: 0.2rem 0.4rem;
     }
-    
+
     .search-results .result-item {
         padding: 0.6rem 0.8rem;
         margin: 0 0.3rem;
