@@ -18,7 +18,6 @@
 
     <h3>1. 标题</h3>
     <p>使用 <code>#</code> 到 <code>###</code> 表示三级标题，对应 Wiki 的 h1 到 h3：</p>
-
     <div class="code-block">
         <pre># 一级标题
 ## 二级标题
@@ -27,7 +26,6 @@
 
     <h3>2. 段落与换行</h3>
     <p>直接写文字即为段落，段落之间用空行分隔：</p>
-
     <div class="code-block">
         <pre>这是第一段内容。
 
@@ -35,21 +33,18 @@
     </div>
 
     <h3>3. 加粗与斜体</h3>
-
     <div class="code-block">
         <pre>**这是加粗文字**
 *这是斜体文字*</pre>
     </div>
 
     <h3>4. 列表</h3>
-
     <p><strong>无序列表</strong>（使用 <code>-</code>）：</p>
     <div class="code-block">
         <pre>- 第一项
 - 第二项
 - 第三项</pre>
     </div>
-
     <p><strong>有序列表</strong>（使用 <code>1.</code> <code>2.</code>）：</p>
     <div class="code-block">
         <pre>1. 第一步
@@ -63,7 +58,6 @@
         <pre>[显示文字](#page-页面Key)</pre>
     </div>
     <p>示例：<code>[关于Wiki](#page-关于Wiki)</code></p>
-
     <p><strong>外部链接</strong>：</p>
     <div class="code-block">
         <pre>[显示文字](https://example.com)</pre>
@@ -72,7 +66,7 @@
     <h3>6. 行内代码</h3>
     <p>使用反引号 <code>`</code> 包裹：</p>
     <div class="code-block">
-        <pre>使用 <code>/give @s diamond</code> 指令获取钻石。</pre>
+        <pre>使用 `/give @s diamond` 指令获取钻石。</pre>
     </div>
 
     <h3>7. 引用</h3>
@@ -205,27 +199,7 @@
     </div>
 
     <div class="footnote">
-        <p>刺玫会 · wiki</p>
+        <p>刺玫会 · Wiki</p>
         <p>二〇二六年九月五日</p>
     </div>
 </div>
-
-<style>
-.code-block {
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: var(--radius);
-    padding: 0.6rem 1rem;
-    margin: 0.4rem 0 1.2rem 0;
-    border: 1px solid var(--border-color);
-    overflow-x: auto;
-}
-.code-block pre {
-    margin: 0;
-    font-family: 'Courier New', monospace;
-    color: var(--text-secondary);
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-size: 0.8rem;
-    line-height: 1.6;
-}
-</style>
