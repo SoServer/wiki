@@ -163,6 +163,17 @@
             wrapper.className = 'giscus';
             container.appendChild(wrapper);
 
+            // 确定唯一的 term：优先使用传入的 pageId，否则从 URL hash 提取
+            var term = pageId;
+            if (!term || term === '' || term === '/wiki/') {
+                var hash = window.location.hash;
+                if (hash && hash.startsWith('#page-')) {
+                    term = hash.replace('#page-', '');
+                } else {
+                    term = window.location.pathname + window.location.hash;
+                }
+            }
+
             if (!giscusLoaded) {
                 var script = document.createElement('script');
                 script.src = 'https://giscus.app/client.js';
@@ -170,7 +181,8 @@
                 script.setAttribute('data-repo-id', 'R_kgDOUIrQLw');
                 script.setAttribute('data-category', 'General');
                 script.setAttribute('data-category-id', 'DIC_kwDOUIrQL84DE3pT');
-                script.setAttribute('data-mapping', 'pathname');
+                script.setAttribute('data-mapping', 'specific');
+                script.setAttribute('data-term', term);
                 script.setAttribute('data-strict', '0');
                 script.setAttribute('data-reactions-enabled', '1');
                 script.setAttribute('data-emit-metadata', '0');
@@ -188,7 +200,12 @@
                     newScript.src = 'https://giscus.app/client.js';
                     for (var i = 0; i < oldScript.attributes.length; i++) {
                         var attr = oldScript.attributes[i];
-                        newScript.setAttribute(attr.name, attr.value);
+                        // 更新 data-term 为新的 pageId
+                        if (attr.name === 'data-term') {
+                            newScript.setAttribute('data-term', term);
+                        } else {
+                            newScript.setAttribute(attr.name, attr.value);
+                        }
                     }
                     newScript.async = true;
                     oldScript.parentNode.replaceChild(newScript, oldScript);
