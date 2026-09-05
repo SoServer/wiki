@@ -1772,7 +1772,7 @@ a:hover {
 }
 
 /* ============================================================
-   搜索结果面板 - 毛玻璃
+   搜索结果面板 - 电脑端
    ============================================================ */
 .search-results {
     display: none;
@@ -1858,12 +1858,33 @@ a:hover {
 }
 
 /* ============================================================
-   手机端搜索适配
+   手机端搜索适配（仅对手机生效）
    ============================================================ */
 @media (max-width: 768px) {
-    /* 搜索框在手机端居中、拉伸 */
-    .search-wrapper {
+    /* 手机端导航栏布局 */
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    
+    .nav-left {
+        flex-shrink: 0;
+    }
+    
+    .nav-actions {
         flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
+        position: relative;
+    }
+    
+    /* 搜索框在手机端居中 */
+    .search-wrapper {
+        flex: 0 1 200px;
         max-width: 200px;
         margin: 0 auto;
     }
@@ -1877,7 +1898,7 @@ a:hover {
         width: 100%;
     }
     
-    /* 手机端搜索面板：全屏覆盖，不遮挡导航栏 */
+    /* 手机端搜索面板：全屏覆盖 */
     .search-results {
         position: fixed;
         top: 0;
@@ -1886,19 +1907,71 @@ a:hover {
         bottom: 0;
         max-height: 100vh;
         border-radius: 0;
-        background: rgba(255, 255, 255, 0.88);
+        background: rgba(255, 255, 255, 0.92);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         box-shadow: none;
         min-width: unset;
-        padding: 4rem 1rem 1rem 1rem;
+        padding: 0;
         border: none;
         z-index: 300;
         overflow-y: auto;
+        margin: 0;
     }
     
+    /* 手机端搜索头部 */
+    .search-mobile-header {
+        position: sticky;
+        top: 0;
+        z-index: 301;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 0.8rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .search-mobile-header .mobile-search-wrapper {
+        flex: 1;
+        margin: 0;
+        max-width: 100%;
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.9);
+    }
+    
+    .search-mobile-header .mobile-search-wrapper input {
+        width: 100%;
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+        padding: 0.5rem 0;
+    }
+    
+    .search-mobile-header .mobile-search-wrapper input:focus {
+        width: 100%;
+    }
+    
+    .search-mobile-close {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.3rem 0.6rem;
+        transition: color var(--transition);
+        flex-shrink: 0;
+    }
+    
+    .search-mobile-close:hover {
+        color: var(--text-primary);
+    }
+    
+    /* 手机端结果列表 */
     .search-results .result-item {
         padding: 0.7rem 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        margin: 0 0.5rem;
     }
     
     .search-results .result-item .result-title {
@@ -1912,26 +1985,47 @@ a:hover {
     .search-results .no-result {
         padding: 2rem 1rem;
         font-size: clamp(0.9rem, 2vw, 1rem);
+        text-align: center;
+        color: var(--text-muted);
     }
-
+    
     /* 手机端隐藏语录 */
     .hide-on-mobile {
         display: none !important;
     }
 }
 
-/* 极小屏适配 */
 @media (max-width: 480px) {
+    /* 极小屏导航栏 */
+    .nav-container {
+        gap: 0.2rem;
+    }
+    
     .search-wrapper {
+        flex: 0 1 140px;
         max-width: 140px;
     }
+    
     .search-wrapper input {
         font-size: clamp(0.5rem, 2vw, 0.65rem);
     }
-    .search-results {
-        padding: 3.5rem 0.8rem 0.8rem 0.8rem;
+    
+    /* 极小屏搜索头部 */
+    .search-mobile-header {
+        padding: 0.6rem 0.6rem;
     }
+    
+    .search-mobile-header .mobile-search-wrapper input {
+        font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+    
+    .search-mobile-close {
+        font-size: 1.2rem;
+        padding: 0.2rem 0.4rem;
+    }
+    
     .search-results .result-item {
         padding: 0.6rem 0.8rem;
+        margin: 0 0.3rem;
     }
 }
