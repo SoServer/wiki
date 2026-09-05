@@ -345,12 +345,10 @@ function renderSearchResults(results) {
     var container = document.getElementById('searchResults');
     if (!container) return;
 
-    // 清空容器，保留手机端头部结构
-    var header = container.querySelector('.search-mobile-header');
+    var isMobile = window.innerWidth < 769;
+
+    // 清空容器
     container.innerHTML = '';
-    if (header) {
-        container.appendChild(header);
-    }
 
     if (results.length === 0) {
         var noResult = document.createElement('div');
@@ -381,11 +379,15 @@ function renderSearchResults(results) {
     }
     container.classList.add('show');
 
-    // 手机端搜索框同步焦点
-    var mobileInput = document.getElementById('searchMobileInput');
-    if (mobileInput && window.innerWidth < 769) {
-        mobileInput.focus();
-        mobileInput.select();
+    // 手机端自动聚焦到搜索输入框
+    if (isMobile) {
+        var mobileInput = document.getElementById('searchMobileInput');
+        if (mobileInput) {
+            setTimeout(function() {
+                mobileInput.focus();
+                mobileInput.select();
+            }, 50);
+        }
     }
 }
 
@@ -393,12 +395,7 @@ function closeSearch() {
     var container = document.getElementById('searchResults');
     if (container) {
         container.classList.remove('show');
-        // 清空内容但保留手机端头部
-        var header = container.querySelector('.search-mobile-header');
         container.innerHTML = '';
-        if (header) {
-            container.appendChild(header);
-        }
     }
     var input = document.getElementById('searchInput');
     if (input) {
@@ -424,10 +421,19 @@ function initSearch() {
     input.addEventListener('input', function() {
         var results = performSearch(this.value);
         renderSearchResults(results);
+        // 双向同步到手机输入框
         if (mobileInput) {
             mobileInput.value = this.value;
         }
     });
+
+    // 电脑端搜索按钮
+    if (btn) {
+        btn.addEventListener('click', function() {
+            var results = performSearch(input.value);
+            renderSearchResults(results);
+        });
+    }
 
     // 手机端输入
     if (mobileInput) {
@@ -437,14 +443,6 @@ function initSearch() {
             if (input) {
                 input.value = this.value;
             }
-        });
-    }
-
-    // 电脑端搜索按钮
-    if (btn) {
-        btn.addEventListener('click', function() {
-            var results = performSearch(input.value);
-            renderSearchResults(results);
         });
     }
 
@@ -471,12 +469,7 @@ function initSearch() {
                             (mobileHeader && mobileHeader.contains(e.target));
         if (!isClickInside && container) {
             container.classList.remove('show');
-            // 清空内容但保留手机端头部
-            var header = container.querySelector('.search-mobile-header');
             container.innerHTML = '';
-            if (header) {
-                container.appendChild(header);
-            }
         }
     });
 
@@ -485,12 +478,12 @@ function initSearch() {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             var isMobile = window.innerWidth < 769;
-            if (isMobile && mobileInput) {
-                // 手机端：聚焦并展开搜索面板
-                mobileInput.focus();
-                mobileInput.select();
-                var results = performSearch(mobileInput.value);
-                renderSearchResults(results);
+            if (isMobile) {
+                // 手机端：展开面板并聚焦手机输入框
+                if (mobileInput) {
+                    var results = performSearch(mobileInput.value || '');
+                    renderSearchResults(results);
+                }
             } else if (input) {
                 input.focus();
                 input.select();
