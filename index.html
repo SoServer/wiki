@@ -35,26 +35,16 @@
             <div class="nav-actions">
                 <!-- 电脑端显示语录，手机端隐藏 -->
                 <div id="quoteDisplay" class="quote-display hide-on-mobile"></div>
-    
-                <!-- 搜索框（手机端居中） -->
+
+                <!-- 搜索框 -->
                 <div class="search-wrapper">
                     <input type="text" id="searchInput" placeholder="搜索 Wiki..." />
                     <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
-    
-                <!-- 搜索结果面板（毛玻璃） -->
-                <div class="search-results" id="searchResults">
-                    <!-- 手机端搜索框副本（仅在手机端显示） -->
-                    <div class="search-mobile-header" id="searchMobileHeader">
-                        <div class="search-wrapper mobile-search-wrapper">
-                            <input type="text" id="searchMobileInput" placeholder="搜索 Wiki..." />
-                            <button id="searchMobileBtn"><i class="fas fa-search"></i></button>
-                    </div>
-                    <button class="search-mobile-close" id="searchMobileClose">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-    
+
+                <!-- 搜索结果面板（JS动态填充，手机端头部由JS生成） -->
+                <div class="search-results" id="searchResults"></div>
+
                 <!-- 刷新按钮 -->
                 <button class="nav-btn hide-on-mobile" onclick="clearCacheAndReload()" title="清除缓存并刷新">
                     <i class="fas fa-sync-alt"></i> 刷新
