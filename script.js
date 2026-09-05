@@ -366,13 +366,18 @@ function renderSearchResults(results) {
         `;
         container.appendChild(header);
 
-        // 重新绑定手机端事件
+        // 绑定手机端事件（使用一次性监听，避免重复绑定）
         var mobileInput = document.getElementById('searchMobileInput');
         var mobileBtn = document.getElementById('searchMobileBtn');
         var mobileClose = document.getElementById('searchMobileClose');
         var mainInput = document.getElementById('searchInput');
 
         if (mobileInput) {
+            // 移除之前绑定的监听器（通过克隆替换方式）
+            var newInput = mobileInput.cloneNode(true);
+            mobileInput.parentNode.replaceChild(newInput, mobileInput);
+            mobileInput = document.getElementById('searchMobileInput');
+            
             mobileInput.addEventListener('input', function() {
                 var results = performSearch(this.value);
                 renderSearchResults(results);
@@ -384,15 +389,24 @@ function renderSearchResults(results) {
             setTimeout(function() {
                 mobileInput.focus();
                 mobileInput.select();
-            }, 50);
+            }, 100);
         }
-        if (mobileBtn && mobileInput) {
+        if (mobileBtn) {
+            var newBtn = mobileBtn.cloneNode(true);
+            mobileBtn.parentNode.replaceChild(newBtn, mobileBtn);
+            mobileBtn = document.getElementById('searchMobileBtn');
             mobileBtn.addEventListener('click', function() {
-                var results = performSearch(mobileInput.value);
-                renderSearchResults(results);
+                var inputField = document.getElementById('searchMobileInput');
+                if (inputField) {
+                    var results = performSearch(inputField.value);
+                    renderSearchResults(results);
+                }
             });
         }
         if (mobileClose) {
+            var newClose = mobileClose.cloneNode(true);
+            mobileClose.parentNode.replaceChild(newClose, mobileClose);
+            mobileClose = document.getElementById('searchMobileClose');
             mobileClose.addEventListener('click', function() {
                 closeSearch();
             });
@@ -433,11 +447,16 @@ function closeSearch() {
     var container = document.getElementById('searchResults');
     if (container) {
         container.classList.remove('show');
-        container.innerHTML = '';
+        // 不清空 innerHTML，保留当前内容以便下次快速显示
+        // 手机端重新搜索时会重建头部
     }
     var input = document.getElementById('searchInput');
     if (input) {
         input.blur();
+    }
+    var mobileInput = document.getElementById('searchMobileInput');
+    if (mobileInput) {
+        mobileInput.blur();
     }
 }
 
@@ -452,6 +471,11 @@ function initSearch() {
     input.addEventListener('input', function() {
         var results = performSearch(this.value);
         renderSearchResults(results);
+        // 同步到手机端输入框
+        var mobileInput = document.getElementById('searchMobileInput');
+        if (mobileInput) {
+            mobileInput.value = this.value;
+        }
     });
 
     // 电脑端搜索按钮
@@ -462,7 +486,7 @@ function initSearch() {
         });
     }
 
-    // 点击外部关闭（但保留电脑端的点击逻辑）
+    // 点击外部关闭
     document.addEventListener('click', function(e) {
         var wrapper = document.querySelector('.search-wrapper');
         var mobileHeader = document.getElementById('searchMobileHeader');
@@ -470,7 +494,7 @@ function initSearch() {
                             (mobileHeader && mobileHeader.contains(e.target));
         if (!isClickInside && container) {
             container.classList.remove('show');
-            container.innerHTML = '';
+            // 不清空，保留内容
         }
     });
 
@@ -481,7 +505,8 @@ function initSearch() {
             var isMobile = window.innerWidth < 769;
             if (isMobile) {
                 // 手机端：展开面板
-                var results = performSearch(input ? input.value : '');
+                var searchValue = input ? input.value : '';
+                var results = performSearch(searchValue);
                 renderSearchResults(results);
             } else if (input) {
                 input.focus();
