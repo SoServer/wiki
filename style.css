@@ -2091,3 +2091,39 @@ a:hover {
         margin: 0 0.3rem;
     }
 }
+
+/* ============================================================
+   Markdown 代码块样式（仅针对 .md 文件）
+   ============================================================ */
+.doc-content pre {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: var(--radius);
+    padding: 1rem;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.doc-content pre code {
+    background: transparent;
+    padding: 0;
+}
+
+.doc-content blockquote {
+    border-left: 4px solid var(--border-color);
+    padding-left: 1rem;
+    margin: 1.2rem 0;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.doc-content code {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: var(--text-primary);
+}
