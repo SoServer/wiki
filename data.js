@@ -41,7 +41,7 @@ var sidebarMenu = [
     {
         title: '关于',
         icon: 'fa-info-circle',
-        items: ['管理组介绍', '加入我们', '刺玫本设', '关于Wiki', '方针', '教学文档', '乱写文档', '净标计划', '更新日志']
+        items: ['管理组介绍', '加入我们', '刺玫本设', '关于Wiki', '方针', '教学文档', 'Markdown教程', '净标计划', '更新日志']
     }
 ];
 
@@ -55,7 +55,7 @@ var cardData = [
     { title: '处理报告', icon: 'fa-file-alt', items: ['禺密封禁报告', '方解石回应', '方解石观察期', '三体人团伙封禁报告', '方解石举报曾面正面案', '12457878哈封禁报告'] },
     { title: '工作日志', icon: 'fa-clipboard-list', items: ['8.25', '8.26', '8.27', '8.28', '8.29', '8.30', '8.31', '9.1', '9.2', '9.3'] },
     { title: '自定义内容', icon: 'fa-pen-fancy', items: ['自定义内容'] },
-    { title: '关于', icon: 'fa-info-circle', items: ['管理组介绍', '加入我们', '刺玫本设', '关于Wiki', '方针', '教学文档', '乱写文档', '净标计划', '更新日志'] }
+    { title: '关于', icon: 'fa-info-circle', items: ['管理组介绍', '加入我们', '刺玫本设', '关于Wiki', '方针', '教学文档', 'Markdown教程', '净标计划', '更新日志'] }
 ];
 
 // ============================================================
@@ -113,6 +113,7 @@ var pagePathMap = {
     '关于Wiki': 'pages/wiki/关于Wiki.html',
     '方针': 'pages/wiki/方针.html',
     '教学文档': 'pages/wiki/教学文档.html',
+    'Markdown教程': 'pages/wiki/Markdown教程.md',
     '乱写文档': 'pages/wiki/乱写文档.html',
     '净标计划': 'pages/wiki/净标计划.html',
     '更新日志': 'pages/wiki/更新日志.html'
