@@ -33,12 +33,19 @@
                 </div>
             </div>
             <div class="nav-actions">
-                <div id="quoteDisplay" class="quote-display"></div>
+                <!-- 电脑端显示语录，手机端隐藏 -->
+                <div id="quoteDisplay" class="quote-display hide-on-mobile"></div>
+    
+                <!-- 搜索框（手机端居中） -->
                 <div class="search-wrapper">
                     <input type="text" id="searchInput" placeholder="搜索 Wiki..." />
                     <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
+    
+                <!-- 搜索结果面板（毛玻璃） -->
                 <div class="search-results" id="searchResults"></div>
+    
+                <!-- 刷新按钮 -->
                 <button class="nav-btn hide-on-mobile" onclick="clearCacheAndReload()" title="清除缓存并刷新">
                     <i class="fas fa-sync-alt"></i> 刷新
                 </button>
