@@ -1770,6 +1770,7 @@ a:hover {
     color: var(--accent);
     background: rgba(139, 69, 19, 0.08);
 }
+
 /* ============================================================
    搜索结果面板 - 毛玻璃
    ============================================================ */
@@ -1796,7 +1797,6 @@ a:hover {
     display: block;
 }
 
-/* 滚动条样式 - 与网站统一 */
 .search-results::-webkit-scrollbar {
     width: 4px;
 }
@@ -1811,7 +1811,6 @@ a:hover {
     background: var(--accent);
 }
 
-/* 结果项 */
 .search-results .result-item {
     padding: 0.5rem 0.8rem;
     cursor: pointer;
@@ -1857,6 +1856,7 @@ a:hover {
     color: var(--text-muted);
     font-size: clamp(0.8rem, 0.9vw, 0.9rem);
 }
+
 /* ============================================================
    手机端搜索适配
    ============================================================ */
@@ -1877,22 +1877,24 @@ a:hover {
         width: 100%;
     }
     
-    /* 搜索结果面板在手机端更宽、更靠下 */
+    /* 手机端搜索面板：全屏覆盖，不遮挡导航栏 */
     .search-results {
         position: fixed;
-        top: auto;
-        bottom: 0;
+        top: 0;
         left: 0;
         right: 0;
-        max-height: 50vh;
-        border-radius: var(--radius) var(--radius) 0 0;
-        background: rgba(255, 255, 255, 0.85);
+        bottom: 0;
+        max-height: 100vh;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.88);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
+        box-shadow: none;
         min-width: unset;
-        padding: 0.4rem 0 0.8rem 0;
-        border-bottom: none;
+        padding: 4rem 1rem 1rem 1rem;
+        border: none;
+        z-index: 300;
+        overflow-y: auto;
     }
     
     .search-results .result-item {
@@ -1907,12 +1909,18 @@ a:hover {
         font-size: clamp(0.75rem, 2vw, 0.85rem);
     }
     
+    .search-results .no-result {
+        padding: 2rem 1rem;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+
     /* 手机端隐藏语录 */
     .hide-on-mobile {
         display: none !important;
     }
 }
 
+/* 极小屏适配 */
 @media (max-width: 480px) {
     .search-wrapper {
         max-width: 140px;
@@ -1921,34 +1929,9 @@ a:hover {
         font-size: clamp(0.5rem, 2vw, 0.65rem);
     }
     .search-results {
-        max-height: 45vh;
+        padding: 3.5rem 0.8rem 0.8rem 0.8rem;
     }
     .search-results .result-item {
         padding: 0.6rem 0.8rem;
-    }
-}
-/* 导航栏 - 让搜索框定位参考 */
-.nav-actions {
-    display: flex;
-    align-items: center;
-    gap: clamp(0.3rem, 1vw, 1rem);
-    position: relative;  /* 确保搜索面板定位在搜索框下方 */
-    flex-shrink: 0;
-}
-
-/* 手机端导航栏左中右布局 */
-@media (max-width: 768px) {
-    .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .nav-left {
-        flex-shrink: 0;
-    }
-    .nav-actions {
-        flex: 1;
-        justify-content: center;
-        gap: 0.3rem;
     }
 }
