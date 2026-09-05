@@ -1715,3 +1715,240 @@ a:hover {
         font-size: 0.6em;
     }
 }
+/* ============================================================
+   搜索框样式 - 刺玫会风格
+   ============================================================ */
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.2rem 0.3rem 0.2rem 0.8rem;
+    border: 2px solid var(--border-color);
+    transition: all var(--transition);
+    position: relative;
+}
+
+.search-wrapper:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.search-wrapper input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-pixel);
+    font-size: clamp(0.7rem, 0.9vw, 0.9rem);
+    width: 120px;
+    padding: 0.3rem 0;
+    transition: width var(--transition);
+}
+
+.search-wrapper input:focus {
+    width: 180px;
+}
+
+.search-wrapper input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-wrapper button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    transition: all var(--transition);
+    font-size: clamp(0.7rem, 0.9vw, 0.9rem);
+}
+
+.search-wrapper button:hover {
+    color: var(--accent);
+    background: rgba(139, 69, 19, 0.08);
+}
+/* ============================================================
+   搜索结果面板 - 毛玻璃
+   ============================================================ */
+.search-results {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 0.4rem 0;
+    max-height: 360px;
+    overflow-y: auto;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    z-index: 200;
+    min-width: 280px;
+}
+
+.search-results.show {
+    display: block;
+}
+
+/* 滚动条样式 - 与网站统一 */
+.search-results::-webkit-scrollbar {
+    width: 4px;
+}
+.search-results::-webkit-scrollbar-track {
+    background: transparent;
+}
+.search-results::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* 结果项 */
+.search-results .result-item {
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.search-results .result-item:last-child {
+    border-bottom: none;
+}
+
+.search-results .result-item:hover {
+    background: rgba(139, 69, 19, 0.10);
+}
+
+.search-results .result-item .result-title {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: clamp(0.85rem, 1vw, 0.95rem);
+}
+
+.search-results .result-item .result-category {
+    color: var(--text-muted);
+    font-size: clamp(0.55rem, 0.65vw, 0.65rem);
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 0.05rem 0.4rem;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.search-results .result-item .result-summary {
+    color: var(--text-secondary);
+    font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+}
+
+.search-results .no-result {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+}
+/* ============================================================
+   手机端搜索适配
+   ============================================================ */
+@media (max-width: 768px) {
+    /* 搜索框在手机端居中、拉伸 */
+    .search-wrapper {
+        flex: 1;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .search-wrapper input {
+        width: 100%;
+        font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+    }
+    
+    .search-wrapper input:focus {
+        width: 100%;
+    }
+    
+    /* 搜索结果面板在手机端更宽、更靠下 */
+    .search-results {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 50vh;
+        border-radius: var(--radius) var(--radius) 0 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
+        min-width: unset;
+        padding: 0.4rem 0 0.8rem 0;
+        border-bottom: none;
+    }
+    
+    .search-results .result-item {
+        padding: 0.7rem 1rem;
+    }
+    
+    .search-results .result-item .result-title {
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+    }
+    
+    .search-results .result-item .result-summary {
+        font-size: clamp(0.75rem, 2vw, 0.85rem);
+    }
+    
+    /* 手机端隐藏语录 */
+    .hide-on-mobile {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-wrapper {
+        max-width: 140px;
+    }
+    .search-wrapper input {
+        font-size: clamp(0.5rem, 2vw, 0.65rem);
+    }
+    .search-results {
+        max-height: 45vh;
+    }
+    .search-results .result-item {
+        padding: 0.6rem 0.8rem;
+    }
+}
+/* 导航栏 - 让搜索框定位参考 */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.3rem, 1vw, 1rem);
+    position: relative;  /* 确保搜索面板定位在搜索框下方 */
+    flex-shrink: 0;
+}
+
+/* 手机端导航栏左中右布局 */
+@media (max-width: 768px) {
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .nav-left {
+        flex-shrink: 0;
+    }
+    .nav-actions {
+        flex: 1;
+        justify-content: center;
+        gap: 0.3rem;
+    }
+}
