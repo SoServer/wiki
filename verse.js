@@ -11,7 +11,7 @@ const quotes = [
     { text: "人生自古谁无死，留取丹心照汗青。", author: "文天祥" },
     { text: "旧时王谢堂前燕，飞入寻常百姓家。", author: "刘禹锡" },
     { text: "欲为圣明除弊事，肯将衰朽惜残年。", author: "韩愈" },
-    { text: "而今识尽愁滋味，欲说还休。欲说还休，却道天凉好个秋！", author: "辛弃疾" },
+    { text: "欲说还休，却道天凉好个秋！", author: "辛弃疾" },
     { text: "可上九天揽月，可下五洋捉鳖，谈笑凯歌还。", author: "毛泽东" },
     { text: "等闲变却故人心，却道故人心易变。", author: "纳兰性德" },
     { text: "从此无心爱良夜，任他明月下西楼。", author: "李益" },
@@ -60,7 +60,7 @@ function formatQuoteHTML(quote) {
     // 作者姓名作为链接，点击跳转到百度搜索
     var authorLink = 'https://www.baidu.com/s?wd=' + encodeURIComponent(quote.author);
     return '<span class="quote-text" style="background:' + gradient + ';-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">“' + quote.text + '”</span>' +
-           ' <a href="' + authorLink + '" target="_blank" class="quote-author" style="color:#ffffff;-webkit-text-fill-color:#ffffff;">—— ' + quote.author + '</a>';
+           ' <a href="' + authorLink + '" target="_blank" class="quote-author">—— ' + quote.author + '</a>';
 }
 
 function updateQuoteDisplay(element) {
