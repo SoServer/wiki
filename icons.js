@@ -1,7 +1,5 @@
 // ============================================================
 // 刺玫会 Wiki · 图标短代码映射表
-// 维护说明：新增图标时在此文件中添加对应条目即可
-// 调用方式：[icon:中文名]
 // ============================================================
 
 var iconMap = {
@@ -33,18 +31,17 @@ var iconMap = {
 
 // ============================================================
 // 图标渲染函数
-// 将容器内的 [icon:中文名] 替换为对应的图片
 // ============================================================
 function renderIcons(container) {
     if (!container) container = document.body;
     var html = container.innerHTML;
     container.innerHTML = html.replace(
-        /\[icon:([^\]]+)\]/g,
-        function(match, name) {
+        /\[icon:([^\]:]+)(?::(\d+))?\]/g,
+        function(match, name, size) {
             var fileName = iconMap[name.trim()];
             if (fileName) {
-                // 使用相对路径，从当前目录开始
-                return '<img src="assets/icons/' + fileName + '" alt="' + name + '" style="width:24px;height:24px;vertical-align:middle;image-rendering:pixelated;" />';
+                var iconSize = size ? parseInt(size) : 24;
+                return '<img src="assets/icons/' + fileName + '" alt="' + name + '" style="width:' + iconSize + 'px;height:' + iconSize + 'px;vertical-align:middle;image-rendering:pixelated;" />';
             }
             console.warn('[图标映射] 未找到图标: ' + name);
             return match;
