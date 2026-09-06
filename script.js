@@ -388,15 +388,6 @@ function renderSearchResults(results) {
             });
         }
 
-        // 手机端搜索按钮
-        var mobileBtn = document.getElementById('searchMobileBtn');
-        if (mobileBtn && mainInput) {
-            mobileBtn.addEventListener('click', function() {
-                var results = performSearch(mainInput.value);
-                renderSearchResults(results);
-            });
-        }
-
         // 自动聚焦到主输入框（手机端会弹出键盘）
         setTimeout(function() {
             if (mainInput) {
@@ -406,43 +397,49 @@ function renderSearchResults(results) {
         }, 100);
     }
 
-    // 渲染结果（电脑端和手机端共用）
-    if (results.length === 0) {
-        var noResult = document.createElement('div');
-        noResult.className = 'no-result';
-        noResult.textContent = '未找到相关页面';
-        container.appendChild(noResult);
-        container.classList.add('show');
-        return;
-    }
-
-    for (var i = 0; i < results.length; i++) {
-        var r = results[i];
-        var item = document.createElement('div');
-        item.className = 'result-item';
-        item.dataset.key = r.key;
-        item.innerHTML = '<span class="result-title">' + r.title + '</span>' +
-            (r.category ? '<span class="result-category">' + r.category + '</span>' : '') +
-            (r.summary ? '<span class="result-summary">' + r.summary + '</span>' : '');
-        container.appendChild(item);
-
-        item.addEventListener('click', function() {
-            var key = this.dataset.key;
-            if (key && typeof loadPage === 'function') {
-                loadPage(key);
-                closeSearch();
-            }
-        });
-    }
+// 渲染结果（电脑端和手机端共用）
+if (results.length === 0) {
+    var noResult = document.createElement('div');
+    noResult.className = 'no-result';
+    noResult.textContent = '未找到相关页面';
+    container.appendChild(noResult);
     container.classList.add('show');
+    if (isMobile) {
+        document.body.style.overflow = 'hidden';
+    }
+    return;
+}
+
+for (var i = 0; i < results.length; i++) {
+    var r = results[i];
+    var item = document.createElement('div');
+    item.className = 'result-item';
+    item.dataset.key = r.key;
+    item.innerHTML = '<span class="result-title">' + r.title + '</span>' +
+        (r.category ? '<span class="result-category">' + r.category + '</span>' : '') +
+        (r.summary ? '<span class="result-summary">' + r.summary + '</span>' : '');
+    container.appendChild(item);
+
+    item.addEventListener('click', function() {
+        var key = this.dataset.key;
+        if (key && typeof loadPage === 'function') {
+            loadPage(key);
+            closeSearch();
+        }
+    });
+}
+container.classList.add('show');
+if (isMobile) {
+    document.body.style.overflow = 'hidden';
+}
 }
 
 function closeSearch() {
     var container = document.getElementById('searchResults');
     if (container) {
         container.classList.remove('show');
-        // 不清空内容，保留当前状态
     }
+    document.body.style.overflow = '';
     var input = document.getElementById('searchInput');
     if (input) {
         input.blur();
@@ -460,13 +457,11 @@ function initSearch() {
 
     if (!input) return;
 
-    // 电脑端输入
     input.addEventListener('input', function() {
         var results = performSearch(this.value);
         renderSearchResults(results);
     });
 
-    // 搜索按钮（电脑端和手机端共用）
     if (btn) {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -475,7 +470,6 @@ function initSearch() {
         });
     }
 
-    // 点击外部关闭
     document.addEventListener('click', function(e) {
         var wrapper = document.querySelector('.search-wrapper');
         var mobileHeader = document.getElementById('searchMobileHeader');
@@ -483,17 +477,15 @@ function initSearch() {
                             (mobileHeader && mobileHeader.contains(e.target));
         if (!isClickInside && container) {
             container.classList.remove('show');
-            // 不清空内容
+            document.body.style.overflow = '';
         }
     });
 
-    // 键盘快捷键
     document.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             var isMobile = window.innerWidth < 769;
             if (isMobile) {
-                // 手机端：聚焦顶部搜索框，展开面板
                 input.focus();
                 input.select();
                 var results = performSearch(input.value);
@@ -523,15 +515,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initRoomStatus();
     updateAuthUI();
 
-    // 初始化搜索
     if (typeof initSearch === 'function') {
         initSearch();
     }
 
-    // 恢复侧边栏状态（延迟执行，等待渲染完成）
     setTimeout(restoreSidebarState, 100);
 
-    // 在切换侧边栏时保存状态
     document.addEventListener('click', function(e) {
         if (e.target.closest('.category-toggle')) {
             setTimeout(saveSidebarState, 50);
