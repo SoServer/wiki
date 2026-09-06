@@ -1867,7 +1867,7 @@ a:hover {
     /* 手机端导航栏布局 */
     .nav-container {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         gap: 0.3rem;
         width: 100%;
@@ -1929,6 +1929,7 @@ a:hover {
         margin: 0 !important;
         box-shadow: none !important;
         display: none;
+        overscroll-behavior: contain;
     }
 
     .search-results.show {
