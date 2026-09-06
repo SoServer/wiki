@@ -389,6 +389,11 @@
                         renderIcons(pageContent);
                     }
 
+                    // 新增：获取并显示最后更新时间
+                    if (typeof fetchLastUpdated === 'function') {
+                        fetchLastUpdated(pageId, path);
+                    }
+
                     // 加载评论区
                     if (typeof loadGiscus === 'function') {
                         loadGiscus(pageId || window.location.hash.replace('#page-', ''));
@@ -476,6 +481,51 @@
             setTimeout(function() {
                 document.getElementById('loginUsername').focus();
             }, 100);
+        }
+
+        function fetchLastUpdated(pageId, filePath) {
+            if (!filePath) return;
+
+            var apiUrl = 'https://api.github.com/repos/SoServer/wiki/commits?path=' + encodeURIComponent(filePath) + '&page=1&per_page=1';
+
+            fetch(apiUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('API 请求失败');
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (data && data.length > 0) {
+                        var lastCommit = new Date(data[0].commit.committer.date);
+                        var now = new Date();
+                        var diffMs = now - lastCommit;
+                        var diffMins = Math.floor(diffMs / 60000);
+                        var displayText = '';
+
+                        if (diffMins < 1) {
+                            displayText = '刚刚更新';
+                        } else if (diffMins < 60) {
+                            displayText = diffMins + ' 分钟前更新';
+                        } else if (diffMins < 1440) {
+                            displayText = Math.floor(diffMins / 60) + ' 小时前更新';
+                        } else {
+                            displayText = Math.floor(diffMins / 1440) + ' 天前更新';
+                        }
+
+                        // 追加到页脚
+                        var footnote = document.querySelector('.doc-content .footnote');
+                        if (footnote) {
+                            var updateEl = document.createElement('p');
+                            updateEl.style.fontSize = '0.8rem';
+                            updateEl.style.color = 'var(--text-muted)';
+                            updateEl.style.marginTop = '0.3rem';
+                            updateEl.textContent = '最后更新：' + displayText;
+                            footnote.appendChild(updateEl);
+                        }
+                    }
+                })
+                .catch(function(error) {
+                    console.warn('[刺玫会 Wiki] 获取更新时间失败:', error);
+                });
         }
 
         function closeLoginModal() {
