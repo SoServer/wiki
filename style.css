@@ -14,14 +14,6 @@
     box-sizing: border-box;
 }
 
-@font-face {
-    font-family: 'FusionPixel';
-    src: url('assets/fonts/FusionPixelzh.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 :root {
     --bg-primary: #f5f5f0;
     --bg-secondary: #ffffff;
@@ -34,7 +26,7 @@
     --accent: #8B4513;
     --accent-hover: #A0522D;
     --accent-glow: rgba(139, 69, 19, 0.12);
-    --font-pixel: 'FusionPixel', 'Pixelify Sans', 'Courier New', monospace;
+    --font-pixel: 'Pixelify Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
     --radius: 12px;
     --transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     --bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
