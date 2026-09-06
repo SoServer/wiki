@@ -1634,7 +1634,7 @@ a:hover {
 }
 
 .quote-display .quote-author {
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-size: 0.7em;
     margin-left: 0.2rem;
     text-decoration: none;
@@ -1867,7 +1867,7 @@ a:hover {
     /* 手机端导航栏布局 */
     .nav-container {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         gap: 0.3rem;
         width: 100%;
@@ -1883,7 +1883,7 @@ a:hover {
     .nav-actions {
         flex: 0 1 auto;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         gap: 0.3rem;
         position: static;
@@ -1891,7 +1891,7 @@ a:hover {
 
     /* 搜索框在手机端固定宽度 */
     .search-wrapper {
-        flex: 0 0 auto;
+        flex: 0 1 160px;
         max-width: 160px;
         margin: 0;
         border-color: var(--border-color);
