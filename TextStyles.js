@@ -20,7 +20,9 @@ var defaultTextStyle = {
     weight: 400,
     vertical: false,
     rotate: 0,
-    margin: 0
+    margin: 0,
+    char: false,
+    interval: 0.08
 };
 
 // ============================================================
@@ -48,6 +50,8 @@ function parseTextParams(params) {
             config.vertical = true;
         } else if (p === 'bold') {
             config.bold = true;
+        } else if (p === 'char') {
+            config.char = true;
         } else if (p.startsWith('size=')) {
             config.size = parseInt(p.replace('size=', '')) || 24;
         } else if (p.startsWith('color=')) {
@@ -71,6 +75,8 @@ function parseTextParams(params) {
             config.rotate = parseFloat(p.replace('rotate=', '')) || 0;
         } else if (p.startsWith('margin=')) {
             config.margin = parseInt(p.replace('margin=', '')) || 0;
+        } else if (p.startsWith('interval=')) {
+            config.interval = parseFloat(p.replace('interval=', '')) || 0.08;
         }
     }
     return config;
@@ -95,13 +101,72 @@ function injectTextAnimation() {
 }
 
 // ============================================================
+// 生成单个字符的 HTML
+// ============================================================
+function renderSingleChar(ch, config) {
+    var size = config.size || 24;
+    var color = config.color || 'var(--text-primary)';
+    var time = config.time || 0.5;
+    var delay = config.delay || 0;
+    var ease = config.ease || 'ease';
+    var font = config.font || null;
+    var gradient = config.gradient || null;
+    var gradientDir = config.gradientDir || 'to bottom';
+    var bold = config.bold || false;
+    var weight = config.weight || 400;
+    var vertical = config.vertical || false;
+    var rotate = config.rotate || 0;
+
+    var styles = [];
+    styles.push('display:inline-block');
+    styles.push('font-size:' + size + 'px');
+    styles.push('opacity:0');
+
+    if (bold || weight >= 600) {
+        styles.push('font-weight:' + (weight || 700));
+    } else {
+        styles.push('font-weight:' + weight);
+    }
+
+    if (rotate !== 0) {
+        styles.push('transform:rotate(' + rotate + 'deg)');
+    }
+    if (vertical) {
+        styles.push('writing-mode:vertical-rl');
+        styles.push('text-orientation:mixed');
+    }
+    if (font) {
+        styles.push('font-family:\'' + font + '\', var(--font-pixel)');
+    }
+    if (gradient && gradient.length >= 2) {
+        var gradientStr = 'linear-gradient(' + gradientDir + ', ' + gradient.join(', ') + ')';
+        styles.push('background:' + gradientStr);
+        styles.push('-webkit-background-clip:text');
+        styles.push('-webkit-text-fill-color:transparent');
+        styles.push('background-clip:text');
+    } else {
+        styles.push('color:' + color);
+    }
+
+    var uid = 'text-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
+
+    injectTextAnimation();
+
+    var dataAttrs = 'data-text-uid="' + uid + '" ' +
+                    'data-text-time="' + time + '" ' +
+                    'data-text-delay="' + delay + '" ' +
+                    'data-text-ease="' + ease + '"';
+
+    return '<span class="text-style-' + uid + '" ' + dataAttrs + ' style="' + styles.join(';') + ';">' + ch + '</span>';
+}
+
+// ============================================================
 // 渲染文字样式短代码
 // ============================================================
 function renderTextStyles(container) {
     if (!container) container = document.body;
     var html = container.innerHTML;
 
-    // 匹配 [text:内容:参数1:参数2:...]
     container.innerHTML = html.replace(
         /\[text:([^:\]]+)(?::([^\]]*))?\]/g,
         function(match, text, paramStr) {
@@ -109,6 +174,28 @@ function renderTextStyles(container) {
             var config = parseTextParams(params);
 
             // 合并默认值
+            var baseDelay = config.delay || 0;
+            var charMode = config.char || false;
+            var interval = config.interval || 0.08;
+
+            // 逐字模式：拆分成单字符
+            if (charMode && text.length > 1) {
+                var result = '';
+                for (var c = 0; c < text.length; c++) {
+                    var ch = text[c];
+                    var charConfig = {};
+                    // 复制所有配置，但修改 delay
+                    for (var key in config) {
+                        charConfig[key] = config[key];
+                    }
+                    charConfig.delay = baseDelay + c * interval;
+                    charConfig.char = false; // 防止无限递归
+                    result += renderSingleChar(ch, charConfig);
+                }
+                return result;
+            }
+
+            // 非逐字模式：正常渲染
             var size = config.size || defaultTextStyle.size;
             var color = config.color || defaultTextStyle.color;
             var time = config.time || defaultTextStyle.time;
@@ -128,27 +215,22 @@ function renderTextStyles(container) {
             styles.push('font-size:' + size + 'px');
             styles.push('opacity:0');
 
-            // 字体粗细
             if (bold || weight >= 600) {
                 styles.push('font-weight:' + (weight || 700));
             } else {
                 styles.push('font-weight:' + weight);
             }
 
-            // 旋转
             if (rotate !== 0) {
                 styles.push('transform:rotate(' + rotate + 'deg)');
             }
-            // 竖排
             if (vertical) {
                 styles.push('writing-mode:vertical-rl');
                 styles.push('text-orientation:mixed');
             }
-            // 自定义字体
             if (font) {
                 styles.push('font-family:\'' + font + '\', var(--font-pixel)');
             }
-            // 渐变 vs 纯色
             if (gradient && gradient.length >= 2) {
                 var gradientStr = 'linear-gradient(' + gradientDir + ', ' + gradient.join(', ') + ')';
                 styles.push('background:' + gradientStr);
