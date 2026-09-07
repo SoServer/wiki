@@ -1731,6 +1731,40 @@ a:hover {
     position: relative;
 }
 
+/* 禁用输入框默认高亮 */
+.search-wrapper input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-pixel);
+    font-size: clamp(0.7rem, 0.9vw, 0.9rem);
+    width: 120px;
+    padding: 0.3rem 0;
+    transition: width var(--transition);
+    -webkit-tap-highlight-color: transparent;  /* 禁用移动端点击高亮 */
+}
+
+/* 禁用输入框的选中高亮 */
+.search-wrapper input::selection {
+    background: transparent;
+    color: var(--text-primary);
+}
+
+.search-wrapper input::-moz-selection {
+    background: transparent;
+    color: var(--text-primary);
+}
+
+/* 禁用输入框自动填充样式 */
+.search-wrapper input:-webkit-autofill,
+.search-wrapper input:-webkit-autofill:hover,
+.search-wrapper input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 .search-wrapper:focus-within {
     border-color: var(--accent);
     box-shadow: 0 0 20px var(--accent-glow);
