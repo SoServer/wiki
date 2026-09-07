@@ -320,8 +320,57 @@
 📢 公告</pre>
     </div>
 
+    <h2>十二、图标短代码</h2>
 
-    <h2>十二、完整页面模板</h2>
+    <p>使用 <code>[icon:中文名]</code> 可在页面中快速插入 Minecraft 风格图标。</p>
+
+    <div class="code-block">
+        <pre>[icon:工作台] 是合成核心
+[icon:命令方块] 用于执行指令
+[icon:附魔台] 用于附魔装备</pre>
+    </div>
+
+    <p>支持的图标名称见 <code>icons.js</code> 中的 <code>iconMap</code> 映射表。</p>
+    <p>支持自定义尺寸：<code>[icon:工作台:32]</code> 表示 32px。</p>
+
+    <h2>十三、文字样式短代码</h2>
+
+    <p>使用 <code>[text:内容:参数1:参数2:...]</code> 可创建带淡入动画的文字样式，支持自定义字号、颜色、渐变、字体、旋转、竖排等效果。</p>
+
+    <h3>基本用法</h3>
+    <div class="code-block">
+        <pre>[text:刺玫会]                              &lt;!-- 默认样式 --&gt;
+[text:刺玫会:size=36:color=#8B4513]        &lt;!-- 36px + 棕色 --&gt;
+[text:刺玫会:gradient=#ff6b6b,#feca57]     &lt;!-- 渐变文字 --&gt;
+[text:刺玫会:font=FusionPixel:vertical]    &lt;!-- 竖排 + 自定义字体 --&gt;
+[text:刺玫会:rotate=15:margin=50]          &lt;!-- 旋转15° + 提前50px触发 --&gt;</pre>
+    </div>
+
+    <h3>支持参数</h3>
+    <table>
+        <thead>
+            <tr><th>参数</th><th>说明</th><th>示例</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>size=数字</code></td><td>字号（px）</td><td><code>size=36</code></td></tr>
+            <tr><td><code>color=颜色</code></td><td>文字颜色</td><td><code>color=#8B4513</code></td></tr>
+            <tr><td><code>time=数字</code></td><td>淡入持续时间（秒）</td><td><code>time=0.8</code></td></tr>
+            <tr><td><code>delay=数字</code></td><td>延迟开始（秒）</td><td><code>delay=0.3</code></td></tr>
+            <tr><td><code>ease=缓动函数</code></td><td>淡入缓动</td><td><code>ease=ease-in-out</code></td></tr>
+            <tr><td><code>font=字体名</code></td><td>调用 assets/fonts/ 下的字体</td><td><code>font=FusionPixel</code></td></tr>
+            <tr><td><code>gradient=颜色1,颜色2,...</code></td><td>渐变文字</td><td><code>gradient=#ff6b6b,#feca57</code></td></tr>
+            <tr><td><code>vertical</code></td><td>竖排（从上到下）</td><td><code>vertical</code></td></tr>
+            <tr><td><code>rotate=角度</code></td><td>旋转（度）</td><td><code>rotate=15</code></td></tr>
+            <tr><td><code>margin=数字</code></td><td>触发提前/延后（px）</td><td><code>margin=50</code></td></tr>
+        </tbody>
+    </table>
+
+    <div class="msgbox info">
+        <span class="msgbox-title">说明</span>
+        文字样式短代码采用视口触发机制，即当文字滚动到可视区域时才开始淡入动画，而非页面加载时同时播放。
+    </div>
+    
+    <h2>十四、完整页面模板</h2>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
         <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
@@ -366,7 +415,7 @@
     </div>
 
 
-    <h2>十三、自行测试</h2>
+    <h2>十五、自行测试</h2>
 
     <p style="color:var(--text-muted);font-size:0.9rem;">在下方输入框中输入 <code>&lt;div&gt;</code> 包裹的 HTML 内容，点击渲染按钮预览效果。<strong>禁止使用 &lt;!DOCTYPE html&gt;、&lt;html&gt;、&lt;head&gt;、&lt;body&gt;、&lt;script&gt;、&lt;iframe&gt; 等危险标签。</strong></p>
 
@@ -399,54 +448,6 @@
         <p>最后更新：二〇二六年八月三十一日</p>
     </div>
 </div>
-
-
-<style>
-    .code-block {
-        background: rgba(0, 0, 0, 0.03);
-        border-radius: var(--radius);
-        padding: 0.6rem 1rem;
-        margin: 0.4rem 0 1.2rem 0;
-        border: 1px solid var(--border-color);
-        overflow-x: auto;
-        font-size: 0.8rem;
-    }
-    .code-block pre {
-        margin: 0;
-        font-family: 'Courier New', monospace;
-        color: var(--text-secondary);
-        white-space: pre-wrap;
-        word-break: break-all;
-        font-size: 0.8rem;
-        line-height: 1.6;
-    }
-    #testInput:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 20px var(--accent-glow);
-    }
-    #testPreview .msgbox,
-    #testPreview .highlight-box,
-    #testPreview .card {
-        width: 100%;
-        max-width: 100%;
-    }
-    #testPreview .info-grid {
-        width: 100%;
-    }
-    #testPreview .footnote {
-        width: 100%;
-    }
-    .grid-2col {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
-    @media (max-width: 768px) {
-        .grid-2col {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
 
 <script>
     (function initTest() {
