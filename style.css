@@ -295,9 +295,10 @@ a:hover {
     height: 100vh;
     background: #fafaf8;
     border-right: 1px solid var(--border-color);
-    padding: 4.5rem 0.8rem 1.5rem;
+    padding: 3.5rem 0.8rem 1.5rem;
     z-index: 60;
     overflow-y: auto;
+    overflow-x: hidden;
     transform: translateX(-100%);
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform;
@@ -1356,7 +1357,7 @@ a:hover {
 .mobile-sidebar {
     display: flex;
     flex-direction: column;
-    padding: 4.5rem 0.8rem 1.5rem 0.8rem;
+    padding: 3.5rem 0.8rem 1.5rem 0.8rem;
 }
 
 .mobile-sidebar .sidebar-nav {
