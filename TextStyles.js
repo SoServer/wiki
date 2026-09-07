@@ -1,8 +1,12 @@
 // ============================================================
-// 文字样式短代码渲染
+// 刺玫会 Wiki · 文字样式短代码渲染
+// 版本：V1.0
+// 日期：2026年9月7日
 // ============================================================
 
+// ============================================================
 // 默认样式配置
+// ============================================================
 var defaultTextStyle = {
     size: 24,
     color: 'var(--text-primary)',
@@ -12,13 +16,13 @@ var defaultTextStyle = {
     font: null,
     gradient: null,
     vertical: false,
-    rotate: 0
+    rotate: 0,
+    margin: 0
 };
 
-// 支持的字体列表（用于预加载检查）
-var availableFonts = ['FusionPixel', 'PixelifySans'];
-
-// 解析参数
+// ============================================================
+// 解析短代码参数
+// ============================================================
 function parseTextParams(params) {
     var config = {};
     for (var i = 0; i < params.length; i++) {
@@ -41,12 +45,34 @@ function parseTextParams(params) {
             config.gradient = p.replace('gradient=', '').split(',').map(function(s) { return s.trim(); });
         } else if (p.startsWith('rotate=')) {
             config.rotate = parseFloat(p.replace('rotate=', '')) || 0;
+        } else if (p.startsWith('margin=')) {
+            config.margin = parseInt(p.replace('margin=', '')) || 0;
         }
     }
     return config;
 }
 
-// 渲染文字样式
+// ============================================================
+// 注入动画关键帧（只执行一次）
+// ============================================================
+var textAnimationInjected = false;
+
+function injectTextAnimation() {
+    if (textAnimationInjected) return;
+    textAnimationInjected = true;
+    var style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(12px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ============================================================
+// 渲染文字样式短代码
+// ============================================================
 function renderTextStyles(container) {
     if (!container) container = document.body;
     var html = container.innerHTML;
@@ -68,12 +94,13 @@ function renderTextStyles(container) {
             var gradient = config.gradient || defaultTextStyle.gradient;
             var vertical = config.vertical || false;
             var rotate = config.rotate || 0;
+            var margin = config.margin || 0;
 
             var styles = [];
             styles.push('display:inline-block');
             styles.push('font-size:' + size + 'px');
-            styles.push('animation:fadeInText ' + time + 's ' + ease + ' ' + delay + 's forwards');
-            styles.push('opacity:0');
+            styles.push('opacity:0');  // 初始隐藏，由 Observer 触发显示
+
             if (rotate !== 0) {
                 styles.push('transform:rotate(' + rotate + 'deg)');
             }
@@ -94,38 +121,59 @@ function renderTextStyles(container) {
                 styles.push('color:' + color);
             }
 
-            // 额外兼容：如果是渐变，文字颜色用透明
-            var textColorStyle = (gradient && gradient.length >= 2) ? '' : 'color:' + color + ';';
+            var uid = 'text-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
 
-            // 生成唯一类名（用于动画）
-            var uid = 'text-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
-
-            // 将动画定义注入到页面（只注入一次）
             injectTextAnimation();
 
-            return '<span class="text-style-' + uid + '" style="' + styles.join(';') + ';">' + text + '</span>';
+            var dataAttrs = 'data-text-uid="' + uid + '" ' +
+                            'data-text-time="' + time + '" ' +
+                            'data-text-delay="' + delay + '" ' +
+                            'data-text-ease="' + ease + '" ' +
+                            'data-text-margin="' + margin + '"';
+
+            return '<span class="text-style-' + uid + '" ' + dataAttrs + ' style="' + styles.join(';') + ';">' + text + '</span>';
         }
     );
+
+    // 初始化视口监听
+    initTextObservers();
 }
 
-// 注入动画定义（只执行一次）
-var textAnimationInjected = false;
+// ============================================================
+// 视口监听器 - 为每个元素独立控制触发时机
+// ============================================================
+var textObserverInitialized = false;
 
-function injectTextAnimation() {
-    if (textAnimationInjected) return;
-    textAnimationInjected = true;
-    var style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeInText {
-            0% { opacity: 0; transform: translateY(10px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        /* 默认兼容：即使不写任何参数，也能有淡入效果 */
-        .text-style-base {
-            display: inline-block;
-            animation: fadeInText 0.5s ease forwards;
-            opacity: 0;
-        }
-    `;
-    document.head.appendChild(style);
+function initTextObservers() {
+    if (textObserverInitialized) return;
+    textObserverInitialized = true;
+
+    var elements = document.querySelectorAll('[data-text-uid]');
+
+    for (var j = 0; j < elements.length; j++) {
+        var el = elements[j];
+        var margin = parseInt(el.dataset.textMargin) || 0;
+        // margin 正值 = 提前触发（减去 px），负值 = 延后触发（加上 px）
+        var rootMargin = margin >= 0 ? '0px 0px -' + margin + 'px 0px' : '0px 0px ' + Math.abs(margin) + 'px 0px';
+
+        var observer = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting) {
+                    var target = entries[i].target;
+                    var time = parseFloat(target.dataset.textTime) || 0.5;
+                    var delay = parseFloat(target.dataset.textDelay) || 0;
+                    var ease = target.dataset.textEase || 'ease';
+
+                    target.style.animation = 'fadeInText ' + time + 's ' + ease + ' ' + delay + 's forwards';
+                    target.style.opacity = '';
+                    observer.unobserve(target);
+                }
+            }
+        }, {
+            threshold: 0.1,
+            rootMargin: rootMargin
+        });
+
+        observer.observe(el);
+    }
 }
