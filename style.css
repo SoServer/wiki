@@ -1881,9 +1881,9 @@ a:hover {
     }
 
     .nav-actions {
-        flex: 1 0 auto;
+        flex: 0 1 auto;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         gap: 0.3rem;
         position: static;
