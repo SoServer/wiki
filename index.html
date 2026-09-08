@@ -12,6 +12,8 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <meta name="description" content="刺玫会服务器 · 制度汇编 · 处理报告 · 工作日志" />
     <meta name="theme-color" content="#f5f5f0" />
+    <script src="data.js"></script>
+    <script src="script.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/web-page@1.1.0/index.min.js"></script>
     <script src="verse.js"></script>
     <script src="icons.js"></script>
@@ -120,9 +122,6 @@
             </div>
         </div>
     </div>
-
-    <script src="data.js"></script>
-    <script src="script.js"></script>
 
     <script>
         var APP_VERSION = '2026.08.30.001';
@@ -657,6 +656,7 @@
                 return;
             }
 
+            // 获取所有页面的文件路径
             var paths = [];
             for (var key in pagePathMap) {
                 var path = pagePathMap[key];
@@ -666,7 +666,7 @@
             }
 
             if (paths.length === 0) {
-                container.innerHTML = '';
+                container.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">暂无页面</p>';
                 return;
             }
 
@@ -699,11 +699,11 @@
                     valid.sort(function(a, b) { return b.date - a.date; });
 
                     if (valid.length === 0) {
-                        container.innerHTML = '';
+                        container.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">暂无更新记录</p>';
                         return;
                     }
 
-                    var showCount = 6;  // 默认显示 6 条
+                    var showCount = 6;
                     var totalCount = valid.length;
                     var hasMore = totalCount > showCount;
 
@@ -718,7 +718,6 @@
                         html += '</div>';
                     }
 
-                    // 如果有更多，添加"展开更多"按钮
                     if (hasMore) {
                         html += '<div id="recent-expand-btn" style="text-align:center;padding:0.4rem 0;margin-top:0.2rem;">';
                         html += '<button onclick="expandRecentUpdates()" style="background:none;border:1px solid var(--border-color);border-radius:6px;padding:0.3rem 1.2rem;color:var(--text-muted);font-family:var(--font-pixel);font-size:0.8rem;cursor:pointer;transition:all var(--transition);">';
@@ -729,18 +728,18 @@
 
                     container.innerHTML = html;
 
-                    // 存储完整数据到 sessionStorage，供展开使用
+                    // 存储完整数据
                     sessionStorage.setItem('recent_updates_full', JSON.stringify(valid));
                     sessionStorage.setItem('recent_updates_show_count', String(showCount));
-
                     sessionStorage.setItem('recent_updates', html);
                     sessionStorage.setItem('recent_updates_time', String(Date.now()));
                 })
                 .catch(function() {
-                    container.innerHTML = '';
+                    // 静默失败，显示友好提示而不是清空
+                    container.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">暂无更新记录</p>';
                 });
         }
-
+        
         function expandRecentUpdates() {
             var container = document.getElementById('recent-list');
             if (!container) return;
