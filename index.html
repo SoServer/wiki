@@ -75,7 +75,7 @@
     <div class="room-banner" id="roomBanner">
         <div class="room-content">
             <i class="fas fa-door-open"></i>
-            <span>当前房间号：</span>
+            <span>服务器号：</span>
             <strong id="roomNumberDisplay">加载中...</strong>
         </div>
     </div>
@@ -87,6 +87,15 @@
                 <h1>刺玫会 · 服务器 Wiki</h1>
                 <p class="subtitle">制度汇编 · 处理报告 · 工作日志</p>
                 <div class="card-grid" id="cardGrid"></div>
+                <div id="recent-updates" style="margin-bottom:2rem;">
+                    <h2 style="font-size:clamp(1.2rem, 2vw, 1.6rem);border-bottom:2px solid var(--border-color);padding-bottom:0.3rem;display:flex;align-items:center;gap:0.6rem;">
+                        <i class="fas fa-clock-rotate-left" style="color:var(--accent);"></i>
+                        最近更新
+                    </h2>
+                    <div id="recent-list" style="padding:0.5rem 0;display:flex;flex-direction:column;gap:0.3rem;">
+                        <p style="color:var(--text-muted);font-size:0.9rem;">加载中...</p>
+                    </div>
+                </div>
             </section>
             <div id="page-content" class="hidden"></div>
             <div id="giscus-container"></div>
@@ -624,6 +633,97 @@
             window.scrollTo(0, 0);
         }
 
+        function getTimeAgo(date) {
+            var now = new Date();
+            var diffMs = now - date;
+            var diffMins = Math.floor(diffMs / 60000);
+            if (diffMins < 1) return '刚刚';
+            if (diffMins < 60) return diffMins + ' 分钟前';
+            var diffHours = Math.floor(diffMins / 60);
+            if (diffHours < 24) return diffHours + ' 小时前';
+            var diffDays = Math.floor(diffHours / 24);
+            if (diffDays < 7) return diffDays + ' 天前';
+            return date.toLocaleDateString('zh-CN');
+        }
+
+        function fetchRecentUpdates() {  
+            var container = document.getElementById('recent-list');  
+            if (!container) return;  
+      
+            // 检查缓存（30分钟 = 1800000 毫秒）  
+            var cached = sessionStorage.getItem('recent_updates');  
+            var cachedTime = sessionStorage.getItem('recent_updates_time');  
+            if (cached && cachedTime && (Date.now() - parseInt(cachedTime)) < 1800000) {  
+                container.innerHTML = cached;  
+                return;  
+            }  
+      
+            // 获取所有页面的文件路径  
+            var paths = [];  
+            for (var key in pagePathMap) {  
+                var path = pagePathMap[key];  
+                if (path && path.startsWith('pages/')) {  
+                    paths.push({ key: key, path: path });  
+                }  
+            }  
+      
+            // 并发请求  
+            var promises = paths.map(function(item) {  
+                var apiUrl = 'https://api.github.com/repos/SoServer/wiki/commits?path=' + encodeURIComponent(item.path) + '&page=1&per_page=1';  
+                return fetch(apiUrl)  
+                    .then(function(response) {  
+                        if (!response.ok) return null;  
+                        return response.json();  
+                    })  
+                    .then(function(data) {  
+                        if (data && data.length > 0) {  
+                            return {  
+                                key: item.key,  
+                                path: item.path,  
+                                date: new Date(data[0].commit.committer.date),  
+                                title: displayNames[item.key] || item.key  
+                            };  
+                        }  
+                        return null;  
+                    })  
+                    .catch(function() {  
+                        return null;  
+                    });  
+            });  
+      
+            Promise.all(promises)  
+                .then(function(results) {  
+                    var valid = results.filter(function(r) { return r !== null; });  
+                    valid.sort(function(a, b) { return b.date - a.date; });  
+                    var recent = valid.slice(0, 8);  
+      
+                    if (recent.length === 0) {  
+                        container.innerHTML = '';  
+                        return;  
+                    }  
+      
+                    var html = '';  
+                    for (var i = 0; i < recent.length; i++) {  
+                        var item = recent[i];  
+                        var displayName = displayNames[item.key] || item.key;  
+                        var timeAgo = getTimeAgo(item.date);  
+                        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.2rem 0.4rem;border-bottom:1px solid rgba(0,0,0,0.04);">';  
+                        html += '<a href="#page-' + item.key + '" style="color:var(--text-secondary);font-size:clamp(0.9rem, 1.1vw, 1.05rem);">' + displayName + '</a>';  
+                        html += '<span style="color:var(--text-muted);font-size:clamp(0.7rem, 0.8vw, 0.8rem);flex-shrink:0;">' + timeAgo + '</span>';  
+                        html += '</div>';  
+                    }  
+                    container.innerHTML = html;  
+      
+                    // 存入缓存  
+                    sessionStorage.setItem('recent_updates', html);  
+                    sessionStorage.setItem('recent_updates_time', String(Date.now()));  
+                })  
+                .catch(function() {  
+                    // 静默失效：什么都不做，保留默认的"加载中..."或清空  
+                    container.innerHTML = '';  
+                });  
+        }
+
         window.addEventListener('hashchange', function() {
             var hash = window.location.hash;
             if (hash && hash.startsWith('#page-')) {
@@ -651,6 +751,11 @@
 
             if (typeof initSearch === 'function') {
                 initSearch();
+            }
+
+            // 获取最近更新
+            if (typeof fetchRecentUpdates === 'function') {
+                fetchRecentUpdates();
             }
 
             var sidebarHeader = document.getElementById('sidebarHeader');
