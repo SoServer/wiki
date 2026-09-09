@@ -1,7 +1,7 @@
 // ============================================================
 // 刺玫会 Wiki · 侧边栏与交互脚本
-// 版本：V2.2
-// 日期：2026年9月5日
+// 版本：V2.3
+// 日期：2026年9月9日
 // ============================================================
 
 // ============================================================
@@ -529,12 +529,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 热门搜索数据（手动维护）
+var SLIDER_INTERVAL = 5000;
+
 var hotSearches = [
     { key: '游玩规定V2.0', label: '游玩规定 V2.0', icon: 'fa-gavel' },
-    { key: '管理组介绍', label: '管理组介绍', icon: 'fa-info-circle' },
-    { key: '加入我们', label: '加入我们', icon: 'fa-users' },
+    { key: '加入我们', label: '加入我们', icon: 'fa-info-circle' },
+    { key: '管理组介绍', label: '管理组介绍', icon: 'fa-users' },
     { key: '公会档案', label: '公会档案', icon: 'fa-flag' },
-    { key: '人物志', label: '人物志', icon: 'fa-user' }
+    { key: '南极洲丶刺玫', label: '南极洲丶刺玫', icon: 'fa-user' }
 ];
 
 // 通用轮播渲染器
@@ -577,16 +579,16 @@ function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
                     if (container._sliderTimer) {
                         clearInterval(container._sliderTimer);
                         container._sliderTimer = setInterval(function() {
-                            var total = parseInt(container.dataset.total);
-                            var current = parseInt(container.dataset.current);
-                            var next = (current + 1) % total;
-                            var track = container.querySelector('.info-slider-track');
-                            var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
-                            if (track) {
-                                goToSlide(track.id, dotsId, next);
-                                container.dataset.current = String(next);
-                            }
-                        }, 5000);
+                        var total = parseInt(container.dataset.total);
+                        var current = parseInt(container.dataset.current);
+                        var next = (current + 1) % total;
+                        var track = container.querySelector('.info-slider-track');
+                        var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+                        if (track) {
+                            goToSlide(track.id, dotsId, next);
+                            container.dataset.current = String(next);
+                        }
+                    }, SLIDER_INTERVAL);
                     }
                 }
             });
@@ -610,7 +612,7 @@ function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
             goToSlide(track.id, dotsId, next);
             container.dataset.current = String(next);
         }
-    }, 5000);
+    }, SLIDER_INTERVAL);
 }
 
 function goToSlide(trackId, dotsId, index) {
@@ -723,7 +725,7 @@ function initSliders() {
                         goToSlide(track.id, dotsId, next);
                         container.dataset.current = String(next);
                     }
-                }, 5000);
+                }, SLIDER_INTERVAL);
             }
         });
     });
@@ -785,6 +787,7 @@ function fetchRecentUpdatesForSlider() {
         var batch = paths.slice(startIndex, startIndex + batchSize);
         if (batch.length === 0) {
             allValid.sort(function(a, b) { return b.date - a.date; });
+            allValid = allValid.slice(0, 5);
             sessionStorage.setItem('recent_updates_full', JSON.stringify(allValid));
             renderRecentSlider(allValid);
             return;
