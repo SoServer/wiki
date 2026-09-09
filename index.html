@@ -670,13 +670,36 @@
                 return;
             }
 
+            // 带超时的 fetch
+            function fetchWithTimeout(url, timeout) {
+                timeout = timeout || 5000;  // 默认 5 秒超时
+                return new Promise(function(resolve) {
+                    var timer = setTimeout(function() {
+                        resolve(null);
+                    }, timeout);
+                    fetch(url)
+                        .then(function(response) {
+                            clearTimeout(timer);
+                            if (!response.ok) {
+                                resolve(null);
+                                return;
+                            }
+                            response.json().then(function(data) {
+                                resolve(data);
+                            }).catch(function() {
+                                resolve(null);
+                            });
+                        })
+                        .catch(function() {
+                            clearTimeout(timer);
+                            resolve(null);
+                        });
+                });
+            }
+
             var promises = paths.map(function(item) {
                 var apiUrl = 'https://api.github.com/repos/SoServer/wiki/commits?path=' + encodeURIComponent(item.path) + '&page=1&per_page=1';
-                return fetch(apiUrl)
-                    .then(function(response) {
-                        if (!response.ok) return null;
-                        return response.json();
-                    })
+                return fetchWithTimeout(apiUrl, 5000)
                     .then(function(data) {
                         if (data && data.length > 0) {
                             return {
@@ -686,9 +709,6 @@
                                 title: displayNames[item.key] || item.key
                             };
                         }
-                        return null;
-                    })
-                    .catch(function() {
                         return null;
                     });
             });
@@ -727,56 +747,16 @@
                     }
 
                     container.innerHTML = html;
-
-                    // 存储完整数据
                     sessionStorage.setItem('recent_updates_full', JSON.stringify(valid));
                     sessionStorage.setItem('recent_updates_show_count', String(showCount));
                     sessionStorage.setItem('recent_updates', html);
                     sessionStorage.setItem('recent_updates_time', String(Date.now()));
                 })
                 .catch(function() {
-                    // 静默失败，显示友好提示而不是清空
                     container.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">暂无更新记录</p>';
                 });
         }
         
-        function expandRecentUpdates() {
-            var container = document.getElementById('recent-list');
-            if (!container) return;
-
-            var fullData = sessionStorage.getItem('recent_updates_full');
-            if (!fullData) return;
-
-            try {
-                var valid = JSON.parse(fullData);
-            } catch (e) {
-                return;
-            }
-
-            var maxShow = 20;
-            var html = '';
-            for (var i = 0; i < Math.min(maxShow, valid.length); i++) {
-                var item = valid[i];
-                var displayName = displayNames[item.key] || item.key;
-                var timeAgo = getTimeAgo(item.date);
-                html += '<div class="recent-item">';
-                html += '<a href="#page-' + item.key + '" class="recent-link">' + displayName + '</a>';
-                html += '<span class="recent-time">' + timeAgo + '</span>';
-                html += '</div>';
-            }
-
-            // 如果超过20条，显示"已显示全部"或继续显示
-            if (valid.length > maxShow) {
-                html += '<div style="text-align:center;padding:0.3rem 0;color:var(--text-muted);font-size:0.75rem;">已显示最近 20 条</div>';
-            } else {
-                html += '<div style="text-align:center;padding:0.3rem 0;color:var(--text-muted);font-size:0.75rem;">已显示全部</div>';
-            }
-
-            container.innerHTML = html;
-            // 更新缓存
-            sessionStorage.setItem('recent_updates', html);
-        }
-
         window.addEventListener('hashchange', function() {
             var hash = window.location.hash;
             if (hash && hash.startsWith('#page-')) {
