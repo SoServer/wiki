@@ -88,16 +88,32 @@
             <section id="home-content">
                 <h1>刺玫会 · 服务器 Wiki</h1>
                 <p class="subtitle">制度汇编 · 处理报告 · 工作日志</p>
-                <div id="recent-updates" class="recent-updates">
-                    <h2 class="recent-title">
-                        <i class="fas fa-clock-rotate-left"></i>
-                        最近更新
-                    </h2>
-                    <div id="recent-list" class="recent-list">
-                        <p style="color:var(--text-muted);font-size:0.9rem;">加载中...</p>
+                <!-- 信息轮播卡片区域 -->
+                <div class="info-slider-wrapper" id="infoSliderWrapper">
+                    <!-- 热门搜索卡片 -->
+                    <div class="info-slider-card" id="hotSearchCard">
+                        <div class="info-slider-header">
+                            <span class="slider-title"><i class="fas fa-fire" style="color:#e67e22;"></i> 热门搜索</span>
+                            <span style="font-size:0.7rem;color:var(--text-muted);">自动轮播</span>
+                        </div>
+                        <div class="info-slider-container" id="hotSearchContainer">
+                            <div class="info-slider-track" id="hotSearchTrack"></div>
+                        </div>
+                        <div class="slider-dots" id="hotSearchDots"></div>
+                    </div>
+
+                    <!-- 最新更新卡片 -->
+                    <div class="info-slider-card" id="recentUpdateCard">
+                        <div class="info-slider-header">
+                            <span class="slider-title"><i class="fas fa-clock-rotate-left" style="color:var(--accent);"></i> 最近更新</span>
+                            <span style="font-size:0.7rem;color:var(--text-muted);">自动轮播</span>
+                        </div>
+                        <div class="info-slider-container" id="recentUpdateContainer">
+                            <div class="info-slider-track" id="recentUpdateTrack"></div>
+                        </div>
+                        <div class="slider-dots" id="recentUpdateDots"></div>
                     </div>
                 </div>
-                <div class="card-grid" id="cardGrid"></div>
             </section>
             <div id="page-content" class="hidden"></div>
             <div id="giscus-container"></div>
