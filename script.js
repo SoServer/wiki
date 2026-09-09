@@ -528,19 +528,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ============================================================
 // 热门搜索数据（手动维护）
-// ============================================================
 var hotSearches = [
     { key: '游玩规定V2.0', label: '游玩规定 V2.0', icon: 'fa-gavel' },
+    { key: '管理组介绍', label: '管理组介绍', icon: 'fa-info-circle' },
     { key: '加入我们', label: '加入我们', icon: 'fa-users' },
     { key: '公会档案', label: '公会档案', icon: 'fa-flag' },
-    { key: '南极洲丶刺玫', label: '南极洲丶刺玫', icon: 'fa-user' }
+    { key: '人物志', label: '人物志', icon: 'fa-user' }
 ];
 
-// ============================================================
 // 通用轮播渲染器
-// ============================================================
 function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
     var container = document.getElementById(containerId);
     var track = document.getElementById(trackId);
@@ -569,7 +566,25 @@ function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
         dotsContainer.querySelectorAll('.dot').forEach(function(dot) {
             dot.addEventListener('click', function() {
                 var index = parseInt(this.dataset.index);
+                var trackId = this.closest('.info-slider-card').querySelector('.info-slider-track').id;
+                var dotsId = this.closest('.info-slider-card').querySelector('.slider-dots').id;
                 goToSlide(trackId, dotsId, index);
+                // 重置自动轮播计时器
+                var container = document.getElementById(trackId).closest('.info-slider-container');
+                if (container && container._sliderTimer) {
+                    clearInterval(container._sliderTimer);
+                    var total = parseInt(container.dataset.total);
+                    var current = index;
+                    container.dataset.current = String(current);
+                    container._sliderTimer = setInterval(function() {
+                        var total = parseInt(container.dataset.total);
+                        var current = parseInt(container.dataset.current);
+                        var next = (current + 1) % total;
+                        var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+                        goToSlide(trackId, dotsId, next);
+                        container.dataset.current = String(next);
+                    }, 5000);
+                }
             });
         });
     }
@@ -585,8 +600,12 @@ function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
         var total = parseInt(container.dataset.total);
         var current = parseInt(container.dataset.current);
         var next = (current + 1) % total;
-        goToSlide(trackId, dotsId, next);
-        container.dataset.current = String(next);
+        var track = container.querySelector('.info-slider-track');
+        var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+        if (track) {
+            goToSlide(track.id, dotsId, next);
+            container.dataset.current = String(next);
+        }
     }, 5000);
 }
 
@@ -595,6 +614,8 @@ function goToSlide(trackId, dotsId, index) {
     var dotsContainer = document.getElementById(dotsId);
     if (!track) return;
 
+    // 确保过渡动画存在
+    track.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1)';
     track.style.transform = 'translateX(-' + (index * 100) + '%)';
 
     if (dotsContainer) {
@@ -609,9 +630,7 @@ function goToSlide(trackId, dotsId, index) {
     }
 }
 
-// ============================================================
 // 获取板块图标
-// ============================================================
 function getCategoryIcon(key) {
     var iconMap = {
         '游玩规定V2.0': 'fa-gavel',
@@ -633,9 +652,7 @@ function getCategoryIcon(key) {
     return iconMap[key] || 'fa-file-alt';
 }
 
-// ============================================================
 // 时间显示辅助函数
-// ============================================================
 function getTimeAgo(date) {
     var now = new Date();
     var diffMs = now - date;
@@ -649,9 +666,7 @@ function getTimeAgo(date) {
     return date.toLocaleDateString('zh-CN');
 }
 
-// ============================================================
 // 初始化轮播
-// ============================================================
 function initSliders() {
     // 热门搜索
     renderSlider(
@@ -677,6 +692,132 @@ function initSliders() {
     } else {
         fetchRecentUpdatesForSlider();
     }
+
+    // 为所有轮播容器添加触摸滑动支持
+    var containers = document.querySelectorAll('.info-slider-container');
+    containers.forEach(function(container) {
+        var track = container.querySelector('.info-slider-track');
+        if (!track) return;
+
+        var startX = 0;
+        var isDragging = false;
+        var startTransform = 0;
+
+        function getCurrentIndex(container) {
+            return parseInt(container.dataset.current) || 0;
+        }
+
+        function getTotalItems(container) {
+            return parseInt(container.dataset.total) || 0;
+        }
+
+        // 触摸开始
+        container.addEventListener('touchstart', function(e) {
+            var touch = e.touches[0];
+            startX = touch.clientX;
+            isDragging = true;
+            startTransform = getCurrentIndex(container) * 100;
+            track.style.transition = 'none';
+        }, { passive: true });
+
+        // 触摸移动
+        container.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            var touch = e.touches[0];
+            var deltaX = (touch.clientX - startX) / container.offsetWidth * 100;
+            var newTransform = -startTransform + deltaX;
+            track.style.transform = 'translateX(' + newTransform + '%)';
+        }, { passive: true });
+
+        // 触摸结束
+        container.addEventListener('touchend', function(e) {
+            if (!isDragging) return;
+            isDragging = false;
+
+            var total = getTotalItems(container);
+            if (total === 0) return;
+
+            var current = getCurrentIndex(container);
+            var deltaX = (e.changedTouches[0].clientX - startX) / container.offsetWidth * 100;
+
+            var newIndex = current;
+            if (deltaX < -15) {
+                newIndex = Math.min(current + 1, total - 1);
+            } else if (deltaX > 15) {
+                newIndex = Math.max(current - 1, 0);
+            }
+
+            track.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)';
+            var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+            goToSlide(track.id, dotsId, newIndex);
+            container.dataset.current = String(newIndex);
+
+            if (container._sliderTimer) {
+                clearInterval(container._sliderTimer);
+                container._sliderTimer = setInterval(function() {
+                    var total = parseInt(container.dataset.total);
+                    var current = parseInt(container.dataset.current);
+                    var next = (current + 1) % total;
+                    var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+                    goToSlide(track.id, dotsId, next);
+                    container.dataset.current = String(next);
+                }, 5000);
+            }
+        }, { passive: true });
+
+        // 鼠标拖动支持（桌面端）
+        var isMouseDown = false;
+        var mouseStartX = 0;
+
+        container.addEventListener('mousedown', function(e) {
+            isMouseDown = true;
+            mouseStartX = e.clientX;
+            startTransform = getCurrentIndex(container) * 100;
+            track.style.transition = 'none';
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isMouseDown) return;
+            var deltaX = (e.clientX - mouseStartX) / container.offsetWidth * 100;
+            var newTransform = -startTransform + deltaX;
+            track.style.transform = 'translateX(' + newTransform + '%)';
+        });
+
+        document.addEventListener('mouseup', function(e) {
+            if (!isMouseDown) return;
+            isMouseDown = false;
+
+            var total = getTotalItems(container);
+            if (total === 0) return;
+
+            var current = getCurrentIndex(container);
+            var deltaX = (e.clientX - mouseStartX) / container.offsetWidth * 100;
+
+            var newIndex = current;
+            if (deltaX < -15) {
+                newIndex = Math.min(current + 1, total - 1);
+            } else if (deltaX > 15) {
+                newIndex = Math.max(current - 1, 0);
+            }
+
+            track.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)';
+            var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+            goToSlide(track.id, dotsId, newIndex);
+            container.dataset.current = String(newIndex);
+
+            if (container._sliderTimer) {
+                clearInterval(container._sliderTimer);
+                container._sliderTimer = setInterval(function() {
+                    var total = parseInt(container.dataset.total);
+                    var current = parseInt(container.dataset.current);
+                    var next = (current + 1) % total;
+                    var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+                    goToSlide(track.id, dotsId, next);
+                    container.dataset.current = String(next);
+                }, 5000);
+            }
+        });
+    });
 }
 
 function renderRecentSlider(items) {
@@ -770,3 +911,4 @@ function fetchRecentUpdatesForSlider() {
 
     processBatch(0);
 }
+
