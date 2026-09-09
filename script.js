@@ -566,24 +566,28 @@ function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
         dotsContainer.querySelectorAll('.dot').forEach(function(dot) {
             dot.addEventListener('click', function() {
                 var index = parseInt(this.dataset.index);
-                var trackId = this.closest('.info-slider-card').querySelector('.info-slider-track').id;
-                var dotsId = this.closest('.info-slider-card').querySelector('.slider-dots').id;
-                goToSlide(trackId, dotsId, index);
-                // 重置自动轮播计时器
-                var container = document.getElementById(trackId).closest('.info-slider-container');
-                if (container && container._sliderTimer) {
-                    clearInterval(container._sliderTimer);
-                    var total = parseInt(container.dataset.total);
-                    var current = index;
-                    container.dataset.current = String(current);
-                    container._sliderTimer = setInterval(function() {
-                        var total = parseInt(container.dataset.total);
-                        var current = parseInt(container.dataset.current);
-                        var next = (current + 1) % total;
-                        var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
-                        goToSlide(trackId, dotsId, next);
-                        container.dataset.current = String(next);
-                    }, 5000);
+                var card = this.closest('.info-slider-card');
+                var track = card.querySelector('.info-slider-track');
+                var container = card.querySelector('.info-slider-container');
+                var dotsId = card.querySelector('.slider-dots').id;
+                if (track) {
+                    goToSlide(track.id, dotsId, index);
+                    container.dataset.current = String(index);
+                    // 重置定时器
+                    if (container._sliderTimer) {
+                        clearInterval(container._sliderTimer);
+                        container._sliderTimer = setInterval(function() {
+                            var total = parseInt(container.dataset.total);
+                            var current = parseInt(container.dataset.current);
+                            var next = (current + 1) % total;
+                            var track = container.querySelector('.info-slider-track');
+                            var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
+                            if (track) {
+                                goToSlide(track.id, dotsId, next);
+                                container.dataset.current = String(next);
+                            }
+                        }, 5000);
+                    }
                 }
             });
         });
@@ -614,7 +618,6 @@ function goToSlide(trackId, dotsId, index) {
     var dotsContainer = document.getElementById(dotsId);
     if (!track) return;
 
-    // 确保过渡动画存在
     track.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1)';
     track.style.transform = 'translateX(-' + (index * 100) + '%)';
 
@@ -677,7 +680,7 @@ function initSliders() {
         function(item) {
             var icon = item.icon || 'fa-fire';
             return '<span class="slider-icon"><i class="fas ' + icon + '"></i></span>' +
-                   '<span class="slider-text"><a href="#page-' + item.key + '" style="color:var(--text-primary);text-decoration:none;">' + item.label + '</a></span>';
+                   '<span class="slider-text"><a href="#page-' + item.key + '" style="color:var(--text-primary);text-decoration:none;font-size:1.1rem;">' + item.label + '</a></span>';
         }
     );
 
@@ -693,127 +696,33 @@ function initSliders() {
         fetchRecentUpdatesForSlider();
     }
 
-    // 为所有轮播容器添加触摸滑动支持
-    var containers = document.querySelectorAll('.info-slider-container');
-    containers.forEach(function(container) {
-        var track = container.querySelector('.info-slider-track');
-        if (!track) return;
+    // 悬停暂停轮播
+    var cards = document.querySelectorAll('.info-slider-card');
+    cards.forEach(function(card) {
+        var container = card.querySelector('.info-slider-container');
+        if (!container) return;
 
-        var startX = 0;
-        var isDragging = false;
-        var startTransform = 0;
-
-        function getCurrentIndex(container) {
-            return parseInt(container.dataset.current) || 0;
-        }
-
-        function getTotalItems(container) {
-            return parseInt(container.dataset.total) || 0;
-        }
-
-        // 触摸开始
-        container.addEventListener('touchstart', function(e) {
-            var touch = e.touches[0];
-            startX = touch.clientX;
-            isDragging = true;
-            startTransform = getCurrentIndex(container) * 100;
-            track.style.transition = 'none';
-        }, { passive: true });
-
-        // 触摸移动
-        container.addEventListener('touchmove', function(e) {
-            if (!isDragging) return;
-            var touch = e.touches[0];
-            var deltaX = (touch.clientX - startX) / container.offsetWidth * 100;
-            var newTransform = -startTransform + deltaX;
-            track.style.transform = 'translateX(' + newTransform + '%)';
-        }, { passive: true });
-
-        // 触摸结束
-        container.addEventListener('touchend', function(e) {
-            if (!isDragging) return;
-            isDragging = false;
-
-            var total = getTotalItems(container);
-            if (total === 0) return;
-
-            var current = getCurrentIndex(container);
-            var deltaX = (e.changedTouches[0].clientX - startX) / container.offsetWidth * 100;
-
-            var newIndex = current;
-            if (deltaX < -15) {
-                newIndex = Math.min(current + 1, total - 1);
-            } else if (deltaX > 15) {
-                newIndex = Math.max(current - 1, 0);
-            }
-
-            track.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)';
-            var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
-            goToSlide(track.id, dotsId, newIndex);
-            container.dataset.current = String(newIndex);
-
+        card.addEventListener('mouseenter', function() {
             if (container._sliderTimer) {
                 clearInterval(container._sliderTimer);
+                container._sliderTimer = null;
+            }
+        });
+        card.addEventListener('mouseleave', function() {
+            if (!container._sliderTimer) {
+                var total = parseInt(container.dataset.total) || 0;
+                if (total === 0) return;
+                var current = parseInt(container.dataset.current) || 0;
                 container._sliderTimer = setInterval(function() {
                     var total = parseInt(container.dataset.total);
                     var current = parseInt(container.dataset.current);
                     var next = (current + 1) % total;
+                    var track = container.querySelector('.info-slider-track');
                     var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
-                    goToSlide(track.id, dotsId, next);
-                    container.dataset.current = String(next);
-                }, 5000);
-            }
-        }, { passive: true });
-
-        // 鼠标拖动支持（桌面端）
-        var isMouseDown = false;
-        var mouseStartX = 0;
-
-        container.addEventListener('mousedown', function(e) {
-            isMouseDown = true;
-            mouseStartX = e.clientX;
-            startTransform = getCurrentIndex(container) * 100;
-            track.style.transition = 'none';
-        });
-
-        document.addEventListener('mousemove', function(e) {
-            if (!isMouseDown) return;
-            var deltaX = (e.clientX - mouseStartX) / container.offsetWidth * 100;
-            var newTransform = -startTransform + deltaX;
-            track.style.transform = 'translateX(' + newTransform + '%)';
-        });
-
-        document.addEventListener('mouseup', function(e) {
-            if (!isMouseDown) return;
-            isMouseDown = false;
-
-            var total = getTotalItems(container);
-            if (total === 0) return;
-
-            var current = getCurrentIndex(container);
-            var deltaX = (e.clientX - mouseStartX) / container.offsetWidth * 100;
-
-            var newIndex = current;
-            if (deltaX < -15) {
-                newIndex = Math.min(current + 1, total - 1);
-            } else if (deltaX > 15) {
-                newIndex = Math.max(current - 1, 0);
-            }
-
-            track.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)';
-            var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
-            goToSlide(track.id, dotsId, newIndex);
-            container.dataset.current = String(newIndex);
-
-            if (container._sliderTimer) {
-                clearInterval(container._sliderTimer);
-                container._sliderTimer = setInterval(function() {
-                    var total = parseInt(container.dataset.total);
-                    var current = parseInt(container.dataset.current);
-                    var next = (current + 1) % total;
-                    var dotsId = container.parentElement.querySelector('.slider-dots')?.id || '';
-                    goToSlide(track.id, dotsId, next);
-                    container.dataset.current = String(next);
+                    if (track) {
+                        goToSlide(track.id, dotsId, next);
+                        container.dataset.current = String(next);
+                    }
                 }, 5000);
             }
         });
@@ -833,8 +742,8 @@ function renderRecentSlider(items) {
         function(item) {
             var icon = getCategoryIcon(item.key);
             var timeHtml = item.date ? '<span class="slider-meta">' + getTimeAgo(item.date) + '</span>' : '';
-            return '<span class="slider-icon"><i class="fas ' + icon + '"></i></span>' +
-                   '<span class="slider-text"><a href="#page-' + item.key + '" style="color:var(--text-primary);text-decoration:none;">' + item.label + '</a></span>' +
+            return '<span class="slider-icon" style="font-size:1.2rem;width:32px;height:32px;"><i class="fas ' + icon + '"></i></span>' +
+                   '<span class="slider-text" style="font-size:1.15rem;"><a href="#page-' + item.key + '" style="color:var(--text-primary);text-decoration:none;">' + item.label + '</a></span>' +
                    timeHtml;
         }
     );
@@ -911,4 +820,3 @@ function fetchRecentUpdatesForSlider() {
 
     processBatch(0);
 }
-
