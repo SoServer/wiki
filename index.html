@@ -803,9 +803,9 @@
                 initSearch();
             }
 
-            // 获取最近更新
-            if (typeof fetchRecentUpdates === 'function') {
-                fetchRecentUpdates();
+            // 初始化首页轮播（热门搜索 + 最近更新）
+            if (typeof initSliders === 'function') {
+                initSliders();
             }
 
             var sidebarHeader = document.getElementById('sidebarHeader');
