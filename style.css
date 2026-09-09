@@ -2202,7 +2202,7 @@ a:hover {
 .info-slider-container {
     position: relative;
     overflow: hidden;
-    height: 60px; /* 根据字体大小调整 */
+    height: 60px;
 }
 
 .info-slider-track {
@@ -2217,15 +2217,16 @@ a:hover {
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    padding: 0.2rem 0;
+    padding: 0.3rem 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 1.2rem;
 }
 
 .info-slider-item .slider-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2233,23 +2234,23 @@ a:hover {
     background: rgba(139, 69, 19, 0.08);
     color: var(--accent);
     flex-shrink: 0;
+    font-size: 1.2rem;
 }
 
 .info-slider-item .slider-text {
     flex: 1;
-    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    font-size: 1.15rem;
     color: var(--text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .info-slider-item .slider-meta {
-    font-size: clamp(0.7rem, 0.8vw, 0.8rem);
+    font-size: 0.85rem;
     color: var(--text-muted);
     flex-shrink: 0;
 }
 
-/* 点状指示器 */
 .slider-dots {
     display: flex;
     justify-content: center;
@@ -2271,22 +2272,22 @@ a:hover {
     transform: scale(1.3);
 }
 
+/* 手机端保持一行 */
 @media (max-width: 768px) {
     .info-slider-wrapper {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-
-    /* 手机端卡片高度自适应 */
     .info-slider-container {
-        height: 56px;
+        height: 64px;
     }
-
+    .info-slider-item {
+        font-size: 1rem;
+    }
     .info-slider-item .slider-text {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
-
     .info-slider-item .slider-meta {
-        font-size: 0.6rem;
+        font-size: 0.75rem;
     }
 }
