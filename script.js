@@ -527,3 +527,246 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// ============================================================
+// 热门搜索数据（手动维护）
+// ============================================================
+var hotSearches = [
+    { key: '游玩规定V2.0', label: '游玩规定 V2.0', icon: 'fa-gavel' },
+    { key: '加入我们', label: '加入我们', icon: 'fa-users' },
+    { key: '公会档案', label: '公会档案', icon: 'fa-flag' },
+    { key: '南极洲丶刺玫', label: '南极洲丶刺玫', icon: 'fa-user' }
+];
+
+// ============================================================
+// 通用轮播渲染器
+// ============================================================
+function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
+    var container = document.getElementById(containerId);
+    var track = document.getElementById(trackId);
+    var dotsContainer = document.getElementById(dotsId);
+    if (!container || !track) return;
+
+    if (!items || items.length === 0) {
+        track.innerHTML = '<div class="info-slider-item"><span style="color:var(--text-muted);">暂无内容</span></div>';
+        if (dotsContainer) dotsContainer.innerHTML = '';
+        return;
+    }
+
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+        html += '<div class="info-slider-item">' + getItemHtml(items[i]) + '</div>';
+    }
+    track.innerHTML = html;
+
+    if (dotsContainer) {
+        var dotsHtml = '';
+        for (var j = 0; j < items.length; j++) {
+            dotsHtml += '<span class="dot' + (j === 0 ? ' active' : '') + '" data-index="' + j + '"></span>';
+        }
+        dotsContainer.innerHTML = dotsHtml;
+
+        dotsContainer.querySelectorAll('.dot').forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                var index = parseInt(this.dataset.index);
+                goToSlide(trackId, dotsId, index);
+            });
+        });
+    }
+
+    container.dataset.total = items.length;
+    container.dataset.current = '0';
+
+    if (container._sliderTimer) {
+        clearInterval(container._sliderTimer);
+    }
+
+    container._sliderTimer = setInterval(function() {
+        var total = parseInt(container.dataset.total);
+        var current = parseInt(container.dataset.current);
+        var next = (current + 1) % total;
+        goToSlide(trackId, dotsId, next);
+        container.dataset.current = String(next);
+    }, 5000);
+}
+
+function goToSlide(trackId, dotsId, index) {
+    var track = document.getElementById(trackId);
+    var dotsContainer = document.getElementById(dotsId);
+    if (!track) return;
+
+    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+
+    if (dotsContainer) {
+        dotsContainer.querySelectorAll('.dot').forEach(function(dot, i) {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+
+    var container = track.closest('.info-slider-container');
+    if (container) {
+        container.dataset.current = String(index);
+    }
+}
+
+// ============================================================
+// 获取板块图标
+// ============================================================
+function getCategoryIcon(key) {
+    var iconMap = {
+        '游玩规定V2.0': 'fa-gavel',
+        '服务器性质通告': 'fa-bullhorn',
+        '重要通知': 'fa-bullhorn',
+        '商店运营指导建议': 'fa-store',
+        '管理员学习手册': 'fa-book',
+        '管理组介绍': 'fa-info-circle',
+        '加入我们': 'fa-users',
+        '刺玫本设': 'fa-paintbrush',
+        '关于Wiki': 'fa-info-circle',
+        '方针': 'fa-book',
+        '教学文档': 'fa-book',
+        'Markdown教程': 'fa-book',
+        '乱写文档': 'fa-flask',
+        '净标计划': 'fa-broom',
+        '更新日志': 'fa-clock-rotate-left'
+    };
+    return iconMap[key] || 'fa-file-alt';
+}
+
+// ============================================================
+// 时间显示辅助函数
+// ============================================================
+function getTimeAgo(date) {
+    var now = new Date();
+    var diffMs = now - date;
+    var diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return '刚刚';
+    if (diffMins < 60) return diffMins + ' 分钟前';
+    var diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return diffHours + ' 小时前';
+    var diffDays = Math.floor(diffHours / 24);
+    if (diffDays < 7) return diffDays + ' 天前';
+    return date.toLocaleDateString('zh-CN');
+}
+
+// ============================================================
+// 初始化轮播
+// ============================================================
+function initSliders() {
+    // 热门搜索
+    renderSlider(
+        'hotSearchContainer',
+        'hotSearchTrack',
+        'hotSearchDots',
+        hotSearches,
+        function(item) {
+            var icon = item.icon || 'fa-fire';
+            return '<span class="slider-icon"><i class="fas ' + icon + '"></i></span>' +
+                   '<span class="slider-text"><a href="#page-' + item.key + '" style="color:var(--text-primary);text-decoration:none;">' + item.label + '</a></span>';
+        }
+    );
+
+    var recentData = sessionStorage.getItem('recent_updates_full');
+    if (recentData) {
+        try {
+            var items = JSON.parse(recentData);
+            renderRecentSlider(items);
+        } catch (e) {
+            fetchRecentUpdatesForSlider();
+        }
+    } else {
+        fetchRecentUpdatesForSlider();
+    }
+}
+
+function renderRecentSlider(items) {
+    if (!items || items.length === 0) {
+        items = [{ key: '暂无更新', label: '暂无更新记录', date: null }];
+    }
+
+    renderSlider(
+        'recentUpdateContainer',
+        'recentUpdateTrack',
+        'recentUpdateDots',
+        items,
+        function(item) {
+            var icon = getCategoryIcon(item.key);
+            var timeHtml = item.date ? '<span class="slider-meta">' + getTimeAgo(item.date) + '</span>' : '';
+            return '<span class="slider-icon"><i class="fas ' + icon + '"></i></span>' +
+                   '<span class="slider-text"><a href="#page-' + item.key + '" style="color:var(--text-primary);text-decoration:none;">' + item.label + '</a></span>' +
+                   timeHtml;
+        }
+    );
+}
+
+function fetchRecentUpdatesForSlider() {
+    var paths = [];
+    for (var key in pagePathMap) {
+        var path = pagePathMap[key];
+        if (path && path.startsWith('pages/')) {
+            paths.push({ key: key, path: path });
+        }
+    }
+
+    if (paths.length === 0) {
+        renderRecentSlider([]);
+        return;
+    }
+
+    function fetchWithTimeout(url, timeout) {
+        timeout = timeout || 5000;
+        return new Promise(function(resolve) {
+            var timer = setTimeout(function() { resolve(null); }, timeout);
+            fetch(url)
+                .then(function(response) {
+                    clearTimeout(timer);
+                    if (!response.ok) { resolve(null); return; }
+                    response.json().then(function(data) { resolve(data); })
+                        .catch(function() { resolve(null); });
+                })
+                .catch(function() { clearTimeout(timer); resolve(null); });
+        });
+    }
+
+    var batchSize = 5;
+    var allValid = [];
+
+    function processBatch(startIndex) {
+        var batch = paths.slice(startIndex, startIndex + batchSize);
+        if (batch.length === 0) {
+            allValid.sort(function(a, b) { return b.date - a.date; });
+            sessionStorage.setItem('recent_updates_full', JSON.stringify(allValid));
+            renderRecentSlider(allValid);
+            return;
+        }
+
+        var promises = batch.map(function(item) {
+            var apiUrl = 'https://api.github.com/repos/SoServer/wiki/commits?path=' + encodeURIComponent(item.path) + '&page=1&per_page=1';
+            return fetchWithTimeout(apiUrl, 5000)
+                .then(function(data) {
+                    if (data && data.length > 0) {
+                        return {
+                            key: item.key,
+                            path: item.path,
+                            date: new Date(data[0].commit.committer.date),
+                            label: displayNames[item.key] || item.key
+                        };
+                    }
+                    return null;
+                });
+        });
+
+        Promise.all(promises)
+            .then(function(batchResults) {
+                batchResults.forEach(function(r) {
+                    if (r !== null) allValid.push(r);
+                });
+                processBatch(startIndex + batchSize);
+            })
+            .catch(function() {
+                processBatch(startIndex + batchSize);
+            });
+    }
+
+    processBatch(0);
+}
