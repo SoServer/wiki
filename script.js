@@ -554,9 +554,19 @@ function renderSlider(containerId, trackId, dotsId, items, getItemHtml) {
 
     var html = '';
     for (var i = 0; i < items.length; i++) {
-        html += '<div class="info-slider-item">' + getItemHtml(items[i]) + '</div>';
+        html += '<div class="info-slider-item" data-key="' + (items[i].key || '') + '" style="cursor:pointer;">' + getItemHtml(items[i]) + '</div>';
     }
     track.innerHTML = html;
+
+    // 为每个条目绑定点击事件
+    track.querySelectorAll('.info-slider-item').forEach(function(el) {
+        el.addEventListener('click', function() {
+            var key = this.dataset.key;
+            if (key && typeof loadPage === 'function') {
+                loadPage(key);
+            }
+        });
+    });
 
     if (dotsContainer) {
         var dotsHtml = '';
