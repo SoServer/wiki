@@ -1,544 +1,322 @@
 <div class="doc-content">
     <h1>教学文档</h1>
     <p style="color:var(--text-secondary);">刺玫会 Wiki · 内容编写教学</p>
-    <p style="color:var(--text-muted);font-size:0.9rem;">最后更新：二〇二六年八月三十一日</p>
+    <p style="color:var(--text-muted);font-size:0.9rem;">最后更新：二〇二六年九月十五日</p>
 
     <div class="msgbox info">
         <span class="msgbox-title">说明</span>
-        本文档用于教学刺玫会 Wiki 的内容编写，左侧为渲染效果，右侧或下方为对应的 HTML 代码。用户可在页面末尾自行输入内容进行测试。
+        本文档用于教学刺玫会 Wiki 的内容编写。每个示例都是先展示渲染效果，再展示对应的代码。你可以直接复制代码使用。
     </div>
 
-    <div class="msgbox link">
-        <span class="msgbox-title">相关文档</span>
-        本文档有原始版本，详见 <a href="#page-乱写文档">乱写文档</a>。乱写文档同样位于「关于」分类下，可供对照参考。或访问外部站点版本：<a href="https://blockrhapsody.github.io/#page-%E4%B9%B1%E5%86%99%E6%96%87%E6%A1%A3" target="_blank">blockrhapsody.github.io 上的乱写文档</a>。
-    </div>
-
-
+    <!-- ============================================================ -->
     <h2>一、页面基本结构</h2>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <div style="font-size:1.5rem;font-weight:700;border-left:4px solid #8B4513;padding-left:0.8rem;margin-bottom:0.5rem;">页面标题</div>
-                <div style="color:var(--text-secondary);font-size:0.9rem;">副标题或页面描述</div>
-                <div style="color:var(--text-muted);font-size:0.8rem;margin-top:0.3rem;">发布日期：二〇二六年八月三十一日</div>
-                <div style="color:var(--text-muted);font-size:0.8rem;">发布单位：刺玫会管理组</div>
-                <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border-color);color:var(--text-muted);font-size:0.8rem;">
-                    <div>刺玫会管理组</div>
-                    <div>二〇二六年八月三十一日</div>
-                </div>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;div class="doc-content"&gt;
-    &lt;h1&gt;页面标题&lt;/h1&gt;
-    &lt;p style="color:var(--text-secondary);"&gt;副标题或页面描述&lt;/p&gt;
-    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布日期：二〇二六年八月三十一日&lt;/p&gt;
-    &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布单位：刺玫会管理组&lt;/p&gt;
-
-    &lt;!-- 正文内容 --&gt;
-
-    &lt;div class="footnote"&gt;
-        &lt;p&gt;刺玫会管理组&lt;/p&gt;
-        &lt;p&gt;二〇二六年八月三十一日&lt;/p&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>二、标题层级</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <div style="font-size:1.5rem;font-weight:700;border-left:4px solid #8B4513;padding-left:0.8rem;margin-bottom:0.5rem;">h1 主标题</div>
-                <div style="font-size:1.2rem;font-weight:700;border-bottom:2px solid var(--border-color);padding-bottom:0.2rem;margin-top:1rem;">h2 一级章节</div>
-                <div style="font-size:1.0rem;font-weight:700;color:#6d3a1f;margin-top:0.8rem;">h3 二级章节</div>
-                <div style="font-size:0.9rem;font-weight:700;margin-top:0.6rem;color:var(--text-secondary);">h4 三级章节</div>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;h1&gt;页面主标题&lt;/h1&gt;
-&lt;h2&gt;第一章 概述&lt;/h2&gt;
-&lt;h3&gt;一、背景介绍&lt;/h3&gt;
-&lt;h4&gt;（一）详细说明&lt;/h4&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>三、段落与文本</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:0.5rem;">这是一段正文内容。用于阐述观点、描述事实或解释说明。</p>
-                <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.8;">这是<strong>重要内容</strong>，需要使用 <code style="background:rgba(0,0,0,0.05);padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">/give @s diamond</code> 指令。</p>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;p&gt;这是一段正文内容。&lt;/p&gt;
-&lt;p&gt;这是&lt;strong&gt;重要内容&lt;/strong&gt;，需要使用 &lt;code&gt;/give @s diamond&lt;/code&gt; 指令。&lt;/p&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>四、列表</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <p style="font-weight:700;font-size:0.85rem;color:var(--text-secondary);">无序列表</p>
-                <ul style="padding-left:1.5rem;color:var(--text-secondary);font-size:0.9rem;line-height:1.8;margin:0;">
-                    <li>第一项内容</li>
-                    <li>第二项内容</li>
-                    <li>第三项内容</li>
-                </ul>
-                <p style="font-weight:700;font-size:0.85rem;color:var(--text-secondary);margin-top:0.8rem;">有序列表</p>
-                <ol style="padding-left:1.5rem;color:var(--text-secondary);font-size:0.9rem;line-height:1.8;margin:0;">
-                    <li>第一步操作</li>
-                    <li>第二步操作</li>
-                    <li>第三步操作</li>
-                </ol>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;ul&gt;
-    &lt;li&gt;第一项内容&lt;/li&gt;
-    &lt;li&gt;第二项内容&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;ol&gt;
-    &lt;li&gt;第一步操作&lt;/li&gt;
-    &lt;li&gt;第二步操作&lt;/li&gt;
-&lt;/ol&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>五、提示框</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <div class="msgbox info" style="font-size:0.85rem;padding:0.5rem 1rem 0.5rem 2.8rem;margin:0.3rem 0;">
-                    <span class="msgbox-title" style="font-size:0.85rem;">说明</span>
-                    这是一条普通提示信息。
-                </div>
-                <div class="msgbox warning" style="font-size:0.85rem;padding:0.5rem 1rem 0.5rem 2.8rem;margin:0.3rem 0;">
-                    <span class="msgbox-title" style="font-size:0.85rem;">注意</span>
-                    这是一条警告信息。
-                </div>
-                <div class="msgbox important" style="font-size:0.85rem;padding:0.5rem 1rem 0.5rem 2.8rem;margin:0.3rem 0;">
-                    <span class="msgbox-title" style="font-size:0.85rem;">重要</span>
-                    这是一条重要信息。
-                </div>
-                <div class="msgbox success" style="font-size:0.85rem;padding:0.5rem 1rem 0.5rem 2.8rem;margin:0.3rem 0;">
-                    这是一条成功信息。
-                </div>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.7rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.5;">&lt;div class="msgbox info"&gt;
-    &lt;span class="msgbox-title"&gt;说明&lt;/span&gt;
-    这是一条普通提示信息。
-&lt;/div&gt;
-
-&lt;div class="msgbox warning"&gt;
-    &lt;span class="msgbox-title"&gt;注意&lt;/span&gt;
-    这是一条警告信息。
-&lt;/div&gt;
-
-&lt;div class="msgbox important"&gt;
-    &lt;span class="msgbox-title"&gt;重要&lt;/span&gt;
-    这是一条重要信息。
-&lt;/div&gt;
-
-&lt;div class="msgbox success"&gt;
-    这是一条成功信息。
-&lt;/div&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>六、信息网格</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <div class="info-grid" style="grid-template-columns:1fr 1fr;gap:0.4rem 1rem;padding:0.6rem 1rem;margin:0;">
-                    <span style="font-size:0.85rem;"><strong>身份：</strong>管理员</span>
-                    <span style="font-size:0.85rem;"><strong>入服时间：</strong>二〇二六年七月</span>
-                    <span style="font-size:0.85rem;"><strong>核心贡献：</strong>制度建设 · 日常运营</span>
-                </div>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;div class="info-grid"&gt;
-    &lt;span&gt;&lt;strong&gt;身份：&lt;/strong&gt;管理员&lt;/span&gt;
-    &lt;span&gt;&lt;strong&gt;入服时间：&lt;/strong&gt;二〇二六年七月&lt;/span&gt;
-    &lt;span&gt;&lt;strong&gt;核心贡献：&lt;/strong&gt;制度建设 · 日常运营&lt;/span&gt;
-&lt;/div&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>七、高亮框</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <div class="highlight-box" style="padding:0.6rem 1rem;margin:0;">
-                    <p style="font-weight:700;font-size:0.9rem;margin:0 0 0.2rem 0;">要点总结</p>
-                    <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">这是被高亮的重要内容。</p>
-                </div>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;div class="highlight-box"&gt;
-    &lt;p&gt;&lt;strong&gt;要点总结&lt;/strong&gt;&lt;/p&gt;
-    &lt;p&gt;这是被高亮的重要内容。&lt;/p&gt;
-&lt;/div&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>八、内联标签</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <p style="font-size:0.9rem;">
-                    <span class="tag info">信息</span>
-                    <span class="tag warning">警告</span>
-                    <span class="tag important">重要</span>
-                    <span class="tag success">成功</span>
-                    <span class="tag todo">待办</span>
-                    <span class="tag vanilla">普通</span>
-                </p>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;span class="tag info"&gt;信息&lt;/span&gt;
-&lt;span class="tag warning"&gt;警告&lt;/span&gt;
-&lt;span class="tag important"&gt;重要&lt;/span&gt;
-&lt;span class="tag success"&gt;成功&lt;/span&gt;
-&lt;span class="tag todo"&gt;待办&lt;/span&gt;
-&lt;span class="tag vanilla"&gt;普通&lt;/span&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>九、链接</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <p style="font-size:0.9rem;">
-                    <a href="#page-游玩规定V2.0">游玩规定 V2.0</a>
-                </p>
-                <p style="font-size:0.9rem;">
-                    <a href="https://github.com/SoServer" target="_blank">SoServer 的 GitHub</a>
-                </p>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;a href="#page-游玩规定V2.0"&gt;游玩规定 V2.0&lt;/a&gt;
-
-&lt;a href="https://github.com/SoServer" target="_blank"&gt;SoServer 的 GitHub&lt;/a&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>十、页脚</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">渲染效果</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <div class="footnote" style="padding-top:0.8rem;margin-top:0;font-size:0.8rem;">
-                    <p>刺玫会管理组</p>
-                    <p>二〇二六年八月三十一日</p>
-                </div>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;overflow-x:auto;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">HTML 代码</p>
-            <pre style="font-family:'Courier New',monospace;font-size:0.75rem;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;">&lt;div class="footnote"&gt;
-    &lt;p&gt;刺玫会管理组&lt;/p&gt;
-    &lt;p&gt;二〇二六年八月三十一日&lt;/p&gt;
-&lt;/div&gt;</pre>
-        </div>
-    </div>
-
-
-    <h2>十一、净标计划规范</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">正确示例</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;">
-                <p style="font-size:0.9rem;"><i class="fas fa-bullhorn"></i> 公告</p>
-                <p style="font-size:0.9rem;"><i class="fas fa-gavel"></i> 处理报告</p>
-                <p style="font-size:0.9rem;"><i class="fas fa-book"></i> 管理规定</p>
-            </div>
-        </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">错误示例</p>
-            <div style="background:rgba(255,0,0,0.05);border:2px solid #ff6b6b;padding:0.8rem;border-radius:6px;">
-                <p style="font-size:0.9rem;color:#ff6b6b;">📢 公告</p>
-                <p style="font-size:0.9rem;color:#ff6b6b;">⚖️ 处理报告</p>
-                <p style="font-size:0.9rem;color:#ff6b6b;">📚 管理规定</p>
-                <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">❌ 禁止使用 Emoji</p>
-            </div>
-        </div>
-    </div>
+    <p>每个 Wiki 页面都必须包含以下结构：</p>
 
     <div class="code-block">
-        <pre style="font-size:0.75rem;">&lt;!-- 正确：使用 FontAwesome 图标 --&gt;
-&lt;i class="fas fa-bullhorn"&gt;&lt;/i&gt; 公告
-
-&lt;!-- 错误：使用 Emoji --&gt;
-📢 公告</pre>
-    </div>
-
-    <h2>十二、图标短代码</h2>
-
-    <p>使用 <code>[icon:中文名]</code> 可在页面中快速插入 Minecraft 风格图标。</p>
-
-    <div class="code-block">
-        <pre>[icon:工作台] 是合成核心
-[icon:命令方块] 用于执行指令
-[icon:附魔台] 用于附魔装备</pre>
-    </div>
-
-    <p>支持的图标名称见 <code>icons.js</code> 中的 <code>iconMap</code> 映射表。</p>
-    <p>支持自定义尺寸：<code>[icon:工作台:32]</code> 表示 32px。</p>
-
-    <h2>十三、文字样式短代码</h2>
-
-    <p>使用 <code>[text:内容:参数1:参数2:...]</code> 可创建带淡入动画的文字样式，支持自定义字号、颜色、渐变、字体、旋转、竖排等效果。</p>
-
-    <h3>基本用法</h3>
-    <div class="code-block">
-        <pre>[text:刺玫会]                              &lt;!-- 默认样式 --&gt;
-[text:刺玫会:size=36:color=#8B4513]        &lt;!-- 36px + 棕色 --&gt;
-[text:刺玫会:gradient=#ff6b6b,#feca57]     &lt;!-- 渐变文字 --&gt;
-[text:刺玫会:font=FusionPixel:vertical]    &lt;!-- 竖排 + 自定义字体 --&gt;
-[text:刺玫会:rotate=15:margin=50]          &lt;!-- 旋转15° + 提前50px触发 --&gt;</pre>
-    </div>
-
-    <h3>支持参数</h3>
-    <table>
-        <thead>
-            <tr><th>参数</th><th>说明</th><th>示例</th></tr>
-        </thead>
-        <tbody>
-            <tr><td><code>size=数字</code></td><td>字号（px）</td><td><code>size=36</code></td></tr>
-            <tr><td><code>color=颜色</code></td><td>文字颜色</td><td><code>color=#8B4513</code></td></tr>
-            <tr><td><code>time=数字</code></td><td>淡入持续时间（秒）</td><td><code>time=0.8</code></td></tr>
-            <tr><td><code>delay=数字</code></td><td>延迟开始（秒）</td><td><code>delay=0.3</code></td></tr>
-            <tr><td><code>ease=缓动函数</code></td><td>淡入缓动</td><td><code>ease=ease-in-out</code></td></tr>
-            <tr><td><code>font=字体名</code></td><td>调用 assets/fonts/ 下的字体</td><td><code>font=FusionPixel</code></td></tr>
-            <tr><td><code>gradient=颜色1,颜色2,...</code></td><td>渐变文字</td><td><code>gradient=#ff6b6b,#feca57</code></td></tr>
-            <tr><td><code>vertical</code></td><td>竖排（从上到下）</td><td><code>vertical</code></td></tr>
-            <tr><td><code>rotate=角度</code></td><td>旋转（度）</td><td><code>rotate=15</code></td></tr>
-            <tr><td><code>margin=数字</code></td><td>触发提前/延后（px）</td><td><code>margin=50</code></td></tr>
-        </tbody>
-    </table>
-
-    <div class="msgbox info">
-        <span class="msgbox-title">说明</span>
-        文字样式短代码采用视口触发机制，即当文字滚动到可视区域时才开始淡入动画，而非页面加载时同时播放。
-    </div>
-    
-    <h2>十四、完整页面模板</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;">
-            <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">完整页面模板</p>
-            <div style="background:rgba(0,0,0,0.02);padding:0.8rem;border-radius:6px;font-size:0.75rem;color:var(--text-secondary);">
-                <pre style="font-family:'Courier New',monospace;white-space:pre-wrap;word-break:break-all;margin:0;line-height:1.6;font-size:0.7rem;">&lt;div class="doc-content"&gt;
+        <pre>&lt;div class="doc-content"&gt;
     &lt;h1&gt;页面标题&lt;/h1&gt;
     &lt;p style="color:var(--text-secondary);"&gt;副标题&lt;/p&gt;
     &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布日期&lt;/p&gt;
     &lt;p style="color:var(--text-muted);font-size:0.9rem;"&gt;发布单位&lt;/p&gt;
 
-    &lt;div class="msgbox info"&gt;
-        &lt;span class="msgbox-title"&gt;说明&lt;/span&gt;
-        这是一条说明信息。
-    &lt;/div&gt;
-
-    &lt;h2&gt;第一章 概述&lt;/h2&gt;
-    &lt;p&gt;正文内容。&lt;/p&gt;
-
-    &lt;ul&gt;
-        &lt;li&gt;项目一&lt;/li&gt;
-        &lt;li&gt;项目二&lt;/li&gt;
-    &lt;/ul&gt;
-
-    &lt;div class="highlight-box"&gt;
-        &lt;p&gt;&lt;strong&gt;重要提示&lt;/strong&gt;&lt;/p&gt;
-        &lt;p&gt;这是高亮内容。&lt;/p&gt;
-    &lt;/div&gt;
+    &lt;!-- 正文内容 --&gt;
 
     &lt;div class="footnote"&gt;
         &lt;p&gt;刺玫会管理组&lt;/p&gt;
-        &lt;p&gt;日期&lt;/p&gt;
+        &lt;p&gt;二〇二六年九月十五日&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;</pre>
-            </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.03);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--text-muted);font-size:0.9rem;text-align:center;">
-            <i class="fas fa-file-code" style="font-size:2rem;margin-bottom:0.5rem;color:var(--text-muted);"></i>
-            <p>将左侧代码复制到新文件中，</p>
-            <p>替换标题、正文等内容即可创建新页面。</p>
-        </div>
     </div>
 
 
-    <h2>十五、自行测试</h2>
+    <!-- ============================================================ -->
+    <h2>二、短代码系统</h2>
 
-    <p style="color:var(--text-muted);font-size:0.9rem;">在下方输入框中输入 <code>&lt;div&gt;</code> 包裹的 HTML 内容，点击渲染按钮预览效果。<strong>禁止使用 &lt;!DOCTYPE html&gt;、&lt;html&gt;、&lt;head&gt;、&lt;body&gt;、&lt;script&gt;、&lt;iframe&gt; 等危险标签。</strong></p>
+    <p>刺玫会 Wiki 支持一套短代码系统，用双大括号 <code>{{...}}</code> 包裹，用竖线 <code>|</code> 分隔参数，<strong>不需要斜杠终止符</strong>。</p>
 
-    <div style="margin:1rem 0;">
-        <textarea id="testInput" rows="8" style="width:100%;padding:0.8rem;border-radius:var(--radius);border:1px solid var(--border-color);background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:'Courier New',monospace;font-size:0.9rem;resize:vertical;outline:none;transition:border-color var(--smooth);" placeholder="在此输入 &lt;div&gt; 包裹的 HTML 内容进行测试...">&#x3C;div class=&#x22;msgbox info&#x22;&#x3E;
-    &#x3C;span class=&#x22;msgbox-title&#x22;&#x3E;测试&#x3C;/span&#x3E;
-    这是一条通过实时渲染生成的提示信息。
-&#x3C;/div&#x3E;</textarea>
-        <div style="display:flex;gap:0.8rem;margin-top:0.5rem;flex-wrap:wrap;">
-            <button id="renderTestBtn" style="padding:0.5rem 1.5rem;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;font-family:var(--font-pixel);font-size:0.9rem;cursor:pointer;transition:all var(--transition);">渲染</button>
-            <button id="clearTestBtn" style="padding:0.5rem 1.5rem;border-radius:var(--radius);border:1px solid var(--border-color);background:transparent;color:var(--text-secondary);font-family:var(--font-pixel);font-size:0.9rem;cursor:pointer;transition:all var(--transition);">清空</button>
-            <button id="loadExampleBtn" style="padding:0.5rem 1.5rem;border-radius:var(--radius);border:1px solid var(--border-color);background:transparent;color:var(--text-secondary);font-family:var(--font-pixel);font-size:0.9rem;cursor:pointer;transition:all var(--transition);">加载示例</button>
-            <span id="testStatus" style="color:var(--text-muted);font-size:0.85rem;align-self:center;">就绪</span>
-        </div>
+    <div class="msgbox warning">
+        <span class="msgbox-title">注意</span>
+        短代码的语法是 <code>{{名称|参数1|参数2|内容}}</code>，与 Minecraft Wiki 的 Wikitext 类似。
     </div>
 
-    <div id="testPreview" style="background:rgba(0,0,0,0.03);border-radius:var(--radius);border:2px dashed var(--border-color);padding:1rem;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--text-muted);font-size:0.9rem;">
-        <span>预览区域</span>
-        <span style="font-size:0.75rem;">渲染后的 HTML 将显示在此处</span>
+    <!-- ============================================================ -->
+    <h3>2.1 标题</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <h1 style="font-size:2rem;">一级标题</h1>
+    <h2 style="font-size:1.6rem;">二级标题</h2>
+    <h3 style="font-size:1.3rem;">三级标题</h3>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{h1|一级标题}}
+{{h2|二级标题}}
+{{h3|三级标题}}</pre>
     </div>
 
-    <div class="msgbox warning" style="margin-top:1rem;">
-        <span class="msgbox-title">安全提示</span>
-        本测试功能已屏蔽 <code>&lt;!DOCTYPE html&gt;</code>、<code>&lt;html&gt;</code>、<code>&lt;head&gt;</code>、<code>&lt;body&gt;</code>、<code>&lt;script&gt;</code>、<code>&lt;iframe&gt;</code>、<code>&lt;object&gt;</code>、<code>&lt;embed&gt;</code>、<code>&lt;link&gt;</code>、<code>&lt;meta&gt;</code> 等危险标签，请放心使用。
+    <!-- ============================================================ -->
+    <h3>2.2 段落与文本</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <p>这是一段正文内容。</p>
+    <p><strong>这是加粗文字</strong>，<em>这是斜体文字</em>。</p>
+    <p>使用 <code>/give @s diamond</code> 指令获取钻石。</p>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{p|这是一段正文内容。}}
+{{p|{{bold|这是加粗文字}}，{{italic|这是斜体文字}}。}}
+{{p|使用 {{code|/give @s diamond}} 指令获取钻石。}}</pre>
     </div>
 
+    <!-- ============================================================ -->
+    <h3>2.3 提示框</h3>
 
+    <p><strong>渲染效果：</strong></p>
+    <div class="msgbox info"><span class="msgbox-title">说明</span>这是一条普通提示信息。</div>
+    <div class="msgbox warning"><span class="msgbox-title">注意</span>这是一条警告信息。</div>
+    <div class="msgbox important"><span class="msgbox-title">重要</span>这是一条重要信息。</div>
+    <div class="msgbox success"><span class="msgbox-title">成功</span>这是一条成功信息。</div>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{msgbox|info|说明|这是一条普通提示信息。}}
+{{msgbox|warning|注意|这是一条警告信息。}}
+{{msgbox|important|重要|这是一条重要信息。}}
+{{msgbox|success|成功|这是一条成功信息。}}</pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <h3>2.4 图标</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <p>{{icon|工作台}} 是合成核心，{{icon|命令方块}} 用于执行指令，{{icon|附魔台}} 用于附魔装备。</p>
+    <p>大图标：{{icon|龙蛋|size=64}} 小图标：{{icon|书|size=16}}</p>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{icon|工作台}} 是合成核心，{{icon|命令方块}} 用于执行指令。
+{{icon|龙蛋|size=64}} 大图标
+{{icon|书|size=16}} 小图标</pre>
+    </div>
+
+    <div class="msgbox info">
+        <span class="msgbox-title">支持的图标</span>
+        附魔台、讲台、书、书架、成书、铁镐、结构方块、信标、龙蛋、龙首、爬行者头颅、玩家头颅、基岩、工作台、熔炉、合金升级、书与笔、命令方块、连锁命令方块、循环命令方块
+    </div>
+
+    <!-- ============================================================ -->
+    <h3>2.5 文字样式</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <p>{{text|刺玫会|size=24}} 默认大小</p>
+    <p>{{text|刺玫会|size=36|bold|color=brown}} 棕色加粗 36px</p>
+    <p>{{text|刺玫会|size=48|gradient=red,orange,yellow|gradient-dir=to right}} 横向渐变</p>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{text|刺玫会|size=24}}
+{{text|刺玫会|size=36|bold|color=brown}}
+{{text|刺玫会|size=48|gradient=red,orange,yellow|gradient-dir=to right}}</pre>
+    </div>
+
+    <p><strong>支持的样式参数：</strong></p>
+    <ul>
+        <li><code>size=36</code> 字号（px）</li>
+        <li><code>color=brown</code> 颜色（支持 white/black/red/green/blue/yellow/orange/purple/pink/gray/brown/cyan/gold，也支持 #十六进制）</li>
+        <li><code>bold</code> 加粗</li>
+        <li><code>line-height=2</code> 行距</li>
+        <li><code>letter-spacing=2</code> 字距（px）</li>
+        <li><code>opacity=0.5</code> 透明度</li>
+        <li><code>align=center</code> 排列方式（center/right）</li>
+        <li><code>gradient=red,blue</code> 渐变颜色</li>
+        <li><code>gradient-dir=to right</code> 渐变方向</li>
+        <li><code>font=FusionPixel</code> 字体</li>
+        <li><code>vertical</code> 竖排</li>
+        <li><code>rotate=15</code> 旋转</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <h3>2.6 逐字渐显</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <p>{{charlist|刺玫会服务器|size=32|bold|color=brown|interval=0.15}}</p>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{charlist|刺玫会服务器|size=32|bold|color=brown|interval=0.15}}</pre>
+    </div>
+
+    <p><strong>参数：</strong></p>
+    <ul>
+        <li><code>interval=0.1</code> 每个字之间的间隔（秒）</li>
+        <li><code>time=0.5</code> 每个字的淡入时长（秒）</li>
+        <li><code>delay=0.3</code> 首字延迟（秒）</li>
+        <li><code>margin=50</code> 视口触发提前/延后（px）</li>
+    </ul>
+
+    <!-- ============================================================ -->
+    <h3>2.7 列表</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <ul>
+        <li>无序列表项一</li>
+        <li>无序列表项二</li>
+    </ul>
+    <ol>
+        <li>有序列表项一</li>
+        <li>有序列表项二</li>
+    </ol>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{ul|{{li|无序列表项一}}{{li|无序列表项二}}}}
+{{ol|{{li|有序列表项一}}{{li|有序列表项二}}}}</pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <h3>2.8 表格</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <table>
+        <tr><th>名称</th><th>类型</th><th>说明</th></tr>
+        <tr><td>@p</td><td>目标选择器</td><td>选择最近的玩家</td></tr>
+        <tr><td>@a</td><td>目标选择器</td><td>选择所有玩家</td></tr>
+    </table>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{table|
+{{tr|{{th|名称}}{{th|类型}}{{th|说明}}}}
+{{tr|{{td|@p}}{{td|目标选择器}}{{td|选择最近的玩家}}}}
+{{tr|{{td|@a}}{{td|目标选择器}}{{td|选择所有玩家}}}}
+}}</pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <h3>2.9 链接与标签</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <p>{{link|https://soserver.github.io/wiki/|blank|刺玫会 Wiki}}</p>
+    <p>{{tag|info|信息}} {{tag|warning|警告}} {{tag|important|重要}} {{tag|success|成功}}</p>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{link|https://soserver.github.io/wiki/|blank|刺玫会 Wiki}}
+{{tag|info|信息}} {{tag|warning|警告}} {{tag|important|重要}} {{tag|success|成功}}</pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <h3>2.10 高亮框与信息网格</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <div class="highlight-box">
+        <p><strong>要点总结</strong></p>
+        <p>这是被高亮的重要内容。</p>
+    </div>
+    <div class="info-grid">
+        <span><strong>身份：</strong>管理员</span>
+        <span><strong>入服时间：</strong>二〇二六年七月</span>
+    </div>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{highlight|{{p|{{bold|要点总结}}}}{{p|这是被高亮的重要内容。}}}}
+{{infogrid|{{infogrid-item|{{bold|身份：}}管理员}}{{infogrid-item|{{bold|入服时间：}}二〇二六年七月}}}}</pre>
+    </div>
+
+    <!-- ============================================================ -->
+    <h3>2.11 图片与对齐</h3>
+
+    <p><strong>渲染效果：</strong></p>
+    <p>{{img|assets/icons/Crafting_Table.png|size=32|align=top}} 顶部对齐</p>
+    <p>{{img|assets/icons/Crafting_Table.png|size=32|align=middle}} 中部对齐</p>
+    <p>{{img|assets/icons/Crafting_Table.png|size=32|align=bottom}} 底部对齐</p>
+
+    <p><strong>代码：</strong></p>
+    <div class="code-block">
+        <pre>{{img|assets/icons/Crafting_Table.png|size=32|align=top}} 顶部对齐
+{{img|assets/icons/Crafting_Table.png|size=32|align=middle}} 中部对齐
+{{img|assets/icons/Crafting_Table.png|size=32|align=bottom}} 底部对齐</pre>
+    </div>
+
+    <p><strong>对齐参数：</strong>top、middle、bottom、baseline、text-top、text-bottom</p>
+
+    <!-- ============================================================ -->
+    <h2>三、Markdown 支持</h2>
+
+    <p>刺玫会 Wiki 支持 Markdown 文件（<code>.md</code>），你可以用 Markdown 编写内容，系统会自动转换为 HTML。</p>
+
+    <p><strong>Markdown 基础语法：</strong></p>
+    <div class="code-block">
+        <pre># 一级标题
+## 二级标题
+### 三级标题
+
+这是段落。
+
+**加粗** *斜体* `行内代码`
+
+- 无序列表
+- 无序列表
+
+1. 有序列表
+2. 有序列表
+
+&gt; 引用内容
+
+[链接](https://example.com)
+
+```代码块```</pre>
+    </div>
+
+    <div class="msgbox info">
+        <span class="msgbox-title">提示</span>
+        Markdown 文件中也可以使用短代码，短代码在 Markdown 解析后会被自动处理。
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>四、净标计划</h2>
+
+    <div class="msgbox important">
+        <span class="msgbox-title">净标计划</span>
+        所有 Wiki 页面<strong>禁止使用 Emoji</strong>，统一使用 FontAwesome 图标（<code>&lt;i class="fas fa-xxx"&gt;&lt;/i&gt;</code>）或纯文字替代。
+    </div>
+
+    <p><strong>正确示例：</strong> <code>&lt;i class="fas fa-bullhorn"&gt;&lt;/i&gt; 公告</code></p>
+    <p><strong>错误示例：</strong> 📢 公告</p>
+
+    <!-- ============================================================ -->
+    <h2>五、完整页面示例</h2>
+
+    <p>以下是一个完整的 Wiki 页面示例：</p>
+
+    <div class="code-block">
+        <pre>&lt;div class="doc-content"&gt;
+    &lt;h1&gt;页面标题&lt;/h1&gt;
+    &lt;p style="color:var(--text-secondary);"&gt;副标题&lt;/p&gt;
+
+    {{msgbox|info|说明|这是一条提示信息。}}
+
+    {{h2|第一章 概述}}
+
+    {{p|这是一段正文内容。}}
+
+    {{ul|{{li|项目一}}{{li|项目二}}}}
+
+    {{highlight|{{p|{{bold|重要提示}}}}}}
+
+    &lt;div class="footnote"&gt;
+        &lt;p&gt;刺玫会管理组&lt;/p&gt;
+        &lt;p&gt;二〇二六年九月十五日&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <!-- ============================================================ -->
     <div class="footnote">
-        <p>刺玫会 Wiki · 内容编写教学文档</p>
-        <p>最后更新：二〇二六年八月三十一日</p>
+        <p>刺玫会 Wiki · 教学文档</p>
+        <p>二〇二六年九月十五日</p>
     </div>
 </div>
-
-<script>
-    (function initTest() {
-        var input = document.getElementById('testInput');
-        var renderBtn = document.getElementById('renderTestBtn');
-        var clearBtn = document.getElementById('clearTestBtn');
-        var loadExampleBtn = document.getElementById('loadExampleBtn');
-        var preview = document.getElementById('testPreview');
-        var status = document.getElementById('testStatus');
-
-        var dangerousPatterns = [
-            /<!DOCTYPE\s+html/i,
-            /<html\s*>/i,
-            /<\/html\s*>/i,
-            /<body\s*>/i,
-            /<\/body\s*>/i,
-            /<head\s*>/i,
-            /<\/head\s*>/i,
-            /<script\s*>/i,
-            /<\/script\s*>/i,
-            /<iframe\s*>/i,
-            /<object\s*>/i,
-            /<embed\s*>/i,
-            /<link\s*>/i,
-            /<meta\s*>/i
-        ];
-
-        function renderHTML() {
-            var text = input.value.trim();
-            if (!text) {
-                status.textContent = '请输入内容';
-                status.style.color = '#ffb347';
-                return;
-            }
-
-            for (var i = 0; i < dangerousPatterns.length; i++) {
-                if (dangerousPatterns[i].test(text)) {
-                    status.textContent = '拒绝渲染：包含禁止的标签';
-                    status.style.color = '#ff6b6b';
-                    preview.innerHTML = '<div class="msgbox important"><span class="msgbox-title">渲染被拒绝</span>输入内容包含禁止的标签（如 DOCTYPE、html、head、body、script、iframe 等），请仅使用 <code>&lt;div&gt;</code> 包裹的内容。</div>';
-                    return;
-                }
-            }
-
-            if (!/<[^>]+>/.test(text)) {
-                status.textContent = '未检测到 HTML 标签，将作为纯文本显示';
-                status.style.color = '#ffb347';
-            } else {
-                status.textContent = '渲染成功';
-                status.style.color = '#4CAF50';
-            }
-
-            try {
-                var testDiv = document.createElement('div');
-                testDiv.innerHTML = text;
-                if (text.length > 0 && testDiv.innerHTML.length === 0) {
-                    throw new Error('HTML 解析失败，请检查标签是否正确闭合');
-                }
-                preview.innerHTML = text;
-            } catch (e) {
-                status.textContent = '渲染失败：' + e.message;
-                status.style.color = '#ff6b6b';
-                preview.innerHTML = '<div class="msgbox important"><span class="msgbox-title">渲染失败</span>输入的 HTML 格式有误：' + e.message + '</div>';
-            }
-        }
-
-        function clearAll() {
-            input.value = '';
-            preview.innerHTML = '<div style="color:var(--text-muted);font-size:0.9rem;text-align:center;padding:1rem 0;">预览区域<br><span style="font-size:0.75rem;">渲染后的 HTML 将显示在此处</span></div>';
-            status.textContent = '已清空';
-            status.style.color = 'var(--text-muted)';
-        }
-
-        function loadExample() {
-            input.value = '<div class="msgbox info">\n    <span class="msgbox-title">示例</span>\n    这是一条通过实时渲染生成的提示信息。\n</div>';
-            renderHTML();
-        }
-
-        renderBtn.addEventListener('click', renderHTML);
-        clearBtn.addEventListener('click', clearAll);
-        loadExampleBtn.addEventListener('click', loadExample);
-
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-                e.preventDefault();
-                renderHTML();
-            }
-        });
-
-        setTimeout(loadExample, 100);
-
-        console.log('教学文档 · 内容编写测试已加载');
-    })();
-</script>
