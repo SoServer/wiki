@@ -16,8 +16,7 @@
     <script src="script.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/web-page@1.1.0/index.min.js"></script>
     <script src="verse.js"></script>
-    <script src="icons.js"></script>
-    <script src="TextStyles.js"></script>
+    <script src="shortcodes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -410,14 +409,9 @@
                     // 如果文件是 .html 或者解析失败，直接使用原内容
                     pageContent.innerHTML = htmlContent;
 
-                    // 渲染图标短代码（如果有）
-                    if (typeof renderIcons === 'function') {
-                        renderIcons(pageContent);
-                    }
-
-                    // 渲染文字样式
-                    if (typeof renderTextStyles === 'function') {
-                        renderTextStyles(pageContent);
+                    // 渲染所有短代码（图标、文字样式、模板框）
+                    if (typeof renderAllShortcodes === 'function') {
+                        renderAllShortcodes(pageContent);
                     }
 
                     // 新增：获取并显示最后更新时间
