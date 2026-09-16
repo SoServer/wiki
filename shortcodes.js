@@ -1,8 +1,8 @@
 // ============================================================
 // 刺玫会 Wiki · 短代码解析器
-// 版本：V2.1
+// 版本：V2.2
 // 日期：2026年9月15日
-// 功能：图标、文字样式、模板框、视口触发、自定义对齐
+// 功能：图标、文字样式、模板框、视口触发、代码块保护
 // ============================================================
 
 // ============================================================
@@ -306,7 +306,7 @@ var SHORTCODE_HANDLERS = {
         return '{{icon|' + name + '}}';
     },
 
-    // ========== 文字样式（含视口触发） ==========
+    // ========== 文字样式 ==========
     'text': function(params, content) {
         var textContent = content || params[0] || '';
         var styleParams = [];
@@ -340,18 +340,18 @@ var SHORTCODE_HANDLERS = {
         var style = parseStyleParams(styleParams);
         var styleStr = styleToString(style);
 
-        // 逐字模式
         if (charMode && textContent.length > 1) {
             var html = '';
             for (var c = 0; c < textContent.length; c++) {
                 var charDelay = delay + c * interval;
-                html += '<span style="display:inline-block;opacity:0;animation:fadeInText ' + time + 's ' + ease + ' ' + charDelay + 's forwards;' + styleStr + '">' + textContent[c] + '</span>';
+                var anim = 'fadeInText ' + time + 's ' + ease + ' ' + charDelay + 's forwards';
+                html += '<span data-original-animation="' + anim + '" style="display:inline-block;opacity:0;animation:' + anim + ';' + styleStr + '">' + textContent[c] + '</span>';
             }
             return '<span data-text-margin="' + margin + '" style="display:inline-block;">' + html + '</span>';
         }
 
-        // 整段模式
-        return '<span data-text-margin="' + margin + '" style="display:inline-block;opacity:0;animation:fadeInText ' + time + 's ' + ease + ' ' + delay + 's forwards;' + styleStr + '">' + textContent + '</span>';
+        var anim2 = 'fadeInText ' + time + 's ' + ease + ' ' + delay + 's forwards';
+        return '<span data-text-margin="' + margin + '" data-original-animation="' + anim2 + '" style="display:inline-block;opacity:0;animation:' + anim2 + ';' + styleStr + '">' + textContent + '</span>';
     },
 
     // ========== 逐字渐显 ==========
@@ -387,7 +387,8 @@ var SHORTCODE_HANDLERS = {
         var html = '';
         for (var c = 0; c < text.length; c++) {
             var charDelay = delay + c * interval;
-            html += '<span style="display:inline-block;opacity:0;animation:fadeInText ' + time + 's ease ' + charDelay + 's forwards;' + styleStr + '">' + text[c] + '</span>';
+            var anim = 'fadeInText ' + time + 's ease ' + charDelay + 's forwards';
+            html += '<span data-original-animation="' + anim + '" style="display:inline-block;opacity:0;animation:' + anim + ';' + styleStr + '">' + text[c] + '</span>';
         }
         return '<span data-text-margin="' + margin + '" style="display:inline-block;">' + html + '</span>';
     },
@@ -432,13 +433,22 @@ function injectShortcodeAnimation() {
 }
 
 // ============================================================
-// 解析短代码
+// 解析短代码（含代码块保护）
 // ============================================================
 function renderShortcodes(html) {
     if (!html) return html;
 
     injectShortcodeAnimation();
 
+    // ========== 保护代码块内的内容 ==========
+    var codeBlocks = [];
+    html = html.replace(/<(pre|code)([^>]*)>([\s\S]*?)<\/\1>/gi, function(match) {
+        var placeholder = '___CODE_BLOCK_' + codeBlocks.length + '___';
+        codeBlocks.push(match);
+        return placeholder;
+    });
+
+    // ========== 解析短代码 ==========
     var maxIterations = 10;
     var iteration = 0;
 
@@ -481,48 +491,48 @@ function renderShortcodes(html) {
         iteration++;
     }
 
+    // ========== 恢复代码块 ==========
+    html = html.replace(/___CODE_BLOCK_(\d+)___/g, function(match, index) {
+        return codeBlocks[parseInt(index)] || match;
+    });
+
     return html;
 }
 
 // ============================================================
 // 视口触发监听器
 // ============================================================
-var textObserverInitialized = false;
-
 function initTextObservers() {
-    if (textObserverInitialized) return;
-    textObserverInitialized = true;
-
     var elements = document.querySelectorAll('[data-text-margin]');
+    if (elements.length === 0) return;
 
     for (var j = 0; j < elements.length; j++) {
         var el = elements[j];
         var margin = parseInt(el.dataset.textMargin) || 0;
         var rootMargin = margin >= 0 ? '0px 0px -' + margin + 'px 0px' : '0px 0px ' + Math.abs(margin) + 'px 0px';
 
-        var observer = new IntersectionObserver(function(entries) {
-            for (var i = 0; i < entries.length; i++) {
-                if (entries[i].isIntersecting) {
-                    var target = entries[i].target;
-                    // 恢复动画播放
-                    var spans = target.querySelectorAll('span');
-                    spans.forEach(function(span) {
-                        var anim = span.style.animation;
-                        if (anim) {
-                            span.style.animation = '';
-                            void span.offsetWidth;
-                            span.style.animation = anim;
-                        }
-                    });
-                    observer.unobserve(target);
+        (function(target, rm) {
+            var observer = new IntersectionObserver(function(entries) {
+                for (var i = 0; i < entries.length; i++) {
+                    if (entries[i].isIntersecting) {
+                        var spans = target.querySelectorAll('span[data-original-animation]');
+                        spans.forEach(function(span) {
+                            var anim = span.getAttribute('data-original-animation');
+                            if (anim) {
+                                span.style.animation = 'none';
+                                void span.offsetWidth;
+                                span.style.animation = anim;
+                            }
+                        });
+                        observer.unobserve(target);
+                    }
                 }
-            }
-        }, {
-            threshold: 0.1,
-            rootMargin: rootMargin
-        });
-
-        observer.observe(el);
+            }, {
+                threshold: 0.1,
+                rootMargin: rm
+            });
+            observer.observe(target);
+        })(el, rootMargin);
     }
 }
 
@@ -532,14 +542,13 @@ function initTextObservers() {
 function renderAllShortcodes(container) {
     if (!container) container = document.body;
 
-    // 1. 先处理短代码
     var html = container.innerHTML;
     var rendered = renderShortcodes(html);
     if (rendered !== html) {
         container.innerHTML = rendered;
     }
 
-    // 2. 递归处理嵌套短代码
+    // 递归处理嵌套短代码
     var hasNewShortcodes = false;
     container.querySelectorAll('*').forEach(function(el) {
         if (el.children.length === 0 && el.innerHTML.indexOf('{{') !== -1) {
@@ -550,7 +559,7 @@ function renderAllShortcodes(container) {
         container.innerHTML = renderShortcodes(container.innerHTML);
     }
 
-    // 3. 初始化视口监听
+    // 初始化视口监听
     setTimeout(initTextObservers, 100);
 }
 
