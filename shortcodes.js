@@ -1,8 +1,8 @@
 // ============================================================
 // 刺玫会 Wiki · 短代码解析器
-// 版本：V2.2
-// 日期：2026年9月15日
-// 功能：图标、文字样式、模板框、视口触发、代码块保护
+// 版本：V2.3
+// 日期：2026年9月16日
+// 功能：图标、文字样式、模板框、视口触发、代码块保护、简洁表格
 // ============================================================
 
 // ============================================================
@@ -205,7 +205,7 @@ var SHORTCODE_HANDLERS = {
         return '<a href="' + url + '"' + target + '>' + content + '</a>';
     },
 
-    // ========== 图片（支持对齐） ==========
+    // ========== 图片 ==========
     'img': function(params) {
         var src = params[0] || '';
         var alt = '';
@@ -265,11 +265,36 @@ var SHORTCODE_HANDLERS = {
     // ========== 内联标签 ==========
     'tag': function(params, content) {
         var type = params[0] || 'info';
-        return '<span class="tag ' + type + '">' + content + '</span>';
+        return '<span class="tag ' + type + '" style="text-decoration:none;">' + content + '</span>';
     },
 
-    // ========== 表格 ==========
-    'table': function(params, content) { return '<table>' + content + '</table>'; },
+    // ========== 表格（简洁语法） ==========
+    'table': function(params, content) {
+        var text = content || params[0] || '';
+        var lines = text.split('\n');
+        var html = '<table>';
+
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (!line) continue;
+
+            var cells = line.split(';');
+            var isHeader = (i === 0);
+
+            html += '<tr>';
+            for (var j = 0; j < cells.length; j++) {
+                var cell = cells[j].trim();
+                var tag = isHeader ? 'th' : 'td';
+                html += '<' + tag + '>' + cell + '</' + tag + '>';
+            }
+            html += '</tr>';
+        }
+
+        html += '</table>';
+        return html;
+    },
+
+    // ========== 兼容旧表格语法 ==========
     'tr': function(params, content) { return '<tr>' + content + '</tr>'; },
     'th': function(params, content) {
         var style = parseStyleParams(params);
@@ -308,7 +333,8 @@ var SHORTCODE_HANDLERS = {
 
     // ========== 文字样式 ==========
     'text': function(params, content) {
-        var textContent = content || params[0] || '';
+        // 如果 content 为空，说明最后一个参数是文字，前面的都是样式参数
+        var textContent = content || '';
         var styleParams = [];
         var time = 0.5;
         var delay = 0;
@@ -316,6 +342,22 @@ var SHORTCODE_HANDLERS = {
         var margin = 0;
         var charMode = false;
         var interval = 0.08;
+
+        // 如果 content 为空，从 params 中取第一个非样式参数作为文字
+        if (!textContent && params.length > 0) {
+            var textIndex = -1;
+            for (var k = 0; k < params.length; k++) {
+                var pk = params[k];
+                if (pk.indexOf('=') === -1 && ['bold', 'center', 'right', 'vertical'].indexOf(pk) === -1) {
+                    textIndex = k;
+                    break;
+                }
+            }
+            if (textIndex !== -1) {
+                textContent = params[textIndex];
+                params = params.slice(0, textIndex).concat(params.slice(textIndex + 1));
+            }
+        }
 
         for (var i = 0; i < params.length; i++) {
             var p = params[i];
@@ -356,11 +398,27 @@ var SHORTCODE_HANDLERS = {
 
     // ========== 逐字渐显 ==========
     'charlist': function(params, content) {
-        var text = content || params[0] || '';
+        var text = content || '';
         var interval = 0.08;
         var time = 0.5;
         var delay = 0;
         var margin = 0;
+
+        // 如果 content 为空，从 params 中取第一个非样式参数作为文字
+        if (!text && params.length > 0) {
+            var textIndex = -1;
+            for (var k = 0; k < params.length; k++) {
+                var pk = params[k];
+                if (pk.indexOf('=') === -1 && ['bold', 'center', 'right', 'vertical'].indexOf(pk) === -1) {
+                    textIndex = k;
+                    break;
+                }
+            }
+            if (textIndex !== -1) {
+                text = params[textIndex];
+                params = params.slice(0, textIndex).concat(params.slice(textIndex + 1));
+            }
+        }
 
         for (var i = 0; i < params.length; i++) {
             var p = params[i];
@@ -474,11 +532,9 @@ function renderShortcodes(html) {
                         var lastParam = params[params.length - 1];
                         var isKeyword = ['bold', 'center', 'right', 'vertical', 'blank'].indexOf(lastParam) !== -1;
                         var isParam = lastParam.indexOf('=') !== -1;
-                        if (!isKeyword && !isParam && params.length > 1) {
+                        // 只有当最后一个参数既不是关键字也不是参数时，才作为 content
+                        if (!isKeyword && !isParam) {
                             content = params.pop();
-                        } else if (params.length === 1 && !isKeyword && !isParam) {
-                            content = params[0];
-                            params = [];
                         }
                     }
                 }
