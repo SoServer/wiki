@@ -1325,30 +1325,12 @@ a:hover {
     margin: 0 0.1rem;
 }
 
-.tag.info {
-    background: rgba(41, 128, 185, 0.12);
-    color: #2980b9;
-}
-.tag.warning {
-    background: rgba(214, 137, 16, 0.12);
-    color: #d68910;
-}
-.tag.important {
-    background: rgba(192, 57, 43, 0.12);
-    color: #c0392b;
-}
-.tag.success {
-    background: rgba(39, 174, 96, 0.12);
-    color: #27ae60;
-}
-.tag.todo {
-    background: rgba(142, 68, 173, 0.12);
-    color: #8e44ad;
-}
-.tag.vanilla {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-muted);
-}
+.tag.info { background: rgba(41, 128, 185, 0.12); color: #2980b9 !important; }
+.tag.warning { background: rgba(214, 137, 16, 0.12); color: #d68910 !important; }
+.tag.important { background: rgba(192, 57, 43, 0.12); color: #c0392b !important; }
+.tag.success { background: rgba(39, 174, 96, 0.12); color: #27ae60 !important; }
+.tag.todo { background: rgba(142, 68, 173, 0.12); color: #8e44ad !important; }
+.tag.vanilla { background: rgba(0, 0, 0, 0.05); color: var(--text-muted) !important; }
 
 /* ============================================================
    移动端侧边栏 - 头部
