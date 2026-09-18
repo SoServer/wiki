@@ -17,6 +17,12 @@
     <script src="verse.js"></script>
     <script src="shortcodes.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        (function() {
+            var theme = localStorage.getItem('cmh_theme') || 'brown';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body>
     <header class="navbar">
