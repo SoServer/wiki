@@ -32,6 +32,86 @@
     --smooth: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ============================================================
+   主题配色
+   ============================================================ */
+
+/* 默认主题（棕色） */
+:root,
+[data-theme="brown"] {
+    --bg-primary: #f5f5f0;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #fafaf8;
+    --border-color: #d0d0c8;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #8a8a8a;
+    --accent: #8B4513;
+    --accent-hover: #A0522D;
+    --accent-glow: rgba(139, 69, 19, 0.12);
+}
+
+/* 蓝色主题 */
+[data-theme="blue"] {
+    --bg-primary: #f0f4f8;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #f5f8fb;
+    --border-color: #c8d4e0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #8a8a8a;
+    --accent: #2980b9;
+    --accent-hover: #3498db;
+    --accent-glow: rgba(41, 128, 185, 0.12);
+}
+
+/* 绿色主题 */
+[data-theme="green"] {
+    --bg-primary: #f0f5f0;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #f5faf5;
+    --border-color: #c8d8c8;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #8a8a8a;
+    --accent: #27ae60;
+    --accent-hover: #2ecc71;
+    --accent-glow: rgba(39, 174, 96, 0.12);
+}
+
+/* 紫色主题 */
+[data-theme="purple"] {
+    --bg-primary: #f5f0f8;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #faf5fb;
+    --border-color: #d8c8e0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #8a8a8a;
+    --accent: #8e44ad;
+    --accent-hover: #9b59b6;
+    --accent-glow: rgba(142, 68, 173, 0.12);
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+    --bg-primary: #0a0a14;
+    --bg-secondary: #12122a;
+    --bg-card: #1a1a3e;
+    --bg-sidebar: #0e0e22;
+    --border-color: #2a2a5a;
+    --text-primary: #ececf0;
+    --text-secondary: #9a9abe;
+    --text-muted: #6a6a8a;
+    --accent: #4CAF50;
+    --accent-hover: #66BB6A;
+    --accent-glow: rgba(76, 175, 80, 0.25);
+}
+
 html {
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
