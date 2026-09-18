@@ -502,6 +502,37 @@ function initSearch() {
 }
 
 // ============================================================
+// 主题切换
+// ============================================================
+var THEMES = ['brown', 'blue', 'green', 'purple', 'dark'];
+var THEME_NAMES = {
+    'brown': '棕色',
+    'blue': '蓝色',
+    'green': '绿色',
+    'purple': '紫色',
+    'dark': '暗色'
+};
+
+function applyTheme(theme) {
+    if (THEMES.indexOf(theme) === -1) theme = 'brown';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('cmh_theme', theme);
+}
+
+function toggleTheme() {
+    var current = localStorage.getItem('cmh_theme') || 'brown';
+    var index = THEMES.indexOf(current);
+    var next = THEMES[(index + 1) % THEMES.length];
+    applyTheme(next);
+    console.log('[刺玫会 Wiki] 已切换到' + THEME_NAMES[next] + '主题');
+}
+
+function initTheme() {
+    var saved = localStorage.getItem('cmh_theme') || 'brown';
+    applyTheme(saved);
+}
+
+// ============================================================
 // 8. DOM 就绪初始化
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
@@ -514,6 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initHamburger();
     initRoomStatus();
     updateAuthUI();
+    initTheme();
 
     if (typeof initSearch === 'function') {
         initSearch();
