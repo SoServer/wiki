@@ -425,6 +425,11 @@
                         renderAllShortcodes(pageContent);
                     }
 
+                    // 渲染人物志属性图
+                    if (typeof renderAttributeChart === 'function') {
+                        renderAttributeChart();
+                    }
+
                     // 新增：获取并显示最后更新时间
                     if (typeof fetchLastUpdated === 'function') {
                         fetchLastUpdated(pageId, path);
