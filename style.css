@@ -2126,3 +2126,22 @@ a:hover {
     .info-slider-item .slider-meta { font-size: 0.6rem; }
     .slider-dots .dot { width: 4px; height: 4px; }
 }
+
+/* ============================================================
+   人物志属性图
+   ============================================================ */
+.attribute-chart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--bg-info-grid);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+}
+
+.attribute-chart-wrapper canvas {
+    max-width: 100%;
+    height: auto;
+}
