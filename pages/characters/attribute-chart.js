@@ -217,15 +217,12 @@
         });
     }
 
-    // 页面加载完成后执行
+    window.renderAttributeChart = init;
+
+    // 首次加载时也执行
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
-        init();
-    }
-
-    // hash 变化时重新执行
-    window.addEventListener('hashchange', function() {
-        setTimeout(init, 200);
+        setTimeout(init, 500);
     });
 })();
