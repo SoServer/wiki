@@ -56,10 +56,10 @@
         var ctx = canvas.getContext('2d');
         var dpr = window.devicePixelRatio || 1;
 
-        // 根据父容器宽度决定尺寸
         var parent = canvas.parentElement;
         var displaySize = parent ? parent.clientWidth : 360;
-        if (displaySize > 360) displaySize = 360;
+        var maxSize = window.innerWidth < 769 ? 400 : 280;
+        if (displaySize > maxSize) displaySize = maxSize;
         if (displaySize < 200) displaySize = 200;
 
         canvas.width = displaySize * dpr;
