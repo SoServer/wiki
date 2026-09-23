@@ -2131,17 +2131,19 @@ a:hover {
    人物志属性图
    ============================================================ */
 .attribute-chart {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background: var(--bg-info-grid);
-    border-radius: var(--radius);
-    border: 1px solid var(--border-color);
+    display: block;
+    margin: 1rem 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    max-width: 360px;
+    width: 100%;
 }
 
 .attribute-chart canvas {
-    max-width: 100%;
+    display: block;
+    width: 100%;
     height: auto;
+    max-width: 360px;
 }
