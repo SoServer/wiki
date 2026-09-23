@@ -52,15 +52,20 @@
         return r + ',' + g + ',' + b;
     }
 
-    // 绘制雷达图
     function drawChart(canvas, labels, values) {
         var ctx = canvas.getContext('2d');
         var dpr = window.devicePixelRatio || 1;
-        var size = 360;
-        canvas.width = size * dpr;
-        canvas.height = size * dpr;
-        canvas.style.width = size + 'px';
-        canvas.style.height = size + 'px';
+
+        // 根据父容器宽度决定尺寸
+        var parent = canvas.parentElement;
+        var displaySize = parent ? parent.clientWidth : 360;
+        if (displaySize > 360) displaySize = 360;
+        if (displaySize < 200) displaySize = 200;
+
+        canvas.width = displaySize * dpr;
+        canvas.height = displaySize * dpr;
+        canvas.style.width = displaySize + 'px';
+        canvas.style.height = displaySize + 'px';
         ctx.scale(dpr, dpr);
 
         var style = getComputedStyle(document.documentElement);
@@ -71,8 +76,8 @@
         var gridColor = 'rgba(' + accentRgb + ', 0.15)';
         var fillColor = 'rgba(' + accentRgb + ', 0.25)';
 
-        var center = size / 2;
-        var radius = size * 0.35;
+        var center = displaySize / 2;
+        var radius = displaySize * 0.35;
         var count = labels.length;
         var angleStep = (Math.PI * 2) / count;
         var startAngle = -Math.PI / 2;
