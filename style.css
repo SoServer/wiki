@@ -2132,18 +2132,35 @@ a:hover {
    ============================================================ */
 .attribute-chart {
     display: block;
-    margin: 1rem 0;
+    margin: 0 1rem 1rem 0;
     padding: 0;
     background: transparent;
     border: none;
     border-radius: 0;
-    max-width: 360px;
-    width: 100%;
+    float: left;
+    width: 280px;
+    max-width: 100%;
 }
 
 .attribute-chart canvas {
     display: block;
     width: 100%;
     height: auto;
-    max-width: 360px;
+}
+
+/* 清除浮动 */
+.doc-content::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+/* 手机端：占满整行，取消浮动 */
+@media (max-width: 768px) {
+    .attribute-chart {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 1rem 0;
+    }
 }
