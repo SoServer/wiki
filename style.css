@@ -2164,3 +2164,86 @@ a:hover {
         margin: 0 0 1rem 0;
     }
 }
+
+/* ============================================================
+   自述板块样式
+   ============================================================ */
+.story-section {
+    position: relative;
+    margin: 1.5rem 0;
+    padding: 1.5rem 1.8rem 1.5rem 2.2rem;
+    background: var(--bg-info-grid);
+    border-radius: var(--radius);
+    border-left: 4px solid var(--accent);
+    font-size: clamp(1rem, 1.6vw, 1.1rem);
+    line-height: 2;
+    color: var(--text-secondary);
+}
+
+/* 引号装饰 */
+.story-section::before {
+    content: '\201C';
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    font-family: 'Georgia', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.25;
+    line-height: 1;
+}
+
+/* 段落 */
+.story-section p {
+    margin-bottom: 0.8rem;
+    text-indent: 0;
+}
+
+.story-section p:last-child {
+    margin-bottom: 0;
+}
+
+/* 强调词（如"回档"、"导入"）单独成行时 */
+.story-section p.emphasis {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.15em;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+/* 分隔线 */
+.story-section .story-divider {
+    border: none;
+    border-top: 1px dashed var(--border-color);
+    margin: 1.2rem 0;
+}
+
+/* 签名 */
+.story-section .story-signature {
+    text-align: right;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.95em;
+    margin-top: 1rem;
+}
+
+.story-section .story-signature::before {
+    content: '—— ';
+}
+
+/* 手机端适配 */
+@media (max-width: 768px) {
+    .story-section {
+        padding: 1.2rem 1rem 1.2rem 1.5rem;
+        font-size: clamp(0.95rem, 3vw, 1.05rem);
+        line-height: 1.9;
+    }
+    .story-section::before {
+        font-size: 2.2rem;
+        top: 0.4rem;
+        left: 0.4rem;
+    }
+}
