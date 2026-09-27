@@ -81,7 +81,7 @@ var pagePathMap = {
     '惩戒部一末': 'pages/characters/惩戒部一末.html',
     '小王不嘻嘻': 'pages/characters/小王不嘻嘻.html',
     '鹅氢': 'pages/characters/鹅氢.html',
-    '乐观的小特': 'pages/characters/乐观的小特.html'
+    '乐观的小特': 'pages/characters/乐观的小特.html',
     // 公会档案
     '公会档案': 'pages/guilds/公会档案.html',
     '末影秩序': 'pages/guilds/末影秩序.html',
